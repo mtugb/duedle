@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/chrome-manifest.json",
   "name": "Duedle",
   "version": "1.0.0",
   "manifest_version": 3,
@@ -6,14 +7,7 @@
   "content_scripts": [
     {
       "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/*"],
-      "js": []
+      "js": ["./common/test.js"]
     }
   ]
-  "description": "Moodleの拡張機能です",
-  "content_scripts": [{
-    "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/*"],
-    "js": [
-      "./common/test.js"
-    ]
-  }]
 }
