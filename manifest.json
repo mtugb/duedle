@@ -1,0 +1,12 @@
+{
+  "name": "Duedle",
+  "version": "1.0.0",
+  "manifest_version": 2,
+  "description": "Moodleの拡張機能です",
+  "content_scripts": [{
+    "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/*"],
+    "js": [
+      
+    ]
+  }]
+}
