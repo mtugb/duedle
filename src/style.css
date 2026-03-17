@@ -1,0 +1,4 @@
+.disable_link {
+    pointer-events: none;
+    color: black;
+}
