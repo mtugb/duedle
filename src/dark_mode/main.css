@@ -1,0 +1,27 @@
+@layer darkmode {
+
+    nav,
+    div,
+    nav .navbar-bootswatch {
+        background-color: #1D2831;
+        color: #DDDDDF;
+    }
+
+    .card {
+        background-color: #3A4361;
+        color: #535865;
+        border: 1px solid rgba(255, 0, 0, 0.125);
+    }
+
+    .card-body {
+        border: 1px solid rgba(255, 0, 0, 0.125);
+    }
+
+    a {
+        color: rgb(167, 182, 255);
+    }
+
+    li.list-group-item {
+        background-color: #3A4361;
+    }
+}
