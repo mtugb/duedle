@@ -9,7 +9,8 @@
       "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/*"],
       "js": [
         "./common/hidden_username.js",
-        "./navigation/navigation.js"
+        "./navigation/navigation.js",
+        "./login_screen/login_screen.js"
       ],
       "css": [
         "./style.css"

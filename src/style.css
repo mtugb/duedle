@@ -1,3 +1,4 @@
+#リンクの無効化
 .disable_link {
     pointer-events: none;
     color: black;
