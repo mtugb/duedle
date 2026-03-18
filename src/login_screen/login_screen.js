@@ -1,2 +1,3 @@
 //余計な文章の削除
-document.querySelector(".box.py-3.generalbox p").remove();
+const message = document.querySelector(".box.py-3.generalbox p");
+if (message) message.remove();
