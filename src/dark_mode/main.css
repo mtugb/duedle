@@ -26,14 +26,14 @@
     }
 }
 nav.navbar.fixed-top {
-    background-color: #1D2831 !important;
-    border-bottom: 1px solid #333333 !important;
+    background-color: #1D2831;
+    border-bottom: 1px solid #333333;
 }
 nav.navbar.fixed-top .nav-link,
 nav.navbar.fixed-top .navbar-brand,
 nav.navbar.fixed-top .usertext {
-    color: #f0f0f0 !important;
+    color: #f0f0f0;
 }
-.list-group-item {
-    background-color:#1D2831 !important;
+#region-main .list-group .list-group-item {
+    background-color:#1D2831;
 }
