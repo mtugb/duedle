@@ -1,0 +1,3 @@
+ul.navbar-nav.d-none.d-md-flex {
+    display: flex !important;
+}

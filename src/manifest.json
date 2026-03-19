@@ -13,6 +13,9 @@
         "./common/delete_language.js",
         "./navigation/navigation.js",
         "./login_screen/login_screen.js"
+      ],
+      "css": [
+        "./common/common.css"
       ]
     }
   ]
