@@ -5,6 +5,7 @@ if (message && message.textContent.includes("2023年度より、本サーバを 
     message.style.fontWeight = "bold";
 }
 
+//デザインの微調整
 const login = document.querySelector("span.login.nav-link");
 if (login && login.textContent.includes("あなたはログインしていません。")) {
     login.textContent = login.textContent.replace("。", "");
