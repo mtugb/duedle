@@ -6,7 +6,7 @@ nav.forEach((el) => {
         }
 
         if(el.textContent.includes("マイコース")) {
-            el.classList.add("disable_link");
+            el.removeAttribute("href");
         }
     }
 });
