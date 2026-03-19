@@ -12,8 +12,7 @@
         "./common/test.js",
         "./navigation/navigation.js",
         "./login_screen/login_screen.js"
-      ],
-      "css": ["./dark_mode/main.css"]
+      ]
     }
   ]
 }
