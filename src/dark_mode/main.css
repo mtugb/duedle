@@ -25,3 +25,15 @@
         background-color: #3A4361;
     }
 }
+nav.navbar.fixed-top {
+    background-color: #1D2831 !important;
+    border-bottom: 1px solid #333333 !important;
+}
+nav.navbar.fixed-top .nav-link,
+nav.navbar.fixed-top .navbar-brand,
+nav.navbar.fixed-top .usertext {
+    color: #f0f0f0 !important;
+}
+.list-group-item {
+    background-color:#1D2831 !important;
+}
