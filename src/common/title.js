@@ -7,7 +7,7 @@ if (title && title.textContent.includes("ダッシュボード")) {
 //ダッシュボードをメニューへ
 const sub_title = document.querySelectorAll("a");
 sub_title.forEach((el) => {
-    if(el.hasAttribute("href") && el.textContent.includes("ダッシュボード")) {
+    if (el.hasAttribute("href") && el.textContent.includes("ダッシュボード")) {
         el.textContent = "メニュー";
     }
 });
@@ -15,7 +15,7 @@ sub_title.forEach((el) => {
 //マイコースの非表示
 const my_cource = document.querySelectorAll(".breadcrumb-item");
 my_cource.forEach((el) => {
-    if(el.textContent.includes("マイコース")) {
+    if (el.textContent.includes("マイコース")) {
         el.remove();
     }
 });

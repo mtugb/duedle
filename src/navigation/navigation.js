@@ -1,12 +1,12 @@
 //マイコースリンクの非表示
 const nav = document.querySelectorAll("a");
 nav.forEach((el) => {
-    if(el.getAttribute("tabindex")) {
+    if (el.getAttribute("tabindex")) {
         if (el.getAttribute("title")) {
             el.textContent = el.getAttribute("title");
         }
 
-        if(el.textContent.includes("マイコース")) {
+        if (el.textContent.includes("マイコース")) {
             el.removeAttribute("href");
         }
     }

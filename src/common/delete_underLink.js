@@ -5,7 +5,7 @@ if(el) el.remove();
 //Homeボタン
 const home = document.querySelectorAll("a");
 home.forEach((el) => {
-    if(el.hasAttribute("href") && el.textContent.includes("Home")) {
+    if (el.hasAttribute("href") && el.textContent.includes("Home")) {
         el.remove();
     }
 });
@@ -20,5 +20,7 @@ if (logininfo) {
 const icon = document.querySelector("i.fa-envelope-o");
 if (icon) {
     const space = icon.closest("div.pb-3");
-    if (space) space.style.height = "22.06px";
+    if (space) {
+        space.style.height = "22.06px";
+    }
 }
