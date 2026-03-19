@@ -3,6 +3,7 @@ const filterTypes = [
     {
         name: "completed",
         displayName: "完了",
+        group: "",
     },
     {
         name: "incomplete",
