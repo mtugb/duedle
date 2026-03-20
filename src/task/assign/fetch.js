@@ -71,7 +71,7 @@ if (submitraw === '-') {
 
 
 //file, status
-const files = Array.from(document.querySelectorAll(".fileuploadsubmission a")).map(a => a.textContent.trim());
+const files = Array.from(document.querySelectorAll(".submissionstatustable .fileuploadsubmission a")).map(a => a.textContent.trim());
 const filenum = files.length;
 const file = files[0] || -1; // 最初のファイル名、存在しない場合は-1
 let a_status;

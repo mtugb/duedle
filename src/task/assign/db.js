@@ -13,7 +13,9 @@ openRequest.addEventListener("success", () => {
   db = openRequest.result;
 
     // IDB 内の既存のメモ書きを表示するために、 displayData() 関数を実行します。
-  displayData();
+    if(document.URL.match(/my/)){
+     displayData();
+    }
 });
 
 // データベースのテーブルがまだ存在しない場合は、それを設定します。

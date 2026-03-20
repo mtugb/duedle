@@ -4,8 +4,13 @@
     gap: 20px;
     align-items: flex-start;
     justify-content: start;
+    overflow: scroll;
+    border-color:burlywood;
+    border-width: 2px;
+    border-style: solid;
 }
 .assign{
+    margin: 5px;
     margin-top: 20px;
     border-color:cadetblue;
     border-width: 1px;
@@ -19,6 +24,41 @@
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 10px;
+    overflow: auto;
+}
+.complete {
+    background-color: lightgreen;
+}
+.complete .title{
+    color: green;
+}
+
+.incomplete {
+    background-color: lightyellow;
+}
+
+.warning {
+    background-color: rgb(255, 182, 129);
+}
+.warning .title{
+    color: red;
+
+}
+
+.expired {
+    background-color: rgb(216, 145, 145);
+}
+.expired .title{
+    background-color: red;
+    color: white;
+}
+
+.assignbox{
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    overflow: auto;
+    white-space: nowrap;
 }
 .info {
     font-size: 16px;
