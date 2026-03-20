@@ -1,6 +1,6 @@
 const li = document.createElement("li");
 const parentList = document.querySelector('ul[aria-labelledby = "sortingdropdown"]');
-li.innerHTML ='<a class="dropdown-item" href="#" data-filter="sort" data-pref="lastaccessed" data-value="ul.displayorder asc" role="menuitem">任意の順番に並べ替える</a>';
+li.innerHTML ='<a class="dropdown-item" id = "sort-free-mode" href="#" data-filter="sort" data-pref="lastaccessed" data-value="ul.displayorder asc" role="menuitem">任意の順番に並べ替える</a>';
 
 if (parentList)
     parentList.appendChild(li);
