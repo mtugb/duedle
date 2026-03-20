@@ -1,0 +1,26 @@
+
+#display {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    justify-content: start;
+}
+.assign{
+    margin-top: 20px;
+    border-color:cadetblue;
+    border-width: 1px;
+    border-style: solid;
+    min-width: 300px;
+    padding: 10px;
+    max-height: 450px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.info {
+    font-size: 16px;
+    margin-bottom: 5px;
+}

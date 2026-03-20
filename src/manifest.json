@@ -6,8 +6,22 @@
   "content_scripts": [{
     "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/*"],
     "js": [
-      "./common/test.js",
-      "./assignment/dashboard.js"
+      "./task/assign/db.js"
+    ]
+  },
+  {
+    "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/mod/assign/view.php?id=*"],
+    "js": [
+      "./task/assign/fetch.js"
+    ]
+  },
+  {
+    "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/my/"],
+    "js": [
+      "./task/dashboard.js"
+    ],
+    "css": [
+      "./task/dashboard.css"
     ]
   }]
 }
