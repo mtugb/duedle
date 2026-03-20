@@ -13,10 +13,11 @@
         "./common/delete_underLink.js",
         "./navigation/navigation.js",
         "./login_screen/login_screen.js",
-        "./class_menu/class_menu.js"
+        "./class_cource/class_cource.js"
       ],
       "css": [
-        "./common/common.css"
+        "./common/common.css",
+        "./class_cource/class_cource.css"
       ]
     }
   ]
