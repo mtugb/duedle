@@ -8,11 +8,12 @@
     {
       "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/*"],
       "js": [
-        "./common/hidden_username.js",
+        "./common/hide_username.js",
         "./common/title.js",
         "./common/delete_underLink.js",
         "./navigation/navigation.js",
-        "./login_screen/login_screen.js"
+        "./login_screen/login_screen.js",
+        "./class_menu/class_menu.js"
       ],
       "css": [
         "./common/common.css"
