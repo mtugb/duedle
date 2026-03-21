@@ -1,16 +1,18 @@
+//----------------"任意の順番に並べ替え"追加---------------------------
 const li = document.createElement("li");
 const parentList = document.querySelector('ul[aria-labelledby = "sortingdropdown"]');
-li.innerHTML ='<a class="dropdown-item" id = "sort-free-mode" href="#" data-filter="sort" data-pref="lastaccessed" data-value="ul.displayorder asc" role="menuitem">任意の順番に並べ替える</a>';
+li.innerHTML ='<a class="dropdown-item" id = "sort-free-mode" href="#" data-filter="sort" role="menuitem">任意の順番に並べ替える</a>';
 
 if (parentList)
     parentList.appendChild(li);
 
-//-------------------------------------------------
-
-
-
-
-
+//-----------------現在の並べ方(コース名/マイコース/任意)をlocalStrageに保存-----------------------
+const sortByCourseName = parentList.querySelector('a[data-pref = "title"][data-value="fullname"]');
+const sortByMyCourse = parentList.querySelector('a[data-pref = "lastaccessed"][data-value="ul.displayorder asc"]');
+li.addEventListener("click",()=>localStorage.setItem("currentLi","任意の順番に並べ替える"));
+sortByCourseName.addEventListener("click",()=>localStorage.setItem("currentLi","コース名で並べ替える"));
+sortByMyCourse.addEventListener("click",()=>localStorage.setItem("currentLi","マイコース設定順に並べ替える"));
+//-----------------------------------------------------------------------
 if (li) {
     li.addEventListener("click", (e)=> {
         e.preventDefault();
@@ -18,30 +20,21 @@ if (li) {
             const courseContainer = document.querySelector('ul.list-group'); //ダッシュボード
             const saveData = localStorage.getItem("courseOrder");
             if (courseContainer) {
-                //-------------------localStrage--------------------------------------------------------
+                //-------------------順番をlocalStrageに保存--------------------------------------------------------
                 const courseItems = Array.from(courseContainer.querySelectorAll('li'));
                 const save = () => {
                     const temporaryCourseItems = Array.from(courseContainer.querySelectorAll('li'));
                     localStorage.setItem("courseOrder",JSON.stringify(temporaryCourseItems.map(li => li.innerText.trim())));
                 };
 
-                    if (saveData) {
-                        const orderArray = JSON.parse(saveData);
-                        orderArray.forEach((item) => {    
-                            const targetLi = courseItems.find(li=>li.innerText.trim().includes(item));
-                            if (targetLi)
-                                courseContainer.appendChild(targetLi);
-                        });
-                    }
-
 
                 courseItems.forEach((item) => {
-                       //-------------ボタン追加-------------------------------------------------------
+                       //-------------↑↓ボタン追加-------------------------------------------------------
                     const arrow = document.createElement("div");
                     arrow.innerHTML = '<button class="up-button mr-2">↑</button>  <button class ="down-button">↓</button>';
                     item.appendChild(arrow);
 
-                        //-----------------クリックイベント------------------------------------------
+                        //-----------------↑↓クリックイベント------------------------------------------
                     const upButton = arrow.querySelector('.up-button');
                     const downButton = arrow.querySelector('.down-button');    
                     upButton.addEventListener("click",(e) => {
@@ -62,9 +55,9 @@ if (li) {
                             save();
                         }
                     })
-
+                        //----------------------------------------------------------------------
                 });
             }
-        },1000);
+        },600);
     });
 }
