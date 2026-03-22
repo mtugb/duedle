@@ -12,10 +12,10 @@ sub_title.forEach((el) => {
     }
 });
 
-//マイコースの非表示
+//マイコースとコースの非表示
 const my_cource = document.querySelectorAll(".breadcrumb-item");
 my_cource.forEach((el) => {
-    if (el.textContent.includes("マイコース")) {
+    if (el.textContent.includes("マイコース") || el.textContent.includes("コース")) {
         el.remove();
     }
 });
