@@ -1,1 +1,2 @@
-window.alert('ようこそDuedleへ');
+window.alert("ようこそDuedleへ");
+

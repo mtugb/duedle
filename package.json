@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "dependencies": {
+    "lit-html": "^3.3.2"
+  },
+  "devDependencies": {
+    "esbuild": "^0.27.4"
+  },
+  "scripts": {
+    "esbuild:watch": "esbuild src/**/*.ts src/**/*.js --bundle --outdir=dist --outbase=src --watch",
+    "esbuild:build": "esbuild src/**/*.ts src/**/*.js --bundle --outdir=dist --outbase=src --minify",
+    "copy_manifest": "cp src/manifest.json dist/manifest.json",
+    "dev": "npm run copy_manifest && npm run esbuild:watch",
+    "build": "npm run copy_manifest && npm run esbuild:build"
+  }
+}
