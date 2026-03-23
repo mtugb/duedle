@@ -9,6 +9,11 @@ nav.forEach((el) => {
         if (el.textContent === "マイコース") {
             el.removeAttribute("href");
             el.style.pointerEvents = "none";
+
+            const parent = el.closest("p.tree_item.branch");
+            if (parent) {
+                parent.style.pointerEvents = "none";
+            }
         }
     }
 });
