@@ -17,7 +17,11 @@
         "./cource/cource.js",
         "./common/history_view.js"
       ],
-      "css": ["./common/common.css", "./cource/cource.css"]
+      "css": [
+        "./common/common.css",
+        "./cource/cource.css",
+        "./common/ui/switch.css"
+      ]
     },
     {
       "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/course/view.php*"],
