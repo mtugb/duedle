@@ -51,13 +51,13 @@ function create_button() {
   const toggle = document.getElementById("toggle_visible");
   if (toggle) {
     toggle.checked = show_closed_tabs;
-  }
 
-  toggle.addEventListener("change", (e) => {
-    show_closed_tabs = e.currentTarget.checked;
-    save();
-    hide_tabs();
-  });
+    toggle.addEventListener("change", (e) => {
+      show_closed_tabs = e.currentTarget.checked;
+      save();
+      hide_tabs();
+    });
+  }
 }
 
 function save() {

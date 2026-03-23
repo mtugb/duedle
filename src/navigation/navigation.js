@@ -8,6 +8,7 @@ nav.forEach((el) => {
 
         if (el.textContent.includes("マイコース")) {
             el.removeAttribute("href");
+            el.style.pointerEvents = "none";
         }
     }
 });
