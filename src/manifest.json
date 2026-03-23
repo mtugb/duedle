@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "manifest_version": 3,
   "description": "Moodleの拡張機能です。名工大のMoodleを最強にします",
+  "permissions": ["storage", "tabs"],
   "content_scripts": [
     {
       "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/*"],
@@ -13,12 +14,10 @@
         "./common/delete_underLink.js",
         "./navigation/navigation.js",
         "./login_screen/login_screen.js",
-        "./cource/cource.js"
+        "./cource/cource.js",
+        "./common/history.js"
       ],
-      "css": [
-        "./common/common.css",
-        "./cource/cource.css"
-      ]
+      "css": ["./common/common.css", "./cource/cource.css"]
     }
   ]
 }
