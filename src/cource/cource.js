@@ -5,7 +5,7 @@ function hide_tabs() {
   tabs.forEach((el) => {
     const tab = el.closest(".section.course-section.main.clearfix");
     if (tab) {
-      if (show_closed_tabs) {
+      if (!show_closed_tabs) {
         tab.style.display = "";
       } else {
         tab.style.display = "none";
@@ -26,7 +26,7 @@ function create_button() {
     class="card-body p-3"
     style="display:flex;justify-content:space-between;align-items:center;"
         >
-        閉じたタブの表示
+        閉じたタブの非表示
         <label class="switch" style="--size:18px;margin:0">
           <input type="checkbox" id="toggle_visible" checked hidden />
         </label>
@@ -48,7 +48,12 @@ function create_button() {
     card.insertAdjacentHTML("beforebegin", mybtn);
   }
 
-  document.getElementById("toggle_visible").addEventListener("change", (e) => {
+  const toggle = document.getElementById("toggle_visible");
+  if (toggle) {
+    toggle.checked = show_closed_tabs;
+  }
+
+  toggle.addEventListener("change", (e) => {
     show_closed_tabs = e.currentTarget.checked;
     save();
     hide_tabs();
