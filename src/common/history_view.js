@@ -1,6 +1,5 @@
-const MAX_HISTORY_LENGTH = 10;
-onload = async () => {
-  console.log("history.js called");
+(async () => {
+  console.log("view");
   let cl = document.querySelector(".columnleft");
   if (!(cl instanceof HTMLElement)) {
     console.error("not a htmlelement");
@@ -8,22 +7,7 @@ onload = async () => {
   }
 
   let history = (await chrome.storage.local.get("history")).history || [];
-  console.log(history);
-  let title = document.title;
-  let url = location.href;
-  if (!title || !url) {
-    alert("ページのタイトルまたはURLの取得に失敗しました。");
-    return;
-  }
-  //重複削除
-  history = history.filter((e) => e.url.trim() !== url.trim());
-  history.push({
-    title,
-    url,
-  });
-  if (history.length > MAX_HISTORY_LENGTH) {
-    history.shift();
-  }
+  console.log({ history });
 
   //html
   let myboxHtml = `
@@ -49,6 +33,4 @@ onload = async () => {
   `;
 
   cl.insertAdjacentHTML("afterbegin", myboxHtml);
-
-  chrome.storage.local.set({ history });
-};
+})();
