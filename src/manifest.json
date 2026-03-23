@@ -19,7 +19,6 @@
       ],
       "css": [
         "./common/common.css",
-        "./cource/cource.css",
         "./common/ui/switch.css"
       ]
     },
