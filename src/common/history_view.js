@@ -32,5 +32,5 @@
     </section>
   `;
 
-  cl.insertAdjacentHTML("afterbegin", myboxHtml);
+  if (cl) cl.insertAdjacentHTML("afterbegin", myboxHtml);
 })();
