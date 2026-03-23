@@ -61,7 +61,7 @@ function save() {
 
 let show_closed_tabs = localStorage.getItem("hide") !== "false";
 create_button();
-hide_tabs(show_closed_tabs);
+hide_tabs();
 
 const tabs = document.querySelectorAll(
   ".btn.btn-icon.mr-1.icons-collapse-expand.justify-content-center.stretched-link",
