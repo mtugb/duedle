@@ -6,7 +6,7 @@ nav.forEach((el) => {
             el.textContent = el.getAttribute("title");
         }
 
-        if (el.textContent.includes("マイコース")) {
+        if (el.textContent === "マイコース") {
             el.removeAttribute("href");
             el.style.pointerEvents = "none";
         }

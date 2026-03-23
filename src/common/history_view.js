@@ -17,7 +17,7 @@
       role="complementary"
     >
       <div class="card-body p-3">
-        <h3>最近開いたページ</h3>
+        <h5>最近開いたページ</h5>
         <ul>
           ${history
             .slice()
