@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json.schemastore.org/chrome-manifest.json",
+  "name": "Duedle",
+  "version": "1.0.0",
+  "manifest_version": 3,
+<<<<<<< dark_mode
+  "description": "Moodleの拡張機能です",
+  "content_scripts": [{
+    "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/*"],
+    "js": [
+      "./common/test.js"
+    ],
+    "css": ["./dark_mode/main.css"]
+  }]
+=======
+  "description": "Moodleの拡張機能です。名工大のMoodleを最強にします",
+  "content_scripts": [
+    {
+      "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/*"],
+      "js": [
+        "./common/hidden_username.js",
+        "./common/test.js",
+        "./navigation/navigation.js",
+        "./login_screen/login_screen.js"
+      ],
+      "css": [
+        "./style.css"
+      ]
+    }
+  ]
+>>>>>>> main
+}

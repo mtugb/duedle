@@ -1,0 +1,6 @@
+/* @import url(./ui/switch.css); */
+
+/*画面サイズによって言語選択ボタンが消える機能の削除*/
+ul.navbar-nav.d-none.d-md-flex {
+  display: flex !important;
+}

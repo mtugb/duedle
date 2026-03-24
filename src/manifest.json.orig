@@ -28,6 +28,9 @@
       "css": ["./syllabus/darkmode.css"]
     },
     {
+      "css": ["./common/common.css", "./common/ui/switch.css"]
+    },
+    {
       "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/course/view.php*"],
       "js": ["./common/history_update.js"]
     }
