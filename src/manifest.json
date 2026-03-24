@@ -20,7 +20,8 @@
     },
     {
       "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/blocks/syllabus/*"],
-      "js": ["./syllabus/darkmode.js"]
+      "js": ["./syllabus/darkmode.js"],
+      "css": ["./syllabus/darkmode.css"]
     }
   ]
 }
