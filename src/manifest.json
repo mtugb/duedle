@@ -6,7 +6,10 @@
   "description": "Moodleの拡張機能です。名工大のMoodleを最強にします",
   "content_scripts": [
     {
-      "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/*"],
+      "matches": [
+        "https://cms7.ict.nitech.ac.jp/moodle40a/my/",
+        "https://cms7.ict.nitech.ac.jp/moodle40a/course/*"
+      ],
       "js": [
         "./common/hidden_username.js",
         "./common/test.js",
@@ -14,6 +17,10 @@
         "./login_screen/login_screen.js"
       ],
       "css": ["./style.css", "./dark_mode/main.css"]
+    },
+    {
+      "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/blocks/syllabus/*"],
+      "js": ["./syllabus/darkmode.js"]
     }
   ]
 }
