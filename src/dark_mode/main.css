@@ -1,0 +1,182 @@
+body.darkmode {
+  nav,
+  div,
+  nav .navbar-bootswatch {
+    background-color: #1d2831;
+
+    span,
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    th,
+    td {
+      color: #dddddf !important;
+      background: none !important;
+    }
+  }
+
+  .card {
+    background-color: #3a4361;
+    color: #535865;
+    border: 1px solid rgba(255, 0, 0, 0.125);
+  }
+
+  .card-body {
+    border: 1px solid rgba(255, 0, 0, 0.125);
+  }
+
+  a {
+    color: rgb(167, 182, 255);
+  }
+
+  li.list-group-item {
+    background-color: #3a4361;
+  }
+
+  nav.navbar.fixed-top {
+    background-color: #1d2831;
+    border-bottom: 1px solid #333333;
+  }
+
+  nav.navbar.fixed-top .nav-link,
+  nav.navbar.fixed-top .navbar-brand,
+  nav.navbar.fixed-top .usertext {
+    color: #f0f0f0;
+  }
+
+  #region-main .list-group .list-group-item {
+    background-color: #1d2831;
+  }
+
+  .generalbox {
+    background-color: #1d2831;
+  }
+
+  #region-main table td,
+  #region-main table th {
+    background-color: #1d2831;
+  }
+
+  #region-main {
+    background-color: #1d2831 !important;
+  }
+
+  div.modal-header {
+    background-color: #1d2831;
+  }
+
+  /* カレンダーの活動に移動する */
+  #region-main .card-header,
+  .block .card-header {
+    background-color: #1d2831;
+    border-bottom: 1px solid #334455;
+  }
+
+  /* カレンダーのイベントキー部分 */
+  span.calendar_event_site {
+    background-color: #f26879;
+  }
+
+  span.calendar_event_category {
+    background-color: #f29368;
+  }
+
+  span.calendar_event_course {
+    background-color: #b5ac63;
+  }
+
+  span.calendar_event_group {
+    background-color: #5e9c53;
+  }
+
+  span.calendar_event_user {
+    background-color: #0e1133;
+  }
+
+  span.calendar_event_other {
+    background-color: #3f1c56;
+  }
+
+  /* ダッシュボードの左など諸々の文字 */
+  #region-main span,
+  #region-main li,
+  #region-main ul,
+  #region-main td,
+  #region-main a {
+    color: #71abcf;
+  }
+
+  div.card-body.p-3 a {
+    color: #71abcf;
+  }
+
+  #region-main .card-footer {
+    background-color: #1d2831 !important;
+    border-color: #fff;
+  }
+
+  /* マイコースの表示設定 */
+  #region-main-box tr td {
+    color: #71abcf !important;
+  }
+
+  #region-main .activity-altcontent {
+    background-color: #1d2831;
+  }
+
+  #region-main span b {
+    color: #5e6601;
+  }
+
+  #region-main li.page-item.disabled i.icon {
+    color: #555961;
+  }
+
+  #region-main span.mr-1 {
+    color: #fff;
+  }
+
+  #region-main div.dropdown-menu {
+    background-color: #555961;
+  }
+
+  #region-main a.dropdown-item {
+    color: #fff;
+  }
+
+  .coursemenubtn i.fa-ellipsis-v {
+    color: #fff;
+  }
+
+  #region-main p span {
+    color: #fff;
+  }
+
+  nav ol.breadcrumb li a {
+    color: #71abcf;
+  }
+
+  #region-main ul.dropdown-menu {
+    background-color: #363f45;
+  }
+
+  #region-main ul.dropdown-menu li a.dropdown-item {
+    color: #fff;
+  }
+
+  input#searchinput.form-control {
+    background-color: #626c73;
+    color: #dddddf;
+  }
+
+  input#searchinput::placeholder {
+    color: #dddddf;
+  }
+  #region-main a.page-link i.icon {
+    color: #71abcf;
+  }
+}
+
