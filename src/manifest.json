@@ -16,7 +16,6 @@
         "./common/title.js",
         "./common/delete_underLink.js",
         "./common/navigation.js",
-        "./common/history_view.js",
         "./dark_mode/main.js"
     ]
   },
