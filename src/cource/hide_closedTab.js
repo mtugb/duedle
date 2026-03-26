@@ -35,6 +35,7 @@ function create_button() {
   `;
 
   const cards = document.querySelector(".columnright");
+  if (!cards) cards = document.querySelector(".columnleft");
 
   if (cards) {
     cards.insertAdjacentHTML("afterbegin", mybtn_card);

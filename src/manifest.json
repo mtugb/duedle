@@ -14,7 +14,7 @@
         "./common/hide_username.js",
         "./common/title.js",
         "./common/delete_underLink.js",
-        "./navigation/navigation.js"
+        "./common/navigation.js"
       ]
     },
     {
@@ -43,7 +43,7 @@
     },
     {
       "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/course/view.php*"],
-      "js": ["./cource/cource.js", "./common/history_update.js"]
+      "js": ["./cource/hide_closedTab.js", "./common/history_update.js"]
     }
   ]
 }
