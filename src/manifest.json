@@ -20,7 +20,7 @@
         "./common/history_view.js",
         "./cource/cource.js"
       ],
-      "css": ["./style.css", "./dark_mode/main.css"]
+      "css": ["./dark_mode/main.css", "./common/ui/switch.css"]
     },
     {
       "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/blocks/syllabus/*"],
