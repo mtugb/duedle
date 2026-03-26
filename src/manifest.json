@@ -14,8 +14,7 @@
         "./common/hide_username.js",
         "./common/title.js",
         "./common/delete_underLink.js",
-        "./common/navigation.js"
-        "./login_screen/login_screen.js",
+        "./common/navigation.js",
         "./common/history_view.js",
         "./dark_mode/main.js"
       ]
