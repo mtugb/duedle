@@ -26,7 +26,13 @@
       "matches": [
         "https://cms7.ict.nitech.ac.jp/moodle40a/my/",
         "https://cms7.ict.nitech.ac.jp/moodle40a/my/index.php",
-        "https://cms7.ict.nitech.ac.jp/moodle40a/course/*"
+        "https://cms7.ict.nitech.ac.jp/moodle40a/course/*",
+        "https://cms7.ict.nitech.ac.jp/moodle40a/user/profile.php",
+        "https://cms7.ict.nitech.ac.jp/moodle40a/grade/report/overview/index.php",
+        "https://cms7.ict.nitech.ac.jp/moodle40a/calendar/view.php?view=month",
+        "https://cms7.ict.nitech.ac.jp/moodle40a/user/files.php",
+        "https://cms7.ict.nitech.ac.jp/moodle40a/reportbuilder/index.php",
+        "https://cms7.ict.nitech.ac.jp/moodle40a/user/preferences.php"
       ],
       "js": ["./common/history_view.js"],
       "css": ["./dark_mode/main.css", "./common/ui/switch.css"]
