@@ -7,6 +7,7 @@ nav.forEach((el) => {
         }
 
         if (el.textContent === "マイコース") {
+            el.style.color = "rgb(221,221,223)";
             el.removeAttribute("href");
             el.style.pointerEvents = "none";
 
