@@ -1,51 +1,44 @@
-const header = document.querySelector("header");
-const ext_dashboard = document.createElement("div");
-ext_dashboard.setAttribute("id", "ext_dashboard");
-ext_dashboard.classList.add("card-body");
-//inside div
-const filter = document.createElement("div");
-filter.setAttribute("id", "filter");
-ext_dashboard.appendChild(filter);
-const display = document.createElement("div");
-display.setAttribute("id", "display");
-ext_dashboard.appendChild(display);
+setupT_assign_list = () => {
+    if (taskdb.objectStoreNames.contains("assign_list")) {
+    taskdb.deleteObjectStore("assign_list");
+  }
 
-filter.textContent = "フィルタ機能は現在開発中です。";
-displayData = () => {
-    // データベースからすべてのデータを取得するためのトランザクションを開始します。
-    const objectStore = db.transaction("assign_list").objectStore("assign_list");
-    objectStore.openCursor().addEventListener("success", (e) => {
-        // カーソルへの参照を取得します。
-        const cursor = e.target.result;
+  const assign_objectStore = taskdb.createObjectStore("assign_list", {
+    keyPath: "assignId"
+  });
+  // assign_objectStore にどのようなデータ項目を格納するかを定義します。
+  assign_objectStore.createIndex("courseName", "courseName", { unique: false });
+  assign_objectStore.createIndex("assignName", "assignName", { unique: false });
+  assign_objectStore.createIndex("start", "start", { unique: false });
+  assign_objectStore.createIndex("submit", "submit", { unique: false });
+  assign_objectStore.createIndex("due", "due", { unique: false });
+  assign_objectStore.createIndex("file", "file", { unique: false });
+  assign_objectStore.createIndex("filenum", "filenum", { unique: false });
+  assign_objectStore.createIndex("status", "status", { unique: false });
+}
 
-        // 反復処理を行うべき別のデータ項目がまだあれば、このコードを実行し続けます。
-        if (cursor) {
-            displaybox(cursor);
-            cursor.continue();
-        } else {
-            console.log("All displayed");
-        }
-    });
-};
-displaybox = (cursor) => {
+displaybox_assign_list = (data) => {
     const assign = document.createElement("div");
     assign.classList.add("assign");
     display.appendChild(assign);
-
+    const type = document.createElement("div");
+    type.classList.add("type");
+    assign.appendChild(type);
+    type.textContent = "提出課題";
     const course = document.createElement("div");
     course.classList.add("title");
     assign.appendChild(course);
-    const courseName = cursor.value.courseName;
+    const courseName = data.courseName;
     course.textContent = courseName.match(/^(.+?)\s\d/)[1].trim();
 
     const assignbox = document.createElement("div");
     assignbox.classList.add("assignbox");
     assign.appendChild(assignbox);
-    const url = "https://cms7.ict.nitech.ac.jp/moodle40a/mod/assign/view.php?id=" + cursor.value.assignId;
+    const url = "https://cms7.ict.nitech.ac.jp/moodle40a/mod/assign/view.php?id=" + data.assignId;
     const link = document.createElement("a");
     link.setAttribute("href", url);
     link.setAttribute("target", "_blank");
-    link.textContent = cursor.value.assignName;
+    link.textContent = data.assignName;
     assignbox.appendChild(link);
 
     const info = document.createElement("div");
@@ -54,30 +47,27 @@ displaybox = (cursor) => {
     const infoul = document.createElement("ul");
     info.appendChild(infoul);
     const startli = document.createElement("li");
-    startli.textContent = "開始: " + (cursor.value.start ? new Date(cursor.value.start).toLocaleString() : "不明");
+    startli.textContent = "開始: " + (data.start ? new Date(data.start).toLocaleString() : "不明");
     infoul.appendChild(startli);
     const dueli = document.createElement("li");
-    dueli.textContent = "期限: " + (cursor.value.due ? new Date(cursor.value.due).toLocaleString() : "不明");
+    dueli.textContent = "期限: " + (data.due ? new Date(data.due).toLocaleString() : "不明");
     infoul.appendChild(dueli);
-    const filename = cursor.value.file ? cursor.value.file : "不明";
+    const filename = data.file ? data.file : "不明";
     const filenameli = document.createElement("li");
     filenameli.textContent = "最初のファイル名: " + filename;
     infoul.appendChild(filenameli);
     const filenumli = document.createElement("li");
-    filenumli.textContent = "提出ファイル数: " + cursor.value.filenum;
+    filenumli.textContent = "提出ファイル数: " + data.filenum;
     infoul.appendChild(filenumli);
     const statusli = document.createElement("li");
     infoul.appendChild(statusli);
 
-    const remain = cursor.value.due ? Math.ceil((cursor.value.due - Date.now()) / (1000 * 60 * 60 * 24)) : null;
+    const remain = data.due ? Math.ceil((data.due - Date.now()) / (1000 * 60 * 60 * 24)) : null;
     if (remain !== null) {
         if (remain > 0) {
-            const statusdisplay = cursor.value.status === "complete" ? "完了" : "未完了";
+            const statusdisplay = data.status === "complete" ? "完了" : "未完了";
             statusli.textContent = "状態: " + statusdisplay;
-            const remainli = document.createElement("li");
-            infoul.appendChild(remainli);
-            remainli.textContent = "残り日数: " + remain + "日";
-            if (cursor.value.status === "complete") {
+            if (data.status === "complete") {
                 assign.classList.add("complete");
                 course.textContent = "✓ " + course.textContent;
             } else if (remain <= 3) {
@@ -87,7 +77,7 @@ displaybox = (cursor) => {
                 assign.classList.add("incomplete");
             }
         } else if (remain === 0) {
-            if (cursor.value.status === "complete") {
+            if (data.status === "complete") {
                 const statusdisplay = "完了";
                 statusli.textContent = "状態: " + statusdisplay;
                 assign.classList.add("complete");
@@ -96,13 +86,10 @@ displaybox = (cursor) => {
                 const statusdisplay = "未完了";
                 statusli.textContent = "状態: " + statusdisplay;
                 course.textContent = "⚠️ " + course.textContent;
-                const remainli = document.createElement("li");
-                infoul.appendChild(remainli);
-                remainli.textContent = "期限が今日までです！";
                 assign.classList.add("warning");
             }
         } else {
-            if (cursor.value.status === "complete") {
+            if (data.status === "complete") {
                 const statusdisplay = "完了";
                 statusli.textContent = "状態: " + statusdisplay;
                 assign.classList.add("complete");
@@ -113,12 +100,17 @@ displaybox = (cursor) => {
                 statusli.textContent = "状態: " + statusdisplay;
                 assign.classList.add("expired");
                 course.textContent = "❌ " + course.textContent;
-                const remainli = document.createElement("li");
-                infoul.appendChild(remainli);
-                remainli.textContent = "期限を過ぎています！";
             }
         }
     }
+        const remainoutput = formatRemainingTime(data.due);
+     if (remain !== null) {
+        const remainli = document.createElement("li");
+        infoul.appendChild(remainli);
+        remainli.textContent = remainoutput;
+    } else {
+        const remainli = document.createElement("li");
+        infoul.appendChild(remainli);
+        remainli.textContent = "残り時間: 不明";
+    }
 }
-
-header.after(ext_dashboard);

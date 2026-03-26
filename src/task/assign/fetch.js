@@ -1,27 +1,4 @@
 //assignId, courseName, assignName, start, submit, due, file, filenum, status
-//日付抽出関数
-function extractDate(text) {
-    const match = text.match(/(\d{4})年\s*(\d{1,2})月\s*(\d{1,2})日.*?(\d{1,2}):(\d{2})/);
-
-    if (match) {
-        const [, year, month, day, hour, minute] = match;
-
-        // Dateオブジェクト化（JSは月が0始まりなので注意）
-        const date = new Date(
-            Number(year),
-            Number(month) - 1,
-            Number(day),
-            Number(hour),
-            Number(minute)
-        );
-
-        return date;
-    }
-
-    return null;
-
-}
-
 //assignId
 const urlParams = new URLSearchParams(window.location.search);
 const assignId = urlParams.get("id");
@@ -77,6 +54,10 @@ const file = files[0] || -1; // 最初のファイル名、存在しない場合
 let a_status;
 if (filenum === 0) {
     a_status = "incomplete"; // ファイルが見つからない場合は未完了とみなす
+    //締め切りを過ぎている場合はexpiredにする
+    if(Math.ceil((calldue() - Date.now()) )<0){
+        a_status = "expired";
+    }
 } else {
     a_status = "complete"; // ファイルが見つかった場合は完了とみなす
 }
@@ -95,7 +76,7 @@ const data = {
 
 
 
-openRequest.onsuccess = function (event) {
+taskdb_openRequest.onsuccess = function (event) {
     const db = event.target.result;
     const tx = db.transaction("assign_list", "readwrite");
     const store = tx.objectStore("assign_list");
