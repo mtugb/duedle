@@ -11,3 +11,9 @@ if (login && login.textContent.includes("あなたはログインしていませ
     login.textContent = login.textContent.replace("。", "");
 }
 
+const row = document.querySelector(".row");
+if (row) row.remove();
+
+const space = document.querySelector(".box.py-3.generalbox");
+console.log(space);
+space.style.marginTop = "100px";
