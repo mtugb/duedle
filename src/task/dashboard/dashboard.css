@@ -104,3 +104,7 @@ text-align: center;
     margin-bottom: 5px;
     margin-left: 10px;
 }
+
+  :root {
+    color-scheme: light dark;
+  }

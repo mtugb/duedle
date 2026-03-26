@@ -1,5 +1,5 @@
 //inside filter div
-filter.classList.add("filter-group", "my-2", "p-2", "bg-light", "border-radius", "border");
+filter.classList.add("filter-group", "my-2", "p-2", "border-radius", "border");
 const fieldset = document.createElement("fieldset");
 filter.appendChild(fieldset);
 /*

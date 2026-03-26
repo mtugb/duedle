@@ -178,5 +178,16 @@ body.darkmode {
   #region-main a.page-link i.icon {
     color: #71abcf;
   }
+
+  #filter,#display,#typeSelect,#statusSelect,#dueSelect{
+    background-color: #1d2831;
+    color: white;
+  }
+
+  #display li{
+    color: white;
+  }
+
+  
 }
 
