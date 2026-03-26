@@ -17,8 +17,7 @@
         "./common/delete_underLink.js",
         "./navigation/navigation.js",
         "./login_screen/login_screen.js",
-        "./common/history_view.js",
-        "./cource/cource.js"
+        "./common/history_view.js"
       ],
       "css": ["./dark_mode/main.css", "./common/ui/switch.css"]
     },
@@ -29,7 +28,7 @@
     },
     {
       "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/course/view.php*"],
-      "js": ["./common/history_update.js"]
+      "js": ["./cource/cource.js", "./common/history_update.js"]
     }
   ]
 }

@@ -16,7 +16,7 @@ function hide_tabs() {
 
 function create_button() {
   //html
-  const mybtn = `
+  const mybtn_card = `
     <section
       id="toggle_visible_form"
       class=" block_html block  card mb-3"
@@ -34,16 +34,10 @@ function create_button() {
     </section>
   `;
 
-  const titles = document.querySelectorAll("h5");
-  let card = null;
+  const cards = document.querySelector(".columnright");
 
-  titles.forEach((el) => {
-    if (el.textContent === "シラバス") {
-      card = el.closest(".card");
-    }
-  });
-  if (card) {
-    card.insertAdjacentHTML("beforebegin", mybtn);
+  if (cards) {
+    cards.insertAdjacentHTML("afterbegin", mybtn_card);
   }
 
   const toggle = document.getElementById("toggle_visible");
@@ -61,11 +55,6 @@ function create_button() {
 function save() {
   localStorage.setItem("hide", show_closed_tabs);
 }
-
-const temp = document.querySelectorAll(".card-body.p-3");
-temp.forEach((el) => {
-  console.log(el);
-});
 
 let show_closed_tabs = localStorage.getItem("hide") !== "false";
 create_button();
