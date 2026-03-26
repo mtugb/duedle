@@ -4,9 +4,9 @@
 const myCourseSetting1 = Array.from(document.querySelectorAll('h5')).find(h => h.textContent.trim() === 'マイコース表示設定');
 if (myCourseSetting1) { myCourseSetting1.textContent ="コース概要の表示順設定";}
 const myCourseSetting2 = document.querySelector('#page-navbar > nav > ol > li:nth-child(2) > span');
-if (myCourseSetting2) { myCourseSetting2.textContent ="コース概要の表示順設定";}
+if (myCourseSetting2 && myCourseSetting2.textContent==="Myコースの表示設定") { myCourseSetting2.textContent ="コース概要の表示順設定";}
 const myCourseSetting3 = document.querySelector("#region-main > div > h2 > center");
-if (myCourseSetting3) { myCourseSetting3.textContent ="コース概要の表示順設定";}
+if (myCourseSetting3 && myCourseSetting3.textContent==="Myコースの表示設定") { myCourseSetting3.textContent ="コース概要の表示順設定";}
 //表示設定へ　のテキスト変更----------------------------------------------------------------
 const toSortSetting = document.querySelector("#inst67416 > div > div > div > p > span > a");
 if (toSortSetting) {
@@ -129,3 +129,4 @@ if (courseContainer) {const courseItems = courseContainer.querySelectorAll("tr")
 }
 
 
+///grabbingにならない
