@@ -3,7 +3,8 @@ div,
 nav .navbar-bootswatch {
   background-color: #1d2831;
   span,
-  p {
+  p,
+  h1 {
     color: #dddddf !important;
     background: none !important;
   }
