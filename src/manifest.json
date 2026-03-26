@@ -14,8 +14,8 @@
         "./common/delete_underLink.js",
         "./navigation/navigation.js",
         "./login_screen/login_screen.js",
-        "./cource/cource.js",
-        "./common/history_view.js"
+        "./common/history_view.js",
+        "./cource/cource.js"
       ],
       "css": [
         "./common/common.css",

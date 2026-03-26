@@ -5,7 +5,7 @@ function hide_tabs() {
   tabs.forEach((el) => {
     const tab = el.closest(".section.course-section.main.clearfix");
     if (tab) {
-      if (!show_closed_tabs) {
+      if (show_closed_tabs) {
         tab.style.display = "";
       } else {
         tab.style.display = "none";
@@ -26,7 +26,7 @@ function create_button() {
     class="card-body p-3"
     style="display:flex;justify-content:space-between;align-items:center;"
         >
-        閉じたタブの非表示
+        閉じたタブの表示
         <label class="switch" style="--size:18px;margin:0">
           <input type="checkbox" id="toggle_visible" checked hidden />
         </label>
@@ -40,8 +40,6 @@ function create_button() {
   titles.forEach((el) => {
     if (el.textContent === "シラバス") {
       card = el.closest(".card");
-    } else if (el.textContent === "管理") {
-      card = el.closest(".card");
     }
   });
   if (card) {
@@ -51,18 +49,23 @@ function create_button() {
   const toggle = document.getElementById("toggle_visible");
   if (toggle) {
     toggle.checked = show_closed_tabs;
-  }
 
-  toggle.addEventListener("change", (e) => {
-    show_closed_tabs = e.currentTarget.checked;
-    save();
-    hide_tabs();
-  });
+    toggle.addEventListener("change", (e) => {
+      show_closed_tabs = e.currentTarget.checked;
+      save();
+      hide_tabs();
+    });
+  }
 }
 
 function save() {
   localStorage.setItem("hide", show_closed_tabs);
 }
+
+const temp = document.querySelectorAll(".card-body.p-3");
+temp.forEach((el) => {
+  console.log(el);
+});
 
 let show_closed_tabs = localStorage.getItem("hide") !== "false";
 create_button();
