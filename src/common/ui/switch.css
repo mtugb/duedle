@@ -1,0 +1,37 @@
+/*
+<label class="switch">
+  <input type="checkbox" hidden>
+</label>
+ */
+
+.switch {
+  --size: 24px;
+  display: inline-block;
+  width: calc(var(--size) * 2);
+  height: var(--size);
+  background-color: grey;
+  padding: calc(var(--size) / 6);
+  border-radius: 100px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  box-sizing: content-box;
+}
+
+.switch:has(input:checked) {
+  background-color: green;
+}
+
+.switch::before {
+  content: "";
+  display: block;
+  width: var(--size);
+  height: var(--size);
+  transition: transform ease-in-out 0.3s;
+  transform: translateX(0px);
+  background-color: white;
+  border-radius: 50%;
+}
+
+.switch:has(input:checked)::before {
+  transform: translateX(var(--size));
+}
