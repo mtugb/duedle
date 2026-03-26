@@ -24,7 +24,7 @@ body.darkmode {
     }
 
     a {
-        color: rgb(167, 182, 255);
+        color: #71ABCF;
     }
 
     li.list-group-item {
@@ -162,9 +162,21 @@ body.darkmode {
         color: #fff;
     }
 
-    input#searchinput.form-control {
+    input.form-control {
         background-color: #626c73;
-        color: #DDDDDF;
+        color: #dddddf;
+    }
+
+    input::placeholder {
+        color: #dddddf;
+    }
+
+    #region-main a.page-link i.icon {
+        color: #71abcf;
+    }
+
+    #region-main ul.list-group li.list-group-item {
+        border-color: #DDDDDF;
     }
 
     input#searchinput::placeholder {
