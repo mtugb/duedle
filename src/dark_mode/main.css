@@ -166,28 +166,31 @@ body.darkmode {
   #region-main ul.dropdown-menu li a.dropdown-item {
     color: #fff;
   }
-
-  input#searchinput.form-control {
+  
+  input.form-control {
     background-color: #626c73;
     color: #dddddf;
   }
-
-  input#searchinput::placeholder {
+  
+  input::placeholder {
     color: #dddddf;
   }
+  
   #region-main a.page-link i.icon {
     color: #71abcf;
   }
-
+  
+  #region-main ul.list-group li.list-group-item {
+    border-color: #DDDDDF;
+  }
+  
   #filter,#display,#typeSelect,#statusSelect,#dueSelect{
     background-color: #1d2831;
     color: white;
   }
-
+  
   #display li{
     color: white;
   }
-
   
 }
-
