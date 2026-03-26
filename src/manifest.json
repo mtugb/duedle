@@ -17,7 +17,8 @@
         "./common/delete_underLink.js",
         "./navigation/navigation.js",
         "./login_screen/login_screen.js",
-        "./common/history_view.js"
+        "./common/history_view.js",
+        "./dark_mode/main.js"
       ],
       "css": ["./dark_mode/main.css", "./common/ui/switch.css"]
     },
