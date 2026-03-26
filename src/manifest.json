@@ -7,7 +7,7 @@
   "content_scripts": [
     {
       "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/*"],
-      "js": ["./common/change_course_order/change_order_freely.js"]
+      "js": ["./common/change_order_freely.js"]
     }
   ]
 }
