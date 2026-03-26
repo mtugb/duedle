@@ -2,7 +2,12 @@ nav,
 div,
 nav .navbar-bootswatch {
   background-color: #1d2831;
-  color: #dddddf;
+  span,
+  p,
+  h1 {
+    color: #dddddf !important;
+    background: none !important;
+  }
 }
 
 .card {
