@@ -17,8 +17,8 @@
         "./common/delete_underLink.js",
         "./navigation/navigation.js",
         "./login_screen/login_screen.js",
-        "./common/history_view.js",
-        "./cource/cource.js"
+        "./cource/cource.js",
+        "./common/history_view.js"
       ],
       "css": ["./style.css", "./dark_mode/main.css"]
     },
@@ -26,6 +26,9 @@
       "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/blocks/syllabus/*"],
       "js": ["./syllabus/darkmode.js"],
       "css": ["./syllabus/darkmode.css"]
+    },
+    {
+      "css": ["./common/common.css", "./common/ui/switch.css"]
     },
     {
       "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/course/view.php*"],
