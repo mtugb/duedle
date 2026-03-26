@@ -105,6 +105,6 @@ text-align: center;
     margin-left: 10px;
 }
 
-  :root {
+  body.darkmode {
     color-scheme: light dark;
   }
