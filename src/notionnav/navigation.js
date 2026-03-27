@@ -24,6 +24,7 @@ const sectionNameList = Array.from(document.querySelectorAll("h3.sectionname"));
 sectionNameList.map((item) => {
     const link = document.createElement("a");
     link.classList.add("notionnavlink");
+    link.setAttribute("title",item.textContent);
     const id = item.getAttribute("id");
     const url = window.location.href.split('#')[0];
     link.textContent = item.textContent;
