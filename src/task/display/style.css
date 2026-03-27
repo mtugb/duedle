@@ -1,0 +1,220 @@
+#display {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    justify-content: start;
+    overflow: scroll;
+    border-color: rgb(135, 202, 222);
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 10px;
+    background-color: #f0f0f0;
+}
+
+.assign:not(.activity),
+.quiz:not(.activity) {
+    margin: 5px;
+    margin-top: 20px;
+    border-color: rgb(95, 160, 124);
+    border-width: 1px;
+    border-style: solid;
+    min-width: 250px;
+    max-width: 300px;
+    padding: 10px;
+    max-height: 450px;
+    border-radius: 5px;
+}
+
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    overflow-x: scroll;
+    white-space: nowrap;
+}
+
+.unvisited {
+    background-color:rgb(234, 193, 255);
+}
+.darkmode .unvisited,
+.darkmode .unvisited .type,
+.darkmode .unvisited .title,
+.darkmode .unvisited .info,
+.darkmode .unvisited .date,
+.darkmode .unvisited h6,
+.darkmode .unvisited .overflow-auto,
+.darkmode .unvisited div:not(.activityiconcontainer){
+    background-color:rgb(74, 23, 69);
+    color: white;
+}
+
+.complete {
+    background-color: lightgreen;
+}
+
+.complete .title {
+    color: green;
+
+}
+
+.darkmode .complete,
+.darkmode .complete .type,
+.darkmode .complete .title,
+.darkmode .complete .info,
+.darkmode .complete .date,
+.darkmode .complete h6,
+.darkmode .complete .overflow-auto,
+.darkmode .complete div:not(.activityiconcontainer){
+    background-color: rgb(6, 57, 6);
+}
+
+.darkmode .complete .title{
+    color:chartreuse;
+}
+
+
+.qualify {
+    background-color: lightblue;
+}
+
+.qualify .title {
+    color: rgb(76, 76, 189);
+}
+
+.darkmode .qualify,
+.darkmode .qualify .type,
+.darkmode .qualify .title,
+.darkmode .qualify .info,
+.darkmode .qualify .date,
+.darkmode .qualify h6,
+.darkmode .qualify .overflow-auto,
+.darkmode .qualify div:not(.activityiconcontainer){
+    background-color: rgb(18, 81, 94);
+}
+
+.darkmode .qualify .title {
+    color: rgb(115, 199, 222);
+}
+
+
+.incomplete {
+    background-color: lightyellow;
+}
+
+.darkmode .incomplete,
+.darkmode .incomplete .type,
+.darkmode .incomplete .info,
+.darkmode .incomplete .title,
+.darkmode .incomplete .date,
+.darkmode .incomplete h6,
+.darkmode .incomplete .overflow-auto,
+.darkmode .incomplete div:not(.activityiconcontainer){
+    background-color: rgb(87, 58, 58) ;
+    color: white;
+}
+.darkmode .incomplete .title{
+    color: rgb(250, 187, 187) !important;
+}
+
+.warning {
+    background-color: rgb(255, 182, 129);
+}
+
+.darkmode .warning,
+.darkmode .warning .type,
+.darkmode .warning .title,
+.darkmode .warning .info,
+.darkmode .warning .date,
+.darkmode .warning h6,
+.darkmode .warning .overflow-auto,
+.darkmode .warning div:not(.activityiconcontainer){
+    background-color: rgb(124, 51, 22);
+    color: white;
+}
+
+.warning .title {
+    color: red;
+
+}
+
+.expired {
+    background-color: rgb(255, 144, 144);
+}
+
+
+.darkmode .expired,
+.darkmode .expired .type,
+.darkmode .expired .info,
+.darkmode .expired .date,
+.darkmode .expired h6,
+.darkmode .expired .overflow-auto,
+.darkmode .expired div:not(.activityiconcontainer){
+    background-color: rgb(103, 26, 26);
+    color: white;
+}
+.expired .title {
+    background-color: red !important;
+    color: white;
+}
+.stuck {
+    background-color: rgb(161, 161, 161);
+}
+
+.unknown {
+    background-color: rgb(200, 200, 200);
+}
+.darkmode .unknown,
+.darkmode .unknown .type,
+.darkmode .unknown .title,
+.darkmode .unknown .info,
+.darkmode .unknown .date,
+.darkmode .unknown h6,
+.darkmode .unknown .overflow-auto,
+.darkmode .unknown div:not(.activityiconcontainer){
+    background-color: rgb(69, 69, 69);
+    color: white;
+}
+
+.assignbox,
+.quizbox {
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    overflow-x: scroll;
+    white-space: nowrap;
+}
+
+.info {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.type {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.filterlabel {
+
+    margin-bottom: 5px;
+    margin-left: 10px;
+}
+
+body.darkmode {
+    color-scheme: light dark;
+}
+
+.event {
+    border-radius: 5px;
+    margin: 5px;
+}
+
+h6.d-flex {
+    margin: 0px;
+}
+.darkmode .date.small {
+    color: white;
+}

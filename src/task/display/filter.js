@@ -50,8 +50,8 @@ const statusOptions = statusValues.map((value, index) => {
 statusOptions.forEach(option => statusSelect.appendChild(option));
 
 //due filter
-const dueValues = ["all", "progressing", "week", "today", "overdue"];
-const dueOptionsText = ["すべて", "進行中", "今週", "24時間以内", "終了"];
+const dueValues = ["all", "progressing", "week", "today", "dueweek", "overdue"];
+const dueOptionsText = ["すべて", "進行中", "今週", "24時間以内", "1週間前までに終了", "終了"];
 const dueSelect = document.createElement("select");
 dueSelect.id = "dueSelect";
 dueSelect.classList.add("form-select", "form-select-sm", "w-auto", "custom-select", "mb-1", "mb-md-0", "mr-md-2");
@@ -69,21 +69,22 @@ const dueOptions = dueValues.map((value, index) => {
 });
 dueOptions.forEach(option => dueSelect.appendChild(option));
 
+
 //filter effect
 typeSelect.addEventListener("change", () => {
     localStorage.setItem("selectedType", typeSelect.value); // 選択した値をローカルストレージに保存
     document.querySelector("#display").innerHTML = ""; // 表示をクリア
-    displayData_dashboard(); // データを再表示
+    displayData(); // データを再表示
 });
 statusSelect.addEventListener("change", () => {
     localStorage.setItem("selectedStatus", statusSelect.value); // 選択した値をローカルストレージに保存
     document.querySelector("#display").innerHTML = ""; // 表示をクリア
-    displayData_dashboard(); // データを再表示
+    displayData(); // データを再表示
 });
 dueSelect.addEventListener("change", () => {
     localStorage.setItem("selectedDue", dueSelect.value); // 選択した値をローカルストレージに保存
     document.querySelector("#display").innerHTML = ""; // 表示をクリア
-    displayData_dashboard(); // データを再表示
+    displayData(); // データを再表示
 });
 
 // ページ読み込み時にローカルストレージから選択状態を復元
