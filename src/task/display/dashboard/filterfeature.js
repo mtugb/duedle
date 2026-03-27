@@ -1,33 +1,10 @@
-const header = document.querySelector("header");
-const ext_dashboard = document.createElement("div");
-ext_dashboard.setAttribute("id", "ext_dashboard");
-ext_dashboard.classList.add("card-body");
-//inside div
-const filter = document.createElement("div");
-filter.setAttribute("id", "filter");
-ext_dashboard.appendChild(filter);
-const display = document.createElement("div");
-display.setAttribute("id", "display");
-ext_dashboard.appendChild(display);
-
-filter.textContent = "フィルタ";
-displayData_dashboard = () => {
-    // データベースからすべてのデータを取得するためのトランザクションを開始します。
-    const storeNames = ["assign_list", "quiz_list"];
-
-    getAllData(taskdb, storeNames)
-        .then(data => {
-            const sorted = sortByDeadline(data);
-            displaybox(sorted);
-        });
-}
-
 displaybox = (data) => {
     data.map(item => {
         //condition
         const savedType = localStorage.getItem("selectedType");
         const savedStatus = localStorage.getItem("selectedStatus");
         const savedDue = localStorage.getItem("selectedDue");
+        changeAct(item);
         if (savedType !== "all" && item._store !== savedType) {
             return; // タイプが一致しない場合はスキップ
         }
@@ -47,6 +24,9 @@ displaybox = (data) => {
             if (savedDue === "overdue" && remainhours >= 0) {
                 return; // 期限切れでない場合はスキップ
             }
+            if (savedDue === "dueweek" && (remainhours >= 0 || remainhours < 24 * 7)) {
+                return;
+            }
         }
         if (savedDue === "progressing" && remainhours < 0) {
             return;
@@ -58,6 +38,5 @@ displaybox = (data) => {
             displaybox_quiz_list(item);
         }
     });
+    checkUnvisited();
 };
-
-header.after(ext_dashboard);

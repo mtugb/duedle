@@ -13,8 +13,8 @@ taskdb_openRequest.addEventListener("success", () => {
   taskdb = taskdb_openRequest.result;
 
     // IDB 内の既存のメモ書きを表示するために、 displayData() 関数を実行します。 -> この内容はdashboard.jsで実行
-    if(document.URL.match(/my/)){
-     displayData_dashboard();
+    if(document.URL.match(/my/)||document.URL.match(/course/)){
+     displayData();
     }
 });
 
@@ -32,3 +32,15 @@ taskdb_openRequest.addEventListener("upgradeneeded", (e) => {
 
   console.log("Database setup complete");
 });
+
+//displayData
+displayData = () => {
+    // データベースからすべてのデータを取得するためのトランザクションを開始します。
+    const storeNames = ["assign_list", "quiz_list"];
+
+    getAllData(taskdb, storeNames)
+        .then(data => {
+            const sorted = sortByDeadline(data);
+            displaybox(sorted);
+        });
+}

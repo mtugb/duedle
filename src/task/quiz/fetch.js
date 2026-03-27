@@ -20,8 +20,13 @@ function calldue() {
         const dueraw = document.querySelector(".description-inner div:nth-child(2)").textContent.trim();
         return extractDate(dueraw);
     } catch (error) {
-        const dueraw = document.querySelector(".description-inner div").textContent.trim();
-        return extractDate(dueraw);
+        try {
+            const dueraw = document.querySelector(".description-inner div").textContent.trim();
+            return extractDate(dueraw);
+        } catch (error) {
+            return null;
+        }
+
     }
 }
 
@@ -50,7 +55,7 @@ function callsubmit() {
 let point, maxp;
 try {
     const pointraw = document.querySelector("#feedback h3").textContent.trim();
-    const match = pointraw.match(/最高評点:\s*([\d.]+)\s*\/\s*([\d.]+)/);
+    const match = pointraw.match(/(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)/);
 
     if (match) {
         point = parseFloat(match[1]); // 左側（現在の得点）
@@ -58,7 +63,12 @@ try {
     }
 } catch (error) {
     point = null;
-    maxp = null;
+    try{
+        maxp = parseFloat(match[1]);
+    } catch (error) {
+        maxp = null;
+    }
+    
 }
 //required,maxp
 const requiredraw = [...document.querySelectorAll("p.text-left")]
@@ -68,7 +78,7 @@ const required = requiredMatch ? parseFloat(requiredMatch[1]) : null;
 if (maxp === null) maxp = requiredMatch ? parseFloat(requiredMatch[2]) : null;
 
 //count
-const count = (document.getElementsByTagName("tr").length - 1)===-1 ? 0 : document.getElementsByTagName("tr").length - 1; // ヘッダー行を除くために-1
+const count = (document.getElementsByTagName("tr").length - 1) === -1 ? 0 : document.getElementsByTagName("tr").length - 1; // ヘッダー行を除くために-1
 
 //maxcount
 const maxcountraw = [...document.querySelectorAll("p.text-left")]
@@ -76,7 +86,7 @@ const maxcountraw = [...document.querySelectorAll("p.text-left")]
 const maxcount = maxcountraw ? maxcountraw.textContent.trim().match(/受験可能回数:\s*(\d+)/)[1] : "無制限";
 
 let a_status;
-if (maxp !== null && point !== null) { //得点状況がわかるとき
+if (point&&maxp !== null && point !== null) { //得点状況がわかるとき
     if (point === maxp) {
         a_status = "complete";
     } else if (required === null || required === undefined) {

@@ -76,8 +76,8 @@ displaybox_quiz_list = (data) => {
     switch (data.status) {
         case "complete":
             statusli.textContent = "状態: 満点";
-                quiz.classList.add("complete"); //cssの関係でcompleteクラスを流用
-                course.textContent = "✓ " + course.textContent;
+            quiz.classList.add("complete"); //cssの関係でcompleteクラスを流用
+            course.textContent = "✓ " + course.textContent;
             break;
         case "qualify":
             statusli.textContent = "状態: 合格";
@@ -85,7 +85,8 @@ displaybox_quiz_list = (data) => {
             course.textContent = "〇 " + course.textContent;
             break;
         case "incomplete":
-            statusli.textContent = "状態: 未完了";
+            statusli.textContent = "状態: 未提出";
+            quiz.classList.add("incomplete");
             break;
         case "stuck":
             statusli.textContent = "状態: 行き詰まり";
@@ -116,7 +117,7 @@ displaybox_quiz_list = (data) => {
             }
         }
     }
-        const remainoutput = formatRemainingTime(data.due);
+    const remainoutput = formatRemainingTime(data.due);
     if (remain !== null) {
         const remainli = document.createElement("li");
         infoul.appendChild(remainli);
