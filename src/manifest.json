@@ -22,13 +22,12 @@
         "./common/title.js",
         "./common/delete_underLink.js",
         "./common/navigation.js",
-        "./common/history_view.js",
         "./dark_mode/main.js"
       ]
     },
     {
       "matches": [
-        "https://cms7.ict.nitech.ac.jp/moodle40a/login/*"
+        "https://cms7.ict.nitech.ac.jp/moodle40a/login/auth*"
       ],
       "js": [
         "./login_screen/login_screen.js",

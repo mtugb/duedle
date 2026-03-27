@@ -5,7 +5,7 @@ if (title && title.textContent.includes("ダッシュボード")) {
 }
 
 //navbarのタイトル
-if (!document.URL.match(/login/)) {
+if (!document.URL.match(/login/)||document.URL.match("auth_")) {
     const navbar = document.querySelector(".navbar-brand");
     navbar.textContent = "Moodle: Extended"
 }
