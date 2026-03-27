@@ -71,5 +71,12 @@
     "css": [
       "./task/dashboard/dashboard.css"
     ]
+  },
+  {
+    "matches": [
+      "https://cms7.ict.nitech.ac.jp/moodle40a/my/index.php",
+      "https://cms7.ict.nitech.ac.jp/moodle40a/course/mycourse_config/reorder.php"
+    ],
+    "js": ["./common/change_order_freely.js"]
   }]
 }
