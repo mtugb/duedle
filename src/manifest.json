@@ -38,6 +38,18 @@
       ]
     },
     {
+        "./dark_mode/main.js",
+        "./common/change_order_freely.js"
+    }
+    ]
+  },
+     {
+      "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/login/*"],
+      "js": ["./login_screen/login_screen.js"],
+      "css": ["./dark_mode/main.css"]
+    }       
+  ]
+}
       "matches": [
         "https://cms7.ict.nitech.ac.jp/moodle40a/my/",
         "https://cms7.ict.nitech.ac.jp/moodle40a/my/index.php",
