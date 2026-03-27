@@ -1,20 +1,20 @@
 setupT_assign_list = () => {
     if (taskdb.objectStoreNames.contains("assign_list")) {
-    taskdb.deleteObjectStore("assign_list");
-  }
+        taskdb.deleteObjectStore("assign_list");
+    }
 
-  const assign_objectStore = taskdb.createObjectStore("assign_list", {
-    keyPath: "assignId"
-  });
-  // assign_objectStore にどのようなデータ項目を格納するかを定義します。
-  assign_objectStore.createIndex("courseName", "courseName", { unique: false });
-  assign_objectStore.createIndex("assignName", "assignName", { unique: false });
-  assign_objectStore.createIndex("start", "start", { unique: false });
-  assign_objectStore.createIndex("submit", "submit", { unique: false });
-  assign_objectStore.createIndex("due", "due", { unique: false });
-  assign_objectStore.createIndex("file", "file", { unique: false });
-  assign_objectStore.createIndex("filenum", "filenum", { unique: false });
-  assign_objectStore.createIndex("status", "status", { unique: false });
+    const assign_objectStore = taskdb.createObjectStore("assign_list", {
+        keyPath: "assignId"
+    });
+    // assign_objectStore にどのようなデータ項目を格納するかを定義します。
+    assign_objectStore.createIndex("courseName", "courseName", { unique: false });
+    assign_objectStore.createIndex("assignName", "assignName", { unique: false });
+    assign_objectStore.createIndex("start", "start", { unique: false });
+    assign_objectStore.createIndex("submit", "submit", { unique: false });
+    assign_objectStore.createIndex("due", "due", { unique: false });
+    assign_objectStore.createIndex("file", "file", { unique: false });
+    assign_objectStore.createIndex("filenum", "filenum", { unique: false });
+    assign_objectStore.createIndex("status", "status", { unique: false });
 }
 
 displaybox_assign_list = (data) => {
@@ -65,7 +65,7 @@ displaybox_assign_list = (data) => {
     const remain = data.due ? Math.ceil((data.due - Date.now()) / (1000 * 60 * 60 * 24)) : null;
     if (remain !== null) {
         if (remain > 0) {
-            const statusdisplay = data.status === "complete" ? "完了" : "未完了";
+            const statusdisplay = data.status === "complete" ? "完了" : "未提出";
             statusli.textContent = "状態: " + statusdisplay;
             if (data.status === "complete") {
                 assign.classList.add("complete");
@@ -83,7 +83,7 @@ displaybox_assign_list = (data) => {
                 assign.classList.add("complete");
                 course.textContent = "✓ " + course.textContent;
             } else {
-                const statusdisplay = "未完了";
+                const statusdisplay = "未提出";
                 statusli.textContent = "状態: " + statusdisplay;
                 course.textContent = "⚠️ " + course.textContent;
                 assign.classList.add("warning");
@@ -103,8 +103,8 @@ displaybox_assign_list = (data) => {
             }
         }
     }
-        const remainoutput = formatRemainingTime(data.due);
-     if (remain !== null) {
+    const remainoutput = formatRemainingTime(data.due);
+    if (remain !== null) {
         const remainli = document.createElement("li");
         infoul.appendChild(remainli);
         remainli.textContent = remainoutput;
