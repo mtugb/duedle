@@ -34,6 +34,10 @@
     white-space: nowrap;
 }
 
+.darkmode div.no-overflow div.no-overflow{
+    background-color: rgb(29, 40, 49);
+}
+
 .unvisited {
     background-color:rgb(234, 193, 255);
 }
