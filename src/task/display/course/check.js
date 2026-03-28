@@ -15,9 +15,9 @@ changeActColor = (item) => {
 
 //unvisited
 checkUnvisited = () => {
-    const unvisitedboxes = Array.from(document.querySelectorAll(`[data-activityname]:not(.complete,.incomplete,.unknown,.expired,.stuck,.qualify,.warning)`));
+    const unvisitedboxes = Array.from(document.querySelectorAll(`[data-activityname]:not(.activity-information,.complete,.incomplete,.unknown,.expired,.stuck,.qualify,.warning,.unvisited)`));
     unvisitedboxes.map((item) => {
-        if (item.textContent.includes(" 課題 ") || item.textContent.includes(" 小テスト ")) {
+        if (item.textContent.includes(" 課題") || item.textContent.includes(" 小テスト")) {
             item.classList.add("unvisited");
         }
     });
