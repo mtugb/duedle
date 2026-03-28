@@ -13,6 +13,7 @@
       ],
       "js": [
         "./task/database/open.js",
+        "./task/database/update.js",
         "./task/database/table/assign_list.js",
         "./task/database/table/quiz_list.js",
         "./common/utils.js",

@@ -1,5 +1,5 @@
 let taskdb;
-const taskdb_openRequest = indexedDB.open("task_db", 5);
+const taskdb_openRequest = indexedDB.open("task_db", 6);
 // error ハンドラーは、データベースがうまく開けなかったことを意味します。
 taskdb_openRequest.addEventListener("error", (e) => {
   console.error("error", e);
@@ -35,6 +35,7 @@ taskdb_openRequest.addEventListener("upgradeneeded", (e) => {
 
 //displayData
 displayData = () => {
+  display.textContent = "表示するものがありません";
     // データベースからすべてのデータを取得するためのトランザクションを開始します。
     const storeNames = ["assign_list", "quiz_list"];
 

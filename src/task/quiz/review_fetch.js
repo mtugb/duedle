@@ -100,7 +100,8 @@ data_fetch = (data,tx,store) => {
         maxp: maxp,
         count: count,
         maxcount: data.maxcount,
-        status: a_status
+        status: a_status,
+        show: data.show
     }
 
 

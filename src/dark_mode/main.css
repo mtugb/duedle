@@ -226,7 +226,8 @@ body.darkmode {
   #display,
   #typeSelect,
   #statusSelect,
-  #dueSelect {
+  #dueSelect,
+  #showSelect {
     background-color: #1d2831;
     color: white;
   }

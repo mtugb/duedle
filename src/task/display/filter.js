@@ -69,6 +69,30 @@ const dueOptions = dueValues.map((value, index) => {
 });
 dueOptions.forEach(option => dueSelect.appendChild(option));
 
+//show filter
+const showValues = ["all","normal","deleted"];
+const showOptionsText = ["すべて", "通常", "表示削除済み"];
+const showSelect = document.createElement("select");
+showSelect.id = "showSelect";
+showSelect.classList.add("form-select", "form-select-sm", "w-auto", "custom-select", "mb-1", "mb-md-0", "mr-md-2");
+const showLabel = document.createElement("label");
+showLabel.textContent = "表示状態";
+showLabel.setAttribute("for", "showSelect");
+showLabel.classList.add("filterlabel", "mr-md-2", "mb-md-0");
+fieldset.appendChild(showLabel);
+fieldset.appendChild(showSelect);
+const showOptions = showValues.map((value, index) => {
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = showOptionsText[index];
+    return option;
+});
+showOptions.forEach(option => showSelect.appendChild(option));
+
+
+//setting color
+
+
 
 //filter effect
 typeSelect.addEventListener("change", () => {
@@ -86,12 +110,18 @@ dueSelect.addEventListener("change", () => {
     document.querySelector("#display").innerHTML = ""; // 表示をクリア
     displayData(); // データを再表示
 });
+showSelect.addEventListener("change", () => {
+    localStorage.setItem("selectedShow", showSelect.value); // 選択した値をローカルストレージに保存
+    document.querySelector("#display").innerHTML = ""; // 表示をクリア
+    displayData(); // データを再表示
+});
 
 // ページ読み込み時にローカルストレージから選択状態を復元
 window.addEventListener("load", () => {
     const savedType = localStorage.getItem("selectedType");
     const savedStatus = localStorage.getItem("selectedStatus");
     const savedDue = localStorage.getItem("selectedDue");
+    const savedShow = localStorage.getItem("selectedShow");
     if (savedType) {
         typeSelect.value = savedType;
     }
@@ -100,6 +130,9 @@ window.addEventListener("load", () => {
     }
     if (savedDue) {
         dueSelect.value = savedDue;
+    }
+    if (savedShow) {
+        showSelect.value = savedShow;
     }
 });
 
@@ -112,4 +145,7 @@ if (!localStorage.getItem("selectedStatus")) {
 }
 if (!localStorage.getItem("selectedDue")) {
     localStorage.setItem("selectedDue", "all");
+}
+if (!localStorage.getItem("selectedShow")) {
+    localStorage.setItem("selectedShow", "normal");
 }

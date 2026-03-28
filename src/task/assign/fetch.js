@@ -62,6 +62,9 @@ if (filenum === 0) {
     a_status = "complete"; // ファイルが見つかった場合は完了とみなす
 }
 
+//show
+
+
 const data = {
     assignId: assignId,
     courseName: courseName,
@@ -71,7 +74,8 @@ const data = {
     due: calldue(),
     file: file,
     filenum: filenum,
-    status: a_status
+    status: a_status,
+    show: true
 }
 
 
@@ -80,8 +84,19 @@ taskdb_openRequest.onsuccess = function (event) {
     const db = event.target.result;
     const tx = db.transaction("assign_list", "readwrite");
     const store = tx.objectStore("assign_list");
+    //showデータの取得
+    const getReq = store.get(data.assignId);
+    getReq.onsuccess = (e) => {
+        const getdata = e.target.result;
+        if(getdata) {
+            data.show = getdata.show;
+        }
 
-    store.put(data);  // ← 存在すれば更新、なければ追加
+        
+        store.put(data);  // ← 存在すれば更新、なければ追加
+    };
+
+    
 
     tx.oncomplete = () => {
         console.log("保存完了");

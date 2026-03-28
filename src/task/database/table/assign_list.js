@@ -15,6 +15,7 @@ setupT_assign_list = () => {
     assign_objectStore.createIndex("file", "file", { unique: false });
     assign_objectStore.createIndex("filenum", "filenum", { unique: false });
     assign_objectStore.createIndex("status", "status", { unique: false });
+    assign_objectStore.createIndex("show", "show", { unique: false });
 }
 
 displaybox_assign_list = (data) => {
@@ -25,6 +26,48 @@ displaybox_assign_list = (data) => {
     type.classList.add("type");
     assign.appendChild(type);
     type.textContent = "提出課題";
+    //showmodifybutton
+    if (localStorage.getItem("selectedShow") !== "all") {
+        const btndiv_1 = document.createElement("div");
+        btndiv_1.classList.add("col-md-1", "p-0", "d-flex", "menu");
+        type.appendChild(btndiv_1);
+        const btndiv_2 = document.createElement("div");
+        btndiv_2.classList.add("ml-auto", "dropdown");
+        btndiv_1.appendChild(btndiv_2);
+        const btnin = document.createElement("button");
+        btnin.classList.add("btn", "btn-link", "btn-icon", "icon-size-3", "coursemenubtn");
+        btnin.setAttribute("type", "button");
+        btnin.setAttribute("data-toggle", "dropdown");
+        btnin.setAttribute("aria-haspopup", "true");
+        btnin.setAttribute("aria-expanded", "false");
+        btndiv_2.appendChild(btnin);
+        const icon = document.createElement("i");
+        icon.classList.add("icon", "fa", "fa-ellipsis-v", "fa-fw", "m-0");
+        icon.setAttribute("aria-hidden", "true");
+        btnin.appendChild(icon);
+        const dropdiv = document.createElement("div");
+        dropdiv.classList.add("dropdown-menu", "dropdown-menu-right");
+        dropdiv.setAttribute("style", "will-change: transform;");
+        btndiv_2.appendChild(dropdiv);
+        const menu = document.createElement("a");
+        menu.href="#";
+        if (data.show) {
+            menu.addEventListener("click", (e) => {
+                updateData('assign_list', data.assignId, false);
+                e.target.closest(".assign").remove();
+            });
+            menu.textContent = "一覧から削除する";
+        } else {
+            menu.addEventListener("click", (e) => {
+                updateData('assign_list', data.assignId, true);
+                e.target.closest(".assign").remove();
+            });
+            menu.textContent = "一覧に戻す";
+        }
+
+        dropdiv.appendChild(menu);
+
+    }
     const course = document.createElement("div");
     course.classList.add("title");
     assign.appendChild(course);
@@ -37,7 +80,6 @@ displaybox_assign_list = (data) => {
     const url = "https://cms7.ict.nitech.ac.jp/moodle40a/mod/assign/view.php?id=" + data.assignId;
     const link = document.createElement("a");
     link.setAttribute("href", url);
-    link.setAttribute("target", "_blank");
     link.textContent = data.assignName;
     assignbox.appendChild(link);
 

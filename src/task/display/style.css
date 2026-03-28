@@ -11,6 +11,13 @@
     background-color: #f0f0f0;
 }
 
+.type {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
 .assign:not(.activity),
 .quiz:not(.activity) {
     margin: 5px;
