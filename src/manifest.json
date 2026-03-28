@@ -53,7 +53,10 @@
       "matches": [
         "https://cms7.ict.nitech.ac.jp/moodle40a/mod/assign/view.php?id=*"
       ],
-      "js": ["./task/assign/fetch.js"]
+      "js": [
+        "./task/assign/fetch.js",
+        "./qol/assign_files.js"
+      ]
     },
     {
       "matches": [
