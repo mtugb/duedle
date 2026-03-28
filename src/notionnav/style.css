@@ -1,0 +1,32 @@
+#notion {
+    position: sticky;
+    top: 240px;
+    white-space: nowrap;
+    overflow: hidden;
+
+}
+.notionnavlink {
+    font-size: 18px;
+}
+
+@media (min-width: 1200px) {
+    #page-content.blocks-post .columnright {
+        flex: 0 0 20%;
+        padding: 0 1rem;
+        max-width: 20%;
+    }
+}
+@media (min-width: 992px) {
+    #page-content.blocks-post .columnright {
+        flex: 0 0 25%;
+        padding: 0 1rem;
+        max-width: 25%;
+    }
+}
+@media (min-width: 768px) {
+    #page-content.blocks-post .columnright {
+        flex: 0 0 32%;
+        padding: 0 1rem;
+        max-width: 32%;
+    }
+}
