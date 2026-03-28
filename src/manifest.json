@@ -8,6 +8,9 @@
   "content_scripts": [
     {
       "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/*"],
+      "exclude_matches": [
+        "https://cms7.ict.nitech.ac.jp/moodle40a/blocks/syllabus/*"
+      ],
       "js": [
         "./task/database/open.js",
         "./task/database/table/assign_list.js",
@@ -17,8 +20,10 @@
         "./common/title.js",
         "./common/delete_underLink.js",
         "./common/navigation.js",
-        "./dark_mode/main.js"
-      ]
+        "./dark_mode/main.js",
+        "./common/history_view.js"
+      ],
+      "css": ["./dark_mode/main.css", "./common/ui/switch.css"]
     },
     {
       "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/login/auth*"],
@@ -26,25 +31,7 @@
         "./login_screen/login_screen.js",
         "./dark_mode/main.js",
         "./common/change_order_freely.js"
-      ],
-      "css": ["./dark_mode/main.css"]
-    },
-    {
-      "matches": [
-        "https://cms7.ict.nitech.ac.jp/moodle40a/my/",
-        "https://cms7.ict.nitech.ac.jp/moodle40a/my/index.php",
-        "https://cms7.ict.nitech.ac.jp/moodle40a/course/*",
-        "https://cms7.ict.nitech.ac.jp/moodle40a/user/profile.php",
-        "https://cms7.ict.nitech.ac.jp/moodle40a/grade/report/overview/index.php",
-        "https://cms7.ict.nitech.ac.jp/moodle40a/calendar/view.php?view=month",
-        "https://cms7.ict.nitech.ac.jp/moodle40a/user/files.php",
-        "https://cms7.ict.nitech.ac.jp/moodle40a/reportbuilder/index.php",
-        "https://cms7.ict.nitech.ac.jp/moodle40a/user/preferences.php",
-        "https://cms7.ict.nitech.ac.jp/moodle40a/message/output/popup/notifications.php",
-        "https://cms7.ict.nitech.ac.jp/moodle40a/message/notificationpreferences.php"
-      ],
-      "js": ["./common/history_view.js"],
-      "css": ["./dark_mode/main.css", "./common/ui/switch.css"]
+      ]
     },
     {
       "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/blocks/syllabus/*"],
@@ -60,9 +47,7 @@
         "./task/display/course/check.js",
         "./notionnav/navigation.js"
       ],
-      "css": [
-        "./notionnav/style.css"
-      ]
+      "css": ["./notionnav/style.css"]
     },
     {
       "matches": [
