@@ -1,4 +1,13 @@
 body.darkmode {
+  /* すべて一回ダークモード用にリセット*/
+  div {
+    background: none;
+    color: #dddddf;
+  }
+  a {
+    background: none;
+  }
+
   nav,
   div,
   nav .navbar-bootswatch {
@@ -29,7 +38,19 @@ body.darkmode {
   }
 
   a {
-    color: rgb(167, 182, 255);
+    color: #71abcf;
+  }
+
+  tbody {
+    background-color: #1d2831;
+  }
+  
+  tr {
+    background-color: #1d2831;
+  }
+
+  td font {
+    color: #DDDDDF;
   }
 
   li.list-group-item {
@@ -53,6 +74,10 @@ body.darkmode {
 
   .generalbox {
     background-color: #1d2831;
+  }
+
+  #region-main {
+    color: #DDDDDF;
   }
 
   #region-main table td,
@@ -113,9 +138,22 @@ body.darkmode {
     color: #71abcf;
   }
 
+  div.text-uppercase {
+    color: #DDDDDF;
+  }
+  
+  #region-main div.activityname a span.instancename {
+    color: #71abcf !important;
+  }
+
   #region-main .card-footer {
     background-color: #1d2831 !important;
     border-color: #fff;
+  }
+
+  :focus {
+    background-color: #626c73;
+    box-shadow: none;
   }
 
   /* マイコースの表示設定 */
@@ -166,31 +204,61 @@ body.darkmode {
   #region-main ul.dropdown-menu li a.dropdown-item {
     color: #fff;
   }
-  
+
   input.form-control {
     background-color: #626c73;
     color: #dddddf;
   }
-  
+
   input::placeholder {
     color: #dddddf;
   }
-  
+
   #region-main a.page-link i.icon {
     color: #71abcf;
   }
-  
+
   #region-main ul.list-group li.list-group-item {
-    border-color: #DDDDDF;
+    border-color: #dddddf;
   }
-  
-  #filter,#display,#typeSelect,#statusSelect,#dueSelect{
+
+  #filter,
+  #display,
+  #typeSelect,
+  #statusSelect,
+  #dueSelect {
     background-color: #1d2831;
     color: white;
   }
-  
-  #display li{
+
+  #display li {
     color: white;
   }
-  
+  /* div.popover-region-content { */
+  /*   color: #dddddf; */
+  /* } */
+  /* div.custom-control { */
+  /*   color: #dddddf; */
+  /* } */
+  ul.nav {
+    background-color: #1d2831;
+  }
+  nav i.icon:hover {
+    color: #626c73;
+  }
+  div[data-region="content-container"] {
+    height: 100%;
+  }
+  div [data-region="view-conversation"] {
+    display: contents;
+  }
+  .activity-header {
+    background: none !important;
+  }
+  div.header-container {
+    color: #DDDDDF;
+  }
+  div.text-truncate {
+    color: #DDDDDF;
+  }
 }
