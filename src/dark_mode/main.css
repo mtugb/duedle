@@ -29,7 +29,7 @@ body.darkmode {
   }
 
   a {
-    color: rgb(167, 182, 255);
+    color: #71abcf;
   }
 
   li.list-group-item {
@@ -192,5 +192,16 @@ body.darkmode {
   #display li{
     color: white;
   }
-  
+  div.popover-region-content {
+    color: #DDDDDF;
+  }
+  div.custom-control {
+    color: #DDDDDF;
+  }
+  ul.nav {
+    background-color: #1d2831;
+  }
+  nav i.icon:hover {
+    color: #626C73;
+  }
 }
