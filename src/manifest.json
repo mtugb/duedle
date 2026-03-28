@@ -77,7 +77,11 @@
         "./cource/hide_closedTab.js",
         "./common/history_update.js",
         "./task/display/course/filterfeature.js",
-        "./task/display/course/check.js"
+        "./task/display/course/check.js",
+        "./notionnav/navigation.js"
+      ],
+      "css": [
+        "./notionnav/style.css"
       ]
     },
     {
