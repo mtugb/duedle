@@ -1,6 +1,7 @@
 #notion {
     position: sticky;
-    top: 240px;
+    top: 10%;
+    
     white-space: nowrap;
     overflow: hidden;
 
