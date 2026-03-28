@@ -7,8 +7,10 @@
 /* } */
 body.darkmode {
   background-color: #1d2831;
-  color: #dddddf;
+  * {
+    color: #dddddf !important;
+  }
   a {
-    color: #f0f0f2;
+    color: #f0f0f2 !important;
   }
 }
