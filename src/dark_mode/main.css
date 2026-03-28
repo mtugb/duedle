@@ -1,4 +1,12 @@
 body.darkmode {
+  /* すべて一回ダークモード用にリセット*/
+  div {
+    background: none;
+    color: #dddddf;
+  }
+  a {
+    background: none;
+  }
   nav,
   div,
   nav .navbar-bootswatch {
@@ -166,42 +174,53 @@ body.darkmode {
   #region-main ul.dropdown-menu li a.dropdown-item {
     color: #fff;
   }
-  
+
   input.form-control {
     background-color: #626c73;
     color: #dddddf;
   }
-  
+
   input::placeholder {
     color: #dddddf;
   }
-  
+
   #region-main a.page-link i.icon {
     color: #71abcf;
   }
-  
+
   #region-main ul.list-group li.list-group-item {
-    border-color: #DDDDDF;
+    border-color: #dddddf;
   }
-  
-  #filter,#display,#typeSelect,#statusSelect,#dueSelect{
+
+  #filter,
+  #display,
+  #typeSelect,
+  #statusSelect,
+  #dueSelect {
     background-color: #1d2831;
     color: white;
   }
-  
-  #display li{
+
+  #display li {
     color: white;
   }
-  div.popover-region-content {
-    color: #DDDDDF;
-  }
-  div.custom-control {
-    color: #DDDDDF;
-  }
+  /* div.popover-region-content { */
+  /*   color: #dddddf; */
+  /* } */
+  /* div.custom-control { */
+  /*   color: #dddddf; */
+  /* } */
   ul.nav {
     background-color: #1d2831;
   }
   nav i.icon:hover {
-    color: #626C73;
+    color: #626c73;
+  }
+  div[data-region="content-container"] {
+    height: 100%;
+  }
+  div [data-region="view-conversation"] {
+    display: contents;
   }
 }
+
