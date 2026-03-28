@@ -32,6 +32,18 @@ body.darkmode {
     color: #71abcf;
   }
 
+  tbody {
+    background-color: #1d2831;
+  }
+  
+  tr {
+    background-color: #1d2831;
+  }
+
+  td font {
+    color: #DDDDDF;
+  }
+
   li.list-group-item {
     background-color: #3a4361;
   }
@@ -53,6 +65,10 @@ body.darkmode {
 
   .generalbox {
     background-color: #1d2831;
+  }
+
+  #region-main {
+    color: #DDDDDF;
   }
 
   #region-main table td,
@@ -113,9 +129,22 @@ body.darkmode {
     color: #71abcf;
   }
 
+  div.text-uppercase {
+    color: #DDDDDF;
+  }
+  
+  #region-main div.activityname a span.instancename {
+    color: #71abcf !important;
+  }
+
   #region-main .card-footer {
     background-color: #1d2831 !important;
     border-color: #fff;
+  }
+
+  :focus {
+    background-color: #626c73;
+    box-shadow: none;
   }
 
   /* マイコースの表示設定 */
@@ -203,5 +232,11 @@ body.darkmode {
   }
   nav i.icon:hover {
     color: #626C73;
+  }
+  div.header-container {
+    color: #DDDDDF;
+  }
+  div.text-truncate {
+    color: #DDDDDF;
   }
 }
