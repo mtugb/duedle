@@ -7,6 +7,12 @@ const syncDarkmode = async () => {
   if (shouldBeDarkmode) {
     console.log("darkmode power on");
     document.body.classList.add("darkmode");
+    const colored_tr = document.querySelectorAll('tr[bgcolor="lightblue"]');
+    console.log(colored_tr);
+    colored_tr.forEach((e) => {
+      e.setAttribute("bgcolor", "#363f45");
+      e.style.color = "white";
+    });
   } else {
     try {
       document.body.classList.remove("darkmode");
