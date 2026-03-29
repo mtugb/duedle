@@ -1,12 +1,14 @@
 #notion {
     position: sticky;
-    top: 240px;
+    top: 10%;
+    
     white-space: nowrap;
     overflow: hidden;
 
 }
 .notionnavlink {
     font-size: 18px;
+    margin-left: 10px;
 }
 
 @media (min-width: 1200px) {
@@ -29,4 +31,8 @@
         padding: 0 1rem;
         max-width: 32%;
     }
+}
+
+html{
+  scroll-behavior: smooth;
 }

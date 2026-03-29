@@ -19,6 +19,16 @@ const navtext = document.createElement("div");
 navtext.classList.add("card-text","content","mt-2");
 nav_div.appendChild(navtext);
 
+//top
+    const toplink = document.createElement("a");
+    const topurl = window.location.href.split('#')[0];
+    toplink.setAttribute("href",topurl+"#page-wrapper");
+    toplink.classList.add("notionnavlink");
+    toplink.setAttribute("title","トップへ戻る");
+    toplink.textContent = "▲トップへ戻る";
+    navtext.appendChild(toplink);
+    navtext.appendChild(document.createElement("br"));
+
 //sectionList
 const sectionNameList = Array.from(document.querySelectorAll("h3.sectionname"));
 sectionNameList.map((item) => {
