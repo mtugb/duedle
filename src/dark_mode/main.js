@@ -20,6 +20,9 @@ const syncDarkmode = async () => {
       //エラー無視
     }
   }
+  try { colorReload(); } catch (_) {
+    //ignore
+  }
   // chrome.storage.local.set({ history });
 };
 syncDarkmode();

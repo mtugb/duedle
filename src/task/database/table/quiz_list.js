@@ -18,6 +18,7 @@ setupT_quiz_list = () => {
     quiz_objectStore.createIndex("count", "count", { unique: false });
     quiz_objectStore.createIndex("maxcount", "maxcount", { unique: false });
     quiz_objectStore.createIndex("status", "status", { unique: false });
+    quiz_objectStore.createIndex("show", "show", { unique: false });
 }
 
 displaybox_quiz_list = (data) => {
@@ -28,6 +29,47 @@ displaybox_quiz_list = (data) => {
     type.classList.add("type");
     quiz.appendChild(type);
     type.textContent = "小テスト";
+    if (localStorage.getItem("selectedShow") !== "all") {
+        //showmodifybutton
+        const btndiv_1 = document.createElement("div");
+        btndiv_1.classList.add("col-md-1", "p-0", "d-flex", "menu");
+        type.appendChild(btndiv_1);
+        const btndiv_2 = document.createElement("div");
+        btndiv_2.classList.add("ml-auto", "dropdown");
+        btndiv_1.appendChild(btndiv_2);
+        const btnin = document.createElement("button");
+        btnin.classList.add("btn", "btn-link", "btn-icon", "icon-size-3", "coursemenubtn");
+        btnin.setAttribute("type", "button");
+        btnin.setAttribute("data-toggle", "dropdown");
+        btnin.setAttribute("aria-haspopup", "true");
+        btnin.setAttribute("aria-expanded", "false");
+        btndiv_2.appendChild(btnin);
+        const icon = document.createElement("i");
+        icon.classList.add("icon", "fa", "fa-ellipsis-v", "fa-fw", "m-0");
+        icon.setAttribute("aria-hidden", "true");
+        btnin.appendChild(icon);
+        const dropdiv = document.createElement("div");
+        dropdiv.classList.add("dropdown-menu", "dropdown-menu-right");
+        dropdiv.setAttribute("style", "will-change: transform;");
+        btndiv_2.appendChild(dropdiv);
+        const menu = document.createElement("a");
+        menu.href="#";
+        if (data.show) {
+            menu.addEventListener("click", (e) => {
+                updateData('quiz_list', data.quizId, false);
+                e.target.closest(".quiz").remove();
+            });
+            menu.textContent = "一覧から削除する";
+        } else {
+            menu.addEventListener("click", (e) => {
+                updateData('quiz_list', data.quizId, true);
+                e.target.closest(".quiz").remove();
+            });
+            menu.textContent = "一覧に戻す";
+        }
+        dropdiv.appendChild(menu);
+    }
+
     const course = document.createElement("div");
     course.classList.add("title");
     quiz.appendChild(course);
@@ -40,7 +82,6 @@ displaybox_quiz_list = (data) => {
     const url = "https://cms7.ict.nitech.ac.jp/moodle40a/mod/quiz/view.php?id=" + data.quizId;
     const link = document.createElement("a");
     link.setAttribute("href", url);
-    link.setAttribute("target", "_blank");
     link.textContent = data.quizName;
     quizbox.appendChild(link);
 

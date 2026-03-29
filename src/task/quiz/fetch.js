@@ -123,7 +123,8 @@ const data = {
     maxp: maxp,
     count: count,
     maxcount: maxcount,
-    status: a_status
+    status: a_status,
+    show: true
 }
 
 
@@ -133,7 +134,17 @@ taskdb_openRequest.onsuccess = function (event) {
     const tx = db.transaction("quiz_list", "readwrite");
     const store = tx.objectStore("quiz_list");
 
-    store.put(data);  // ← 存在すれば更新、なければ追加
+    //showデータの取得
+    const getReq = store.get(data.quizId);
+    getReq.onsuccess = (e) => {
+        const getdata = e.target.result;
+        if(getdata) {
+            data.show = getdata.show;
+        }
+
+        
+        store.put(data);  // ← 存在すれば更新、なければ追加
+    };
 
     tx.oncomplete = () => {
         console.log("保存完了");

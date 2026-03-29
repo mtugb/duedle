@@ -5,10 +5,36 @@ if (title && title.textContent.includes("ダッシュボード")) {
 }
 
 //navbarのタイトル
-if (document.querySelector(".navbar-brand")&&(!document.URL.match(/login/)||document.URL.match("auth_"))) {
+if (document.querySelector(".navbar-brand") && (!document.URL.match(/login/) || document.URL.match("auth_"))) {
     const navbar = document.querySelector(".navbar-brand");
-    navbar.textContent = "Moodle: Extended"
+    navbar.textContent = "Duedle: Extended"
 }
+
+//navbarに時間を
+const time = document.createElement("div");
+time.id = "realtime";
+time.classList.add("navbar-brand","d-flex","align-items-center","my-1","ml-auto");
+const sel = document.querySelector("ul.navbar-nav");
+sel.after(time);
+
+function twoDigit(num) {
+    let ret;
+    if (num < 10)
+        ret = "0" + num;
+    else
+        ret = num;
+    return ret;
+}
+function showClock() {
+    let nowTime = new Date();
+    let nowHour = twoDigit(nowTime.getHours());
+    let nowMin = twoDigit(nowTime.getMinutes());
+    let nowSec = twoDigit(nowTime.getSeconds());
+    let msg = "現在時刻：" + nowHour + ":" + nowMin + ":" + nowSec;
+    document.getElementById("realtime").innerHTML = msg;
+}
+setInterval('showClock()', 1000);
+
 
 
 //マイコースとコースの非表示
