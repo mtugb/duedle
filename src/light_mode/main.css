@@ -1,0 +1,20 @@
+
+
+body:not(.darkmode) {
+background-color: #f2f5f6 !important;
+    .navbar-bootswatch {
+        background-color: #f9ffca;
+    }
+    #filter {
+    background-color: #fff6e1;
+}
+
+
+
+
+     .card, .block {
+        background-color: #dbeff7;
+    }
+
+
+}
