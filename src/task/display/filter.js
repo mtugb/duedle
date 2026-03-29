@@ -11,6 +11,21 @@ filter.appendChild(debug);
 debug.textContent = localStorage.getItem("selectedType");
 */
 
+//display show button
+const displaybutton = document.createElement("button");
+displaybutton.classList.add("btn", "btn-secondary");
+displaybutton.id = "displaybutton";
+displaybutton.textContent = "リスト表示を切り替える"
+displaybutton.addEventListener("click", () => {
+    if (!display.hasAttribute("hidden")) {
+        display.setAttribute("hidden", "");
+    } else {
+        display.removeAttribute("hidden");
+    }
+    localStorage.setItem("displayShow", !display.hasAttribute("hidden")); //type!=boolean
+});
+
+
 //type filter
 const typeValues = ["all", "assign_list", "quiz_list"];
 const typeOptionsText = ["すべて", "提出課題", "小テスト"];
@@ -92,6 +107,7 @@ const showOptions = showValues.map((value, index) => {
 });
 showOptions.forEach(option => showSelect.appendChild(option));
 
+fieldset.appendChild(displaybutton);
 
 //filter effect
 typeSelect.addEventListener("change", () => {
@@ -174,7 +190,14 @@ window.addEventListener("load", () => {
     if (savedShow) {
         showSelect.value = savedShow;
     }
+
 });
+//display appendまで待機
+const savedDisplayShow = localStorage.getItem("displayShow");
+if (savedDisplayShow === "false") {
+    display.setAttribute("hidden", "");
+}
+
 
 //色適用
 const applyColor = (type, toColor) => {
@@ -188,7 +211,7 @@ const applyColor = (type, toColor) => {
         })
     } else {
         const q = Array.from(document.querySelectorAll(
-                        "." + type + ", ." + type + ".type, ." + type + " .title, ." + type + " .info, ."
+            "." + type + ", ." + type + ".type, ." + type + " .title, ." + type + " .info, ."
             + type + " .date, ." + type + " h6, ." + type + " .overflow-auto, ." + type + " div:not(.activityiconcontainer)"
 
         ));
@@ -218,6 +241,9 @@ if (!localStorage.getItem("selectedDue")) {
 }
 if (!localStorage.getItem("selectedShow")) {
     localStorage.setItem("selectedShow", "normal");
+}
+if (!localStorage.getItem("displayShow")) {
+    localStorage.setItem("displayShow", true);
 }
 const colorDefault_light = ["#90ee90", "#add8e6", "#ffffe0", "#ffffff", "#ffb681", "#ff9090", "#c8c8c8", "#eac1ff"];
 const colorDefault_dark = ["#063906", "#12515e", "#57422a", "#000000", "#7c3316", "#821f1f", "#454545", "#4a1745"];

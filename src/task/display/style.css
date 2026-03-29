@@ -19,6 +19,9 @@
     align-items: center;
     justify-content: center;
 }
+#displaybutton {
+    margin-left: 20px;
+}
 
 .assign:not(.activity),
 .quiz:not(.activity) {
