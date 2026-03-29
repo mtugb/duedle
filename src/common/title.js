@@ -1,8 +1,8 @@
-//メニュー画面をかわいく
-const title = document.querySelector(".page-header-headings h1");
-if (title && title.textContent.includes("ダッシュボード")) {
-    title.textContent = "Duedle開発テスト中😋✌️";
-}
+// //メニュー画面をかわいく
+// const title = document.querySelector(".page-header-headings h1");
+// if (title && title.textContent.includes("ダッシュボード")) {
+//     title.textContent = "Duedle開発テスト中😋✌️";
+// }
 
 //navbarのタイトル
 if (document.querySelector(".navbar-brand") && (!document.URL.match(/login/) || document.URL.match("auth_"))) {
