@@ -1,5 +1,5 @@
 let taskdb;
-const taskdb_openRequest = indexedDB.open("task_db", 6);
+const taskdb_openRequest = indexedDB.open("task_db", 10);
 // error ハンドラーは、データベースがうまく開けなかったことを意味します。
 taskdb_openRequest.addEventListener("error", (e) => {
   console.error("error", e);

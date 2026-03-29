@@ -51,4 +51,5 @@ displaybox = (data) => {
         }
     });
     checkUnvisited();
+    colorReload();
 };
