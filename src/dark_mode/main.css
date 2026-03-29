@@ -295,7 +295,7 @@ body.darkmode {
         color: #DDDDDF;
     }
 
-    div.w-100.text-truncate.ml-2.my-2, div.d-flex{
+    div.w-100.text-truncate.ml-2.my-2, div.d-flex, div.notification{
         background-color: transparent;
     }
 
