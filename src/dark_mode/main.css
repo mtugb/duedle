@@ -58,6 +58,11 @@ body.darkmode {
     li.list-group-item {
         background-color: #3a4361;
     }
+  nav.navbar.fixed-top .nav-link,
+  nav.navbar.fixed-top .navbar-brand,
+  nav.navbar.fixed-top .usertext {
+    color: #dddddf;
+  }
 
     nav.navbar.fixed-top {
         background-color: #1d2831;
@@ -139,6 +144,10 @@ body.darkmode {
     div.card-body.p-3 a {
         color: #71abcf;
     }
+  #region-main .card-footer {
+    background-color: #1d2831 !important;
+    border-color: #DDDDDF;
+  }
 
     div.text-uppercase {
         color: #DDDDDF;
@@ -166,6 +175,21 @@ body.darkmode {
     #region-main .activity-altcontent {
         background-color: #1d2831;
     }
+  #region-main li.page-item.disabled i.icon {
+    color: #555961;
+  }
+  
+  nav#paging-bar-2 ul.pagination li.page-item.disabled a {
+    background-color: #1d2831;
+  }
+
+  nav#paging-bar-2 ul.pagination li.page-item a:hover {
+    background-color: #626c73;
+  }
+
+  #region-main span.mr-1 {
+    color: #DDDDDF;
+  }
 
     #region-main span b {
         color: #5e6601;
@@ -182,6 +206,17 @@ body.darkmode {
     #region-main div.dropdown-menu {
         background-color: #555961;
     }
+  #region-main a.dropdown-item {
+    color: #DDDDDF;
+  }
+
+  .coursemenubtn i.fa-ellipsis-v {
+    color: #DDDDDF;
+  }
+
+  #region-main p span {
+    color: #DDDDDF;
+  }
 
     #region-main a.dropdown-item {
         color: #fff;
@@ -194,6 +229,9 @@ body.darkmode {
     #region-main p span {
         color: #fff;
     }
+  #region-main ul.dropdown-menu li a.dropdown-item {
+    color: #DDDDDF;
+  }
 
     nav ol.breadcrumb li a {
         color: #71abcf;
@@ -234,23 +272,6 @@ body.darkmode {
         color: white;
     }
 
-    #display li {
-        color: white;
-    }
-
-    /* div.popover-region-content { */
-    /*   color: #dddddf; */
-    /* } */
-    /* div.custom-control { */
-    /*   color: #dddddf; */
-    /* } */
-    ul.nav {
-        background-color: #1d2831;
-    }
-
-    nav i.icon:hover {
-        color: #626c73;
-    }
 
     div[data-region="content-container"] {
         height: 100%;
@@ -304,6 +325,41 @@ body.darkmode {
     }
     a.text-dark:hover, a.text-dark:focus {
     color: #d7d7d7 !important;
+
+  #display li {
+    color: #DDDDDF;
+  }
+  /* div.popover-region-content { */
+  /*   color: #dddddf; */
+  /* } */
+  /* div.custom-control { */
+  /*   color: #dddddf; */
+  /* } */
+  ul.nav {
+    background-color: #1d2831;
+  }
+  nav i.icon:hover {
+    color: #626c73;
+  }
+
+  #region-main div.formulation {
+    background-color: #1d2831;
+    border: 1px solid #DDDDDF;
+  }
+
+  #region-main div.info {
+    background-color: #1d2831;
+    border: 1px solid #DDDDDF;
+  }
+  #region-main div.outcome {
+    background-color: #1d2831;
+    border: 1px solid #DDDDDF;
+  }
+  
+  #jump-to-activity {
+    background-color: #626c73;
+    color: #DDDDDF;
+  }
 }
 
 .message-app .message.send,
