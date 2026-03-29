@@ -172,6 +172,14 @@ body.darkmode {
   #region-main li.page-item.disabled i.icon {
     color: #555961;
   }
+  
+  nav#paging-bar-2 ul.pagination li.page-item.disabled a {
+    background-color: #1d2831;
+  }
+
+  nav#paging-bar-2 ul.pagination li.page-item a:hover {
+    background-color: #626c73;
+  }
 
   #region-main span.mr-1 {
     color: #DDDDDF;
