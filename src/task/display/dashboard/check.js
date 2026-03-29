@@ -23,6 +23,9 @@ changeAct = (item) => {
                 Number(minute)
             );
             i.querySelector(".date").textContent = i_date[0] + ": " + formatRemainingTime(due);
+            if (due.getDay() >= 0 && due.getDay() <= 3){
+                i.classList.add("warning");
+            }
         }
 
     });
