@@ -10,8 +10,11 @@ displaybox = (data) => {
         if (savedType !== "all" && item._store !== savedType) {
             return; // タイプが一致しない場合はスキップ
         }
-        if (savedStatus !== "all" && item.status !== savedStatus) {
+        if (savedStatus !== "all" &&savedStatus !== "ex-complete" && item.status !== savedStatus) {
             return; // 状態が一致しない場合はスキップ
+        }
+        if (savedStatus === "ex-complete" && item.status === "complete"){
+            return;
         }
         //表示状態確認
         if (savedShow === "normal" && !item.show) {

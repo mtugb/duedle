@@ -25,7 +25,7 @@ taskdb_openRequest.addEventListener("success", () => {
         const data = e.target.result;
         if (data) {
             console.log("データが見つかりました:", data);
-            data_fetch(data,transaction,store);
+            data_fetch(data, transaction, store);
         } else {
             console.log("データが見つかりません。");
         }
@@ -35,7 +35,7 @@ taskdb_openRequest.addEventListener("success", () => {
     };
 });
 
-data_fetch = (data,tx,store) => {
+data_fetch = (data, tx, store) => {
 
     //courseName
     const courseName = document.querySelector("h1").textContent.trim();
@@ -52,7 +52,7 @@ data_fetch = (data,tx,store) => {
         const pointraw = document.querySelector("tr:last-of-type td").textContent.trim();
         const match = pointraw.match(/([\d.]+)\s*\/\s*([\d.]+)/);
 
-        if (match&&(!data.point||data.point<parseFloat(match[1]))) {
+        if (match && (!data.point || data.point < parseFloat(match[1]))) {
             point = parseFloat(match[1]); // 左側（現在の得点）
             maxp = parseFloat(match[2]);     // 右側（満点）
         }
@@ -60,7 +60,7 @@ data_fetch = (data,tx,store) => {
         point = null;
         maxp = null;
     }
-    const count = data.count===0?1:data.count;
+    const count = data.count === 0 ? 1 : data.count;
 
     let a_status;
     if (maxp !== null && point !== null) { //得点状況がわかるとき
@@ -105,15 +105,15 @@ data_fetch = (data,tx,store) => {
     }
 
 
-        store.put(outdata);  // ← 存在すれば更新、なければ追加
+    store.put(outdata);  // ← 存在すれば更新、なければ追加
 
-        tx.oncomplete = () => {
-            console.log("保存完了",outdata);
-        };
+    tx.oncomplete = () => {
+        console.log("保存完了", outdata);
+    };
 
-        tx.onerror = (e) => {
-            console.error("エラー", e);
-        };
+    tx.onerror = (e) => {
+        console.error("エラー", e);
+    };
 
 
 

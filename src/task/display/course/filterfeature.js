@@ -25,8 +25,11 @@ displaybox = (data) => {
         if (savedType !== "all" && item._store !== savedType) {
             return; // タイプが一致しない場合はスキップ
         }
-        if (savedStatus !== "all" && item.status !== savedStatus) {
+        if (savedStatus !== "all" &&savedStatus !== "ex-complete" && item.status !== savedStatus) {
             return; // 状態が一致しない場合はスキップ
+        }
+        if (savedStatus === "ex-complete" && item.status === "complete"){
+            return;
         }
         const remainhours = (item.due - Date.now()) / (1000 * 60 * 60); // 締切までの残り時間を計算
         if (savedDue !== "all" || savedDue !== "progressing") {

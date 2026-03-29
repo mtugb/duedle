@@ -48,8 +48,8 @@ typeOptions.forEach(option => typeSelect.appendChild(option));
 
 
 //status filter
-const status = ["すべて", "完了", "合格(小テストのみ)", "未提出", "行き詰まり(小テストのみ)", "期限切れ", "点数不明(小テストのみ)"];
-const statusValues = ["all", "complete", "qualify", "incomplete", "stuck", "expired", "unknown"];
+const status = ["すべて", "完了", "完了以外", "合格(小テストのみ)", "未提出", "行き詰まり(小テストのみ)", "期限切れ", "点数不明(小テストのみ)"];
+const statusValues = ["all", "complete", "ex-complete", "qualify", "incomplete", "stuck", "expired", "unknown"];
 const statusSelect = document.createElement("select");
 statusSelect.id = "statusSelect";
 statusSelect.classList.add("form-select", "form-select-sm", "w-auto", "custom-select", "mb-1", "mb-md-0", "mr-md-2");

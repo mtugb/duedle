@@ -103,7 +103,6 @@ displaybox_assign_list = (data) => {
     infoul.appendChild(filenumli);
     const statusli = document.createElement("li");
     infoul.appendChild(statusli);
-
     const remain = data.due ? Math.ceil((data.due - Date.now()) / (1000 * 60 * 60 * 24)) : null;
     if (remain !== null) {
         if (remain > 0) {
@@ -144,6 +143,17 @@ displaybox_assign_list = (data) => {
                 course.textContent = "❌ " + course.textContent;
             }
         }
+    } else {
+            if (data.status === "complete") {
+                const statusdisplay = "完了";
+                statusli.textContent = "状態: " + statusdisplay;
+                assign.classList.add("complete");
+                course.textContent = "✓ " + course.textContent;
+            } else {
+                const statusdisplay = "未提出";
+                statusli.textContent = "状態: " + statusdisplay;
+                assign.classList.add("incomplete");
+            }
     }
     const remainoutput = formatRemainingTime(data.due);
     if (remain !== null) {

@@ -20,8 +20,12 @@ function calldue() {
         const dueraw = document.querySelector(".description-inner div:nth-child(2)").textContent.trim();
         return extractDate(dueraw);
     } catch (error) {
+        try {
         const dueraw = document.querySelector(".description-inner div").textContent.trim();
         return extractDate(dueraw);
+        } catch (error) {
+            return null;
+        }
     }
 }
 
@@ -55,9 +59,9 @@ let a_status;
 if (filenum === 0) {
     a_status = "incomplete"; // ファイルが見つからない場合は未完了とみなす
     //締め切りを過ぎている場合はexpiredにする
-    if(Math.ceil((calldue() - Date.now()) )<0){
+    if(calldue()&&Math.ceil((calldue() - Date.now()) )<0){
         a_status = "expired";
-    }
+    } 
 } else {
     a_status = "complete"; // ファイルが見つかった場合は完了とみなす
 }
