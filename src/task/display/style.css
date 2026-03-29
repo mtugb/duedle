@@ -4,10 +4,10 @@
     align-items: flex-start;
     justify-content: start;
     overflow: scroll;
-    border-color: rgb(135, 202, 222);
+    border-color: rgb(67, 121, 138);
     border-width: 2px;
     border-style: solid;
-    border-radius: 10px;
+    border-radius: 7px;
     background-color: #f0f0f0;
 }
 .fieldcolor {
