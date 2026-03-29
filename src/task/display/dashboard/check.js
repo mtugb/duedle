@@ -23,9 +23,12 @@ changeAct = (item) => {
                 Number(minute)
             );
             i.querySelector(".date").textContent = i_date[0] + ": " + formatRemainingTime(due);
-            if (due.getDay() >= 0 && due.getDay() <= 3){
+            if ((item._store === "assign_list" && i.textContent.includes(item.assignName)) || (item._store === "quiz_list" && i.textContent.includes(item.quizName))){
+            if ((item.status === "incomplete")&& due.getDay() >= 0 && due.getDay() <= 3){
                 i.classList.add("warning");
             }
+            }
+
         }
 
     });
