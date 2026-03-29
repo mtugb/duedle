@@ -4,11 +4,23 @@
     align-items: flex-start;
     justify-content: start;
     overflow: scroll;
-    border-color: rgb(135, 202, 222);
+    border-color: rgb(67, 121, 138);
     border-width: 2px;
     border-style: solid;
-    border-radius: 10px;
+    border-radius: 7px;
     background-color: #f0f0f0;
+}
+.fieldcolor {
+    padding-top: 5px;
+}
+.type {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+}
+#displaybutton {
+    margin-left: 20px;
 }
 
 .assign:not(.activity),
@@ -39,7 +51,7 @@
 }
 
 .unvisited {
-    background-color:rgb(234, 193, 255);
+    background-color:#eac1ff;
 }
 .darkmode .unvisited,
 .darkmode .unvisited .type,
@@ -49,13 +61,11 @@
 .darkmode .unvisited h6,
 .darkmode .unvisited .overflow-auto,
 .darkmode .unvisited div:not(.activityiconcontainer){
-    background-color:rgb(74, 23, 69);
+    background-color:#4a1745;
     color: white;
 }
 
-.complete {
-    background-color: lightgreen;
-}
+
 
 .complete .title {
     color: green;
@@ -103,7 +113,7 @@
 
 
 .incomplete {
-    background-color: lightyellow;
+    background-color: #ffffe0;
 }
 
 .darkmode .incomplete,
@@ -114,15 +124,15 @@
 .darkmode .incomplete h6,
 .darkmode .incomplete .overflow-auto,
 .darkmode .incomplete div:not(.activityiconcontainer){
-    background-color: rgb(87, 58, 58) ;
+    background-color: #57422a ;
     color: white;
 }
 .darkmode .incomplete .title{
-    color: rgb(250, 187, 187) !important;
+    color: rgb(250, 223, 187) !important;
 }
 
 .warning {
-    background-color: rgb(255, 182, 129);
+    background-color: #ffb681;
 }
 
 .darkmode .warning,
@@ -133,7 +143,7 @@
 .darkmode .warning h6,
 .darkmode .warning .overflow-auto,
 .darkmode .warning div:not(.activityiconcontainer){
-    background-color: rgb(124, 51, 22);
+    background-color: #7c3316;
     color: white;
 }
 
@@ -143,7 +153,7 @@
 }
 
 .expired {
-    background-color: rgb(255, 144, 144);
+    background-color: #ff9090;
 }
 
 
@@ -154,7 +164,7 @@
 .darkmode .expired h6,
 .darkmode .expired .overflow-auto,
 .darkmode .expired div:not(.activityiconcontainer){
-    background-color: rgb(103, 26, 26);
+    background-color: #821f1f;
     color: white;
 }
 .expired .title {
@@ -162,11 +172,21 @@
     color: white;
 }
 .stuck {
-    background-color: rgb(161, 161, 161);
+    background-color: rgb(255, 255, 255);
+}
+.darkmode .stuck,
+.darkmode .stuck .type,
+.darkmode .stuck .info,
+.darkmode .stuck .date,
+.darkmode .stuck h6,
+.darkmode .stuck .overflow-auto,
+.darkmode .stuck div:not(.activityiconcontainer){
+    background-color: rgb(0, 0, 0);
+    color: white;
 }
 
 .unknown {
-    background-color: rgb(200, 200, 200);
+    background-color: #c8c8c8;
 }
 .darkmode .unknown,
 .darkmode .unknown .type,
@@ -176,7 +196,7 @@
 .darkmode .unknown h6,
 .darkmode .unknown .overflow-auto,
 .darkmode .unknown div:not(.activityiconcontainer){
-    background-color: rgb(69, 69, 69);
+    background-color: #454545;
     color: white;
 }
 

@@ -4,3 +4,9 @@
 ul.navbar-nav.d-none.d-md-flex {
   display: flex !important;
 }
+
+/*realtime*/
+#realtime {
+  align-items: center;
+  justify-content: center;
+}

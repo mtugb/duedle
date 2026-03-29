@@ -3,11 +3,11 @@
     top: 10%;
     
     white-space: nowrap;
-    overflow: hidden;
+    overflow: auto;
 
 }
 .notionnavlink {
-    font-size: 18px;
+    font-size: 14.6px;
     margin-left: 10px;
 }
 

@@ -10,5 +10,5 @@ const display = document.createElement("div");
 display.setAttribute("id", "display");
 ext_dashboard.appendChild(display);
 
-filter.textContent = "フィルタ";
+filter.textContent = "課題リスト フィルタ";
 header.after(ext_dashboard);

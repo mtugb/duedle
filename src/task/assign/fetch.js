@@ -20,8 +20,12 @@ function calldue() {
         const dueraw = document.querySelector(".description-inner div:nth-child(2)").textContent.trim();
         return extractDate(dueraw);
     } catch (error) {
+        try {
         const dueraw = document.querySelector(".description-inner div").textContent.trim();
         return extractDate(dueraw);
+        } catch (error) {
+            return null;
+        }
     }
 }
 
@@ -55,12 +59,15 @@ let a_status;
 if (filenum === 0) {
     a_status = "incomplete"; // ファイルが見つからない場合は未完了とみなす
     //締め切りを過ぎている場合はexpiredにする
-    if(Math.ceil((calldue() - Date.now()) )<0){
+    if(calldue()&&Math.ceil((calldue() - Date.now()) )<0){
         a_status = "expired";
-    }
+    } 
 } else {
     a_status = "complete"; // ファイルが見つかった場合は完了とみなす
 }
+
+//show
+
 
 const data = {
     assignId: assignId,
@@ -71,7 +78,8 @@ const data = {
     due: calldue(),
     file: file,
     filenum: filenum,
-    status: a_status
+    status: a_status,
+    show: true
 }
 
 
@@ -80,8 +88,19 @@ taskdb_openRequest.onsuccess = function (event) {
     const db = event.target.result;
     const tx = db.transaction("assign_list", "readwrite");
     const store = tx.objectStore("assign_list");
+    //showデータの取得
+    const getReq = store.get(data.assignId);
+    getReq.onsuccess = (e) => {
+        const getdata = e.target.result;
+        if(getdata) {
+            data.show = getdata.show;
+        }
 
-    store.put(data);  // ← 存在すれば更新、なければ追加
+        
+        store.put(data);  // ← 存在すれば更新、なければ追加
+    };
+
+    
 
     tx.oncomplete = () => {
         console.log("保存完了");
