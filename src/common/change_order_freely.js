@@ -130,3 +130,11 @@ if (courseContainer) {const courseItems = courseContainer.querySelectorAll("tr")
 
 
 ///grabbingにならない
+
+
+//追記
+const buttons = document.querySelectorAll("input");
+
+buttons.forEach((btn) => {
+    btn.style.border = "1px solid rgb(0, 0, 0)";
+});
