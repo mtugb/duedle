@@ -1,6 +1,6 @@
 
 
-body:not(.darkmode) {
+body.honobono:not(.darkmode) {
 background-color: #f2f5f6 !important;
     .navbar-bootswatch {
         background-color: #f9ffca;
