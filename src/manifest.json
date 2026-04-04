@@ -17,13 +17,13 @@
         "./common/title.js",
         "./common/delete_underLink.js",
         "./common/navigation.js",
-        "./dark_mode/main.js",
+        "./theme/main.js",
         "./common/history_view.js",
-        "./dark_mode/pre.js"
+        "./document_start/pre.js"
       ],
       "css": [
-        "./dark_mode/main.css",
-        "./light_mode/main.css",
+        "./theme/dark.css",
+        "./theme/light.css",
         "./common/ui/switch.css"
       ]
     },
@@ -40,8 +40,8 @@
         "./task/database/table/quiz_list.js"
       ],
       "css": [
-        "./dark_mode/main.css",
-        "./light_mode/main.css",
+        "./theme/dark.css",
+        "./theme/light.css",
         "./common/ui/switch.css"
       ]
     },
@@ -50,15 +50,15 @@
       "exclude_matches": [
         "https://cms7.ict.nitech.ac.jp/moodle40a/blocks/syllabus/*"
       ],
-      "css": ["./dark_mode/pre.css"],
-      "js": ["./dark_mode/pre.js"],
+      "css": ["./document_start/pre.css"],
+      "js": ["./document_start/pre.js"],
       "run_at": "document_start"
     },
     {
       "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/login/auth*"],
       "js": [
         "./login_screen/login_screen.js",
-        "./dark_mode/main.js",
+        "./theme/main.js",
         "./common/change_order_freely.js"
       ]
     },
