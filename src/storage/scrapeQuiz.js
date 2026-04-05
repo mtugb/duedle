@@ -98,7 +98,7 @@ function scrapeQuiz() {
     //maxcount
     const maxcountraw = [...document.querySelectorAll("p.text-left")]
         .find(e => e.textContent.includes("受験可能回数"));
-    const maxcount = maxcountraw ? maxcountraw.textContent.trim().match(/受験可能回数:\s*(\d+)/)[1] : "無制限";
+    const maxcount = maxcountraw ? Number(maxcountraw.textContent.trim().match(/受験可能回数:\s*(\d+)/)[1]) : null;
 
     let a_status;
     if (point && maxp !== null && point !== null) { //得点状況がわかるとき

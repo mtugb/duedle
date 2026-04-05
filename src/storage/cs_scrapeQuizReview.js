@@ -1,36 +1,7 @@
 //quizId, courseName, quizName, start, submit, due, point, required, maxp, count, maxcount, status
 
 
-//getData
-chrome.storage.local.get(["quiz_list"], (result) => {
-    const quiz_list = result.quiz_list || [];
-    let found = false;
-
-    const newQuizList = quiz_list.map(quiz => {
-        if (quiz.quizId === quizId) {
-            found = true;
-            const quizNew = scrapeQuizReview(quiz);
-            return { ...quiz, ...quizNew };
-        }
-        return quiz;
-    });
-
-    if (!found) {
-        console.error("課題ページの情報を取得していないため、成績を保存できませんでした");
-    }
-
-    chrome.storage.local.set({ quiz_list: newQuizList });
-});
-
 function scrapeQuizReview(oldData) {
-    //quizId
-    const urlParams = new URLSearchParams(window.location.search);
-    const quizId = urlParams.get("cmid");
-    if (!quizId) {
-        console.error("Quiz ID not found in URL");
-        quizId = null; // quizIdが見つからない場合はnullを設定
-    }
-
 
     //courseName
     const courseName = document.querySelector("h1").textContent.trim();
@@ -44,7 +15,7 @@ function scrapeQuizReview(oldData) {
         const pointraw = document.querySelector("tr:last-of-type td").textContent.trim();
         const match = pointraw.match(/([\d.]+)\s*\/\s*([\d.]+)/);
 
-        if (match && (!oldData.point || oldData.point < parseFloat(match[1]))) {
+        if (match && (!oldData.point || oldData.point <= parseFloat(match[1]))) {
             point = parseFloat(match[1]); // 左側（現在の得点）
             maxp = parseFloat(match[2]);     // 右側（満点）
         }
@@ -76,7 +47,7 @@ function scrapeQuizReview(oldData) {
             a_status = "unknown";
         }
     }
-    if (a_status === "incomplete" && count === oldData.maxcount) { //受験回数が上限に達しているのに合格点に達していないとき
+    if (point && oldData.required && point < oldData.required && a_status === "incomplete" && count === oldData.maxcount) { //受験回数が上限に達しているのに合格点に達していないとき
         a_status = "stuck";
     }
     //warningやexpiredにおきかえ
@@ -110,3 +81,30 @@ function scrapeQuizReview(oldData) {
     }
     return newData;
 }
+
+const urlParams = new URLSearchParams(window.location.search);
+const quizId = Number(urlParams.get("cmid"));
+if (!quizId) {
+    console.error("Quiz ID not found in URL");
+    quizId = null; // quizIdが見つからない場合はnullを設定
+}
+
+//getData
+chrome.storage.local.get(["quiz_list"], (result) => {
+    const quiz_list = result.quiz_list || [];
+    let found = false;
+    const newQuizList = quiz_list.map(quiz => {
+        if (quiz.quizId === quizId) {
+            found = true;
+            const quizNew = scrapeQuizReview(quiz);
+            return { ...quiz, ...quizNew };
+        }
+        return quiz;
+    });
+
+    if (!found) {
+        console.error("課題ページの情報を取得していないため、成績を保存できませんでした");
+    }
+
+    chrome.storage.local.set({ quiz_list: newQuizList });
+});

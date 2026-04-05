@@ -75,8 +75,8 @@ displaybox_quiz_list = async (data) => {
     const dueli = document.createElement("li");
     dueli.textContent = "期限: " + (data.due ? new Date(data.due).toLocaleString() : "不明");
     infoul.appendChild(dueli);
-    const point = data.point ? data.point : "不明";
-    const maxpoint = data.maxp ? data.maxp : "不明";
+    const point = data.point !== null ? data.point : "不明";
+    const maxpoint = data.maxp !== null ? data.maxp : "不明";
     const pointli = document.createElement("li");
     pointli.textContent = "得点: " + point + " / " + maxpoint;
     infoul.appendChild(pointli);
@@ -85,7 +85,7 @@ displaybox_quiz_list = async (data) => {
     requiredli.textContent = "必要点数: " + required;
     infoul.appendChild(requiredli);
     const count = data.count ? data.count : "0";
-    const maxcount = data.maxcount ? data.maxcount : "なし";
+    const maxcount = data.maxcount !== null ? data.maxcount : "∞";
     const countli = document.createElement("li");
     countli.textContent = "受験回数: " + count + " / " + maxcount;
     infoul.appendChild(countli);
@@ -137,6 +137,7 @@ displaybox_quiz_list = async (data) => {
             statusli.textContent = "状態: 期限切れ";
             quiz.classList.add("expired");
             course.textContent = "❌ " + course.textContent;
+            break;
         case "stuck":
             statusli.textContent = "状態: 行き詰まり";
             quiz.classList.add("stuck");
