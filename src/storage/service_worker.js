@@ -169,3 +169,90 @@ chrome.runtime.onInstalled.addListener(() => {
   });
 });
 
+
+//notification
+chrome.alarms.create("task_notice", { periodInMinutes: 10 });
+
+chrome.alarms.onAlarm.addListener(async (alarm) => {
+  if (alarm.name === "task_notice") {
+    const now = new Date();
+    let updated = false;
+
+    const assign_result = await chrome.storage.local.get("assign_list");
+    const assign_data = assign_result.assign_list || [];
+
+    for (let item of assign_data) {
+      if(!item.due) {
+        continue;
+      }
+      // 例：締切24時間以内 & 未通知
+      const due = new Date(item.due);
+      const diff = (due - now) / (1000 * 60 * 60);
+
+      if (diff <= 24 && diff > 0 && !item.notified && item.status !== "complete") {
+        const url = "https://cms7.ict.nitech.ac.jp/moodle40a/mod/assign/view.php?id=" + item.assignId;
+        // 🔔 通知
+        chrome.notifications.create(url, {
+          type: "basic",
+          iconUrl: "icon.jpg",
+          title: "締切間近",
+          message: `${item.courseName} コースの ${item.assignName} の締切が近いです`
+        });
+
+        chrome.notifications.onClicked.addListener((notificationId) => {
+          chrome.tabs.create({
+            url: notificationId
+          });
+        });
+
+        // ✅ 通知済みに更新
+        item.notified = true;
+        updated = true;
+      }
+    }
+    // 💾 storage更新
+    if (updated) {
+      await chrome.storage.local.set({ assign_data });
+    }
+
+    updated = false;
+
+    const quiz_result = await chrome.storage.local.get("quiz_list");
+    const quiz_data = quiz_result.quiz_list || [];
+
+    for (let item of quiz_data) {
+      if(!item.due) {
+        continue;
+      }
+      // 例：締切24時間以内 & 未通知
+      const due = new Date(item.due);
+      const diff = (due - now) / (1000 * 60 * 60);
+
+      if (diff <= 24 && diff > 0 && !item.notified && item.status !== "complete") {
+        const url = "https://cms7.ict.nitech.ac.jp/moodle40a/mod/quiz/view.php?id=" + item.quizId;
+        // 🔔 通知
+        chrome.notifications.create(url, {
+          type: "basic",
+          iconUrl: "icon.jpg",
+          title: "締切間近",
+          message: `${item.courseName} コースの ${item.quizName} の締切が近いです`
+        });
+        chrome.notifications.onClicked.addListener((notificationId) => {
+          chrome.tabs.create({
+            url: notificationId
+          });
+        });
+
+        // ✅ 通知済みに更新
+        item.notified = true;
+        updated = true;
+      }
+    }
+    // 💾 storage更新
+    if (updated) {
+      await chrome.storage.local.set({ quiz_data });
+    }
+
+  }
+
+});

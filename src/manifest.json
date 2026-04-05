@@ -9,7 +9,8 @@
     "alarms",
     "scripting",
     "tabs",
-    "offscreen"
+    "offscreen",
+    "notifications"
   ],
   "host_permissions": [
     "https://cms7.ict.nitech.ac.jp/moodle40a/*"
