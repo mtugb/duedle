@@ -18,7 +18,6 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     if (msg.type === "parse-assign") {
         const doc = new DOMParser().parseFromString(msg.html, "text/html");
         const res = scrapeAssign(doc);
-        console.log(res);
         sendResponse(res);
 
         return true;
@@ -35,8 +34,12 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 //scrape
 function scrapeAssign(document) {
     //courseName
-    const courseName = document.querySelector("h1").textContent.trim();
-
+    let courseName = null;
+    try {
+        courseName = document.querySelector("h1").textContent.trim();
+    } catch {
+        courseName = null;
+    }
     //assignName
     const assignName = document.querySelector("h2").textContent.trim();
 
@@ -132,9 +135,12 @@ function scrapeAssign(document) {
 
 function scrapeQuiz(document) {
     //quizId, courseName, quizName, start, submit, due, point, required, maxp, count, maxcount, status
-    //courseName
-    const courseName = document.querySelector("h1").textContent.trim();
-
+    let courseName = null;
+    try {
+        courseName = document.querySelector("h1").textContent.trim();
+    } catch {
+        courseName = null;
+    }
     //quizName
     const quizName = document.querySelector("h2").textContent.trim();
 

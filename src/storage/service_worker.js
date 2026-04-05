@@ -90,8 +90,8 @@ async function processItem(item) {
       const assign_list = result.assign_list || [];
       assign_list.map(assign => {
         if (assign.assignId === item.id) {
-          data.show = assign.show;
-          data.notified = assign.notified;
+          data.show = assign.show ? assign.show : true;
+          data.notified = assign.notified ? assign.notified : false;
           return { ...assign, ...data };
         }
         return assign;
@@ -105,8 +105,8 @@ async function processItem(item) {
       const quiz_list = result.quiz_list || [];
       quiz_list.map(quiz => {
         if (quiz.quizId === item.id) {
-          data.show = quiz.show;
-          data.notified = quiz.notified;
+          data.show = quiz.show ? quiz.show : true;
+          data.notified = quiz.notified ? quiz.notified : false;
           return { ...quiz, ...data };
         }
         return quiz;
