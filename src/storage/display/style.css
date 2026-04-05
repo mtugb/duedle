@@ -168,7 +168,7 @@
     color: white;
 }
 .expired .title {
-    background-color: red !important;
+    background-color: rgb(181, 2, 2) !important;
     color: white;
 }
 .stuck {
