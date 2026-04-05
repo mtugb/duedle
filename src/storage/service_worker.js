@@ -1,11 +1,12 @@
 // 一定時間ごとに実行
 chrome.alarms.create("scrape", {
-  periodInMinutes: 1440
+  periodInMinutes: 360
 });
 
 // アラーム発火時
 chrome.alarms.onAlarm.addListener((alarm) => {
   if (alarm.name === "scrape") {
+    console.log("Scraping Alarm Executed");
     runScraping();
   }
 });
