@@ -77,6 +77,8 @@ const changeAct = (item) => {
         if (due) {
             i.querySelector(".date").textContent = formatRemainingTime(due);
         }
+        const i_title = i.querySelector("a.text-truncate");
+        i_title.setAttribute("title",i_title.textContent);
 
     });
 };
@@ -92,6 +94,8 @@ const checkUnvisited = () => {
         if (due) {
             i.querySelector(".date").textContent = formatRemainingTime(due);
         }
+        const i_title = i.querySelector("a.text-truncate");
+        i_title.setAttribute("title",i_title.textContent);
     });
 
     const unvisitedboxesh6 = Array.from(document.querySelectorAll(`h6.d-flex.mb-1`));
