@@ -212,7 +212,7 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
     }
     // 💾 storage更新
     if (updated) {
-      await chrome.storage.local.set({ assign_data });
+      await chrome.storage.local.set({ assign_list: assign_data });
     }
 
     updated = false;
@@ -250,7 +250,7 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
     }
     // 💾 storage更新
     if (updated) {
-      await chrome.storage.local.set({ quiz_data });
+      await chrome.storage.local.set({ quiz_list: quiz_data });
     }
 
   }
