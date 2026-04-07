@@ -13,7 +13,10 @@ if (document.querySelector(".navbar-brand") && (!document.URL.match(/login/) || 
 //navbarに時間を
 const time = document.createElement("div");
 time.id = "realtime";
-time.classList.add("navbar-brand","d-flex","align-items-center","my-1","ml-auto");
+time.classList.add("navbar-brand","d-flex","align-items-center","my-1");
+time.style.position = "absolute";
+time.style.left = "50%";
+time.style.transform = "translateX(-50%)";
 const sel = document.querySelector("ul.navbar-nav");
 sel.after(time);
 
