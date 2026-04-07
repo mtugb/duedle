@@ -7,7 +7,6 @@
   "permissions": [
     "storage",
     "alarms",
-    "scripting",
     "tabs",
     "offscreen",
     "notifications"
