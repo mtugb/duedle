@@ -77,6 +77,8 @@ const changeAct = (item) => {
         if (due) {
             i.querySelector(".date").textContent = formatRemainingTime(due);
         }
+        const i_title = i.querySelector("a.text-truncate");
+        i_title.setAttribute("title",i_title.textContent);
 
     });
 };
@@ -92,6 +94,8 @@ const checkUnvisited = () => {
         if (due) {
             i.querySelector(".date").textContent = formatRemainingTime(due);
         }
+        const i_title = i.querySelector("a.text-truncate");
+        i_title.setAttribute("title",i_title.textContent);
     });
 
     const unvisitedboxesh6 = Array.from(document.querySelectorAll(`h6.d-flex.mb-1`));
@@ -134,7 +138,7 @@ const transDue = (txt) => {
             Number(minute)
         );
     } else {
-        const time = txt.match(/(\d{4})年\s*(\d{2})月\s*(\d{2})日,\s*(\d{2}):(\d{2})/);
+        const time = txt.match(/(\d{4})年\s*(\d{1,2})月\s*(\d{1,2})日,\s*(\d{1,2}):(\d{2})/);
         if (time) {
             const [, year, month, day, hour, minute] = time;
             return new Date(
