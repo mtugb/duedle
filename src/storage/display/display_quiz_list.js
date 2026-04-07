@@ -1,27 +1,6 @@
-setupT_quiz_list = () => {
-    if (taskdb.objectStoreNames.contains("quiz_list")) {
-        taskdb.deleteObjectStore("quiz_list");
-    }
-
-    const quiz_objectStore = taskdb.createObjectStore("quiz_list", {
-        keyPath: "quizId"
-    });
-    // quiz_objectStore にどのようなデータ項目を格納するかを定義します。
-    quiz_objectStore.createIndex("courseName", "courseName", { unique: false });
-    quiz_objectStore.createIndex("quizName", "quizName", { unique: false });
-    quiz_objectStore.createIndex("start", "start", { unique: false });
-    quiz_objectStore.createIndex("submit", "submit", { unique: false });
-    quiz_objectStore.createIndex("due", "due", { unique: false });
-    quiz_objectStore.createIndex("point", "point", { unique: false });
-    quiz_objectStore.createIndex("required", "required", { unique: false });
-    quiz_objectStore.createIndex("maxp", "maxp", { unique: false });
-    quiz_objectStore.createIndex("count", "count", { unique: false });
-    quiz_objectStore.createIndex("maxcount", "maxcount", { unique: false });
-    quiz_objectStore.createIndex("status", "status", { unique: false });
-    quiz_objectStore.createIndex("show", "show", { unique: false });
-}
-
-displaybox_quiz_list = (data) => {
+displaybox_quiz_list = async (data) => {
+    if (data.start) { data.start = new Date(data.start); }
+    if (data.due) { data.due = new Date(data.due); }
     const quiz = document.createElement("div");
     quiz.classList.add("quiz");
     display.appendChild(quiz);
@@ -29,7 +8,7 @@ displaybox_quiz_list = (data) => {
     type.classList.add("type");
     quiz.appendChild(type);
     type.textContent = "小テスト";
-    if (localStorage.getItem("selectedShow") !== "all") {
+    if ((await chrome.storage.sync.get(["selectedShow"])).selectedShow !== "all") {
         //showmodifybutton
         const btndiv_1 = document.createElement("div");
         btndiv_1.classList.add("col-md-1", "p-0", "d-flex", "menu");
@@ -53,16 +32,16 @@ displaybox_quiz_list = (data) => {
         dropdiv.setAttribute("style", "will-change: transform;");
         btndiv_2.appendChild(dropdiv);
         const menu = document.createElement("a");
-        menu.href="#";
+        menu.href = "#";
         if (data.show) {
-            menu.addEventListener("click", (e) => {
-                updateData('quiz_list', data.quizId, false);
+            menu.addEventListener("click", async (e) => {
+                await editData('quiz_list', "quizId", data.quizId, "show", false);
                 e.target.closest(".quiz").remove();
             });
             menu.textContent = "一覧から削除する";
         } else {
-            menu.addEventListener("click", (e) => {
-                updateData('quiz_list', data.quizId, true);
+            menu.addEventListener("click", async (e) => {
+                await editData('quiz_list', "quizId", data.quizId, "show", true);
                 e.target.closest(".quiz").remove();
             });
             menu.textContent = "一覧に戻す";
@@ -96,8 +75,8 @@ displaybox_quiz_list = (data) => {
     const dueli = document.createElement("li");
     dueli.textContent = "期限: " + (data.due ? new Date(data.due).toLocaleString() : "不明");
     infoul.appendChild(dueli);
-    const point = data.point ? data.point : "不明";
-    const maxpoint = data.maxp ? data.maxp : "不明";
+    const point = data.point !== null ? data.point : "不明";
+    const maxpoint = data.maxp !== null ? data.maxp : "不明";
     const pointli = document.createElement("li");
     pointli.textContent = "得点: " + point + " / " + maxpoint;
     infoul.appendChild(pointli);
@@ -106,14 +85,34 @@ displaybox_quiz_list = (data) => {
     requiredli.textContent = "必要点数: " + required;
     infoul.appendChild(requiredli);
     const count = data.count ? data.count : "0";
-    const maxcount = data.maxcount ? data.maxcount : "なし";
+    const maxcount = data.maxcount !== null ? data.maxcount : "∞";
     const countli = document.createElement("li");
     countli.textContent = "受験回数: " + count + " / " + maxcount;
     infoul.appendChild(countli);
     const statusli = document.createElement("li");
     infoul.appendChild(statusli);
     //time
-    const remain = data.due ? Math.ceil((data.due - Date.now()) / (1000 * 60 * 60 * 24)) : null;
+
+    setremain = () => {
+        const remain = data.due ? Math.ceil((data.due - Date.now()) / (1000 * 60 * 60 * 24)) : null;
+        if ((data.status !== "complete" && data.status !== "unknown")&& remain !== null && remain < 0) {
+            data.status = "expired";
+        }
+        const remainoutput = formatRemainingTime(data.due);
+        if (remain !== null) {
+            const remainli = document.createElement("li");
+            infoul.appendChild(remainli);
+            remainli.textContent = remainoutput;
+        } else {
+            const remainli = document.createElement("li");
+            infoul.appendChild(remainli);
+            remainli.textContent = "残り時間: 不明";
+        }
+        return remain;
+    };
+    const remain = setremain();
+
+
     switch (data.status) {
         case "complete":
             statusli.textContent = "状態: 満点";
@@ -129,6 +128,16 @@ displaybox_quiz_list = (data) => {
             statusli.textContent = "状態: 未提出";
             quiz.classList.add("incomplete");
             break;
+        case "warning":
+            statusli.textContent = "状態: 要注意";
+            course.textContent = "⚠️ " + course.textContent;
+            quiz.classList.add("warning");
+            break;
+        case "expired":
+            statusli.textContent = "状態: 期限切れ";
+            quiz.classList.add("expired");
+            course.textContent = "❌ " + course.textContent;
+            break;
         case "stuck":
             statusli.textContent = "状態: 行き詰まり";
             quiz.classList.add("stuck");
@@ -139,33 +148,5 @@ displaybox_quiz_list = (data) => {
             quiz.classList.add("unknown");
             course.textContent = "? " + course.textContent;
             break;
-    }
-    if (remain !== null) {
-        if (remain >= 0 && data.status === "incomplete") {
-            if (remain <= 3) {
-                quiz.classList.add("warning");
-                course.textContent = "⚠️ " + course.textContent;
-            } else {
-                quiz.classList.add("incomplete");
-            }
-        } else {
-            if (data.status === "incomplete") {
-                const statusdisplay = "期限切れ";
-                statusli.textContent = "状態: " + statusdisplay;
-                quiz.classList.add("expired");
-                course.textContent = "❌ " + course.textContent;
-                data.status = "expired";
-            }
-        }
-    }
-    const remainoutput = formatRemainingTime(data.due);
-    if (remain !== null) {
-        const remainli = document.createElement("li");
-        infoul.appendChild(remainli);
-        remainli.textContent = remainoutput;
-    } else {
-        const remainli = document.createElement("li");
-        infoul.appendChild(remainli);
-        remainli.textContent = "残り時間: 不明";
     }
 }

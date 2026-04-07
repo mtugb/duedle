@@ -25,10 +25,10 @@ if (courseContainer) {const courseItems = courseContainer.querySelectorAll("tr")
     if (courseItems) {   
         //--------並べ替え-----------------------------------------------------------------------------
         courseItems.forEach((item,index)=>{
-            item.style.borderBottom ="2px solid #ccc";
+            item.style.border ="2px solid #ccc";
             if (item.querySelector("td")) item.querySelector("td").style.display = "none";
             const draggableMark = document.createElement("td");
-            if (index!==0) draggableMark.textContent = "≡";
+            if (index!==0) draggableMark.innerHTML = '<i class="icon fa fa-bars fa-fw m-0"></i>'; //"≡"を描画
             item.insertBefore(draggableMark,item.querySelector("td"));
             if (index===0) return;//ヘッダーは対象外
             item.setAttribute("draggable","true");
@@ -130,3 +130,11 @@ if (courseContainer) {const courseItems = courseContainer.querySelectorAll("tr")
 
 
 ///grabbingにならない
+
+
+//追記
+const buttons = document.querySelectorAll("input");
+
+buttons.forEach((btn) => {
+    btn.style.border = "1px solid rgb(0, 0, 0)";
+});

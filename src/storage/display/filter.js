@@ -1,3 +1,19 @@
+//main
+const header = document.querySelector("header");
+const ext_dashboard = document.createElement("div");
+ext_dashboard.setAttribute("id", "ext_dashboard");
+ext_dashboard.classList.add("card-body");
+//inside div
+const filter = document.createElement("div");
+filter.setAttribute("id", "filter");
+ext_dashboard.appendChild(filter);
+const display = document.createElement("div");
+display.setAttribute("id", "display");
+ext_dashboard.appendChild(display);
+
+filter.textContent = "課題リスト フィルタ";
+header.after(ext_dashboard);
+
 //inside filter div
 filter.classList.add("filter-group", "my-2", "p-2", "border-radius", "border");
 const fieldset = document.createElement("fieldset");
@@ -22,7 +38,7 @@ displaybutton.addEventListener("click", () => {
     } else {
         display.removeAttribute("hidden");
     }
-    localStorage.setItem("displayShow", !display.hasAttribute("hidden")); //type!=boolean
+    chrome.storage.sync.set({ displayShow: !display.hasAttribute("hidden") });
 });
 
 
@@ -108,27 +124,40 @@ const showOptions = showValues.map((value, index) => {
 showOptions.forEach(option => showSelect.appendChild(option));
 
 fieldset.appendChild(displaybutton);
+const noexistmsg = "表示するものがありません";
 
 //filter effect
-typeSelect.addEventListener("change", () => {
-    localStorage.setItem("selectedType", typeSelect.value); // 選択した値をローカルストレージに保存
+typeSelect.addEventListener("change", async () => {
+    chrome.storage.sync.set({ "selectedType": typeSelect.value }); // 選択した値をローカルストレージに保存
     document.querySelector("#display").innerHTML = ""; // 表示をクリア
-    displayData(); // データを再表示
+    const alldata = await getAllData();
+    display.textContent = noexistmsg;
+    displaybox(alldata); // データを再表示
+    colorReload();
 });
-statusSelect.addEventListener("change", () => {
-    localStorage.setItem("selectedStatus", statusSelect.value); // 選択した値をローカルストレージに保存
+statusSelect.addEventListener("change", async () => {
+    chrome.storage.sync.set({ "selectedStatus": statusSelect.value }); // 選択した値をローカルストレージに保存
     document.querySelector("#display").innerHTML = ""; // 表示をクリア
-    displayData(); // データを再表示
+    const alldata = await getAllData();
+    display.textContent = noexistmsg;
+    displaybox(alldata); // データを再表示
+    colorReload();
 });
-dueSelect.addEventListener("change", () => {
-    localStorage.setItem("selectedDue", dueSelect.value); // 選択した値をローカルストレージに保存
+dueSelect.addEventListener("change", async () => {
+    chrome.storage.sync.set({ "selectedDue": dueSelect.value }); // 選択した値をローカルストレージに保存
     document.querySelector("#display").innerHTML = ""; // 表示をクリア
-    displayData(); // データを再表示
+    const alldata = await getAllData();
+    display.textContent = noexistmsg;
+    displaybox(alldata); // データを再表示
+    colorReload();
 });
-showSelect.addEventListener("change", () => {
-    localStorage.setItem("selectedShow", showSelect.value); // 選択した値をローカルストレージに保存
+showSelect.addEventListener("change", async () => {
+    chrome.storage.sync.set({ "selectedShow": showSelect.value }); // 選択した値をローカルストレージに保存
     document.querySelector("#display").innerHTML = ""; // 表示をクリア
-    displayData(); // データを再表示
+    const alldata = await getAllData();
+    display.textContent = noexistmsg;
+    displaybox(alldata); // データを再表示
+    colorReload();
 });
 
 //setting color
@@ -158,11 +187,11 @@ colorTypesValue.map((value, index) => {
     fieldcolor.appendChild(colorLabel);
     fieldcolor.appendChild(input);
 
-    input.addEventListener("change", () => {
+    input.addEventListener("change", async () => {
         if (document.querySelector(".darkmode")) {
-            localStorage.setItem("colorSelect_dark_" + value, input.value); // 選択した値をローカルストレージに保存
+            await chrome.storage.sync.set({ ["colorSelect_dark_" + value]: input.value }); // 選択した値をローカルストレージに保存
         } else {
-            localStorage.setItem("colorSelect_light_" + value, input.value);
+            await chrome.storage.sync.set({ ["colorSelect_light_" + value]: input.value });
         }
         applyColor(value, input.value);
     });
@@ -173,11 +202,11 @@ colorTypesValue.map((value, index) => {
 
 
 // ページ読み込み時にローカルストレージから選択状態を復元
-window.addEventListener("load", () => {
-    const savedType = localStorage.getItem("selectedType");
-    const savedStatus = localStorage.getItem("selectedStatus");
-    const savedDue = localStorage.getItem("selectedDue");
-    const savedShow = localStorage.getItem("selectedShow");
+window.addEventListener("load", async () => {
+    const savedType = (await chrome.storage.sync.get(["selectedType"])).selectedType;
+    const savedStatus = (await chrome.storage.sync.get(["selectedStatus"])).selectedStatus;
+    const savedDue = (await chrome.storage.sync.get(["selectedDue"])).selectedDue;
+    const savedShow = (await chrome.storage.sync.get(["selectedShow"])).selectedShow;
     if (savedType) {
         typeSelect.value = savedType;
     }
@@ -193,9 +222,26 @@ window.addEventListener("load", () => {
 
 });
 //display appendまで待機
-const savedDisplayShow = localStorage.getItem("displayShow");
-if (savedDisplayShow === "false") {
-    display.setAttribute("hidden", "");
+(async () => {
+    const savedDisplayShow = (await chrome.storage.sync.get(["displayShow"])).displayShow;
+    if (savedDisplayShow === undefined) {
+        display.setAttribute("hidden", "");
+    }
+})();
+
+
+async function getAllData() {
+    const result = await chrome.storage.local.get(["assign_list", "quiz_list"]);
+    const assignList = result.assign_list || [];
+    const quizList = result.quiz_list || [];
+    const data = [...assignList, ...quizList];
+    return sortByDeadline(data);
+}
+
+function sortByDeadline(data) {
+    return data.sort((a, b) => {
+        return new Date(a.due) - new Date(b.due); // 締切日時の昇順でソート
+    });
 }
 
 
@@ -219,43 +265,56 @@ const applyColor = (type, toColor) => {
             item.style.background = toColor;
         })
     }
+};
 
-};
-const colorReload = () => {
-    colorTypesValue.map((value, index) => {
-        const query = document.querySelector("#colorSelect_" + value);
-        query.value = document.querySelector(".darkmode") ? localStorage.getItem("colorSelect_dark_" + value) : localStorage.getItem("colorSelect_light_" + value);
-        applyColor(value, query.value);
-    });
-};
+//データ編集
+async function editData(table, idproperty, id, property, value) {
+    const result = await chrome.storage.local.get(table);
+    const data = result[table] || [];
+    const index = data.findIndex(item => item[idproperty] == id);
+    if (index !== -1 && data[index][property] !== undefined) {
+        data[index][property] = value;
+    }
+
+    await chrome.storage.local.set({ [table]: data });
+}
 
 //初期状態のlocalstorage
-if (!localStorage.getItem("selectedType")) {
-    localStorage.setItem("selectedType", "all");
-}
-if (!localStorage.getItem("selectedStatus")) {
-    localStorage.setItem("selectedStatus", "all");
-}
-if (!localStorage.getItem("selectedDue")) {
-    localStorage.setItem("selectedDue", "all");
-}
-if (!localStorage.getItem("selectedShow")) {
-    localStorage.setItem("selectedShow", "normal");
-}
-if (!localStorage.getItem("displayShow")) {
-    localStorage.setItem("displayShow", true);
-}
-const colorDefault_light = ["#90ee90", "#add8e6", "#ffffe0", "#ffffff", "#ffb681", "#ff9090", "#c8c8c8", "#eac1ff"];
-const colorDefault_dark = ["#063906", "#12515e", "#57422a", "#000000", "#7c3316", "#821f1f", "#454545", "#4a1745"];
-colorTypesValue.map((value, index) => {
-    const lsName_light = "colorSelect_light_" + value;
-    const lsName_dark = "colorSelect_dark_" + value;
-    if (!localStorage.getItem(lsName_light)) {
-        localStorage.setItem(lsName_light, colorDefault_light[index]);
+chrome.storage.sync.get(["selectedType"], (result) => {
+    if (result.selectedType === undefined) {
+        chrome.storage.sync.set({ selectedType: "all" });
     }
-    if (!localStorage.getItem(lsName_dark)) {
-        localStorage.setItem(lsName_dark, colorDefault_dark[index]);
+});
+chrome.storage.sync.get(["selectedStatus"], (result) => {
+    if (result.selectedStatus === undefined) {
+        chrome.storage.sync.set({ selectedStatus: "all" });
     }
-
+});
+chrome.storage.sync.get(["selectedDue"], (result) => {
+    if (result.selectedDue === undefined) {
+        chrome.storage.sync.set({ selectedDue: "all" });
+    }
+});
+chrome.storage.sync.get(["selectedShow"], (result) => {
+    if (result.selectedShow === undefined) {
+        chrome.storage.sync.set({ selectedShow: "normal" });
+    }
+});
+chrome.storage.sync.get(["displayShow"], (result) => {
+    if (result.displayShow === undefined) {
+        chrome.storage.sync.set({ displayShow: true });
+    }
 });
 
+const colorDefault_light = ["#90ee90", "#add8e6", "#ffffe0", "#ffffff", "#ffb681", "#ff9090", "#c8c8c8", "#eac1ff"];
+const colorDefault_dark = ["#063906", "#12515e", "#57422a", "#000000", "#7c3316", "#821f1f", "#454545", "#4a1745"];
+colorTypesValue.map(async (value, index) => {
+    const lsName_light = "colorSelect_light_" + value;
+    const lsName_dark = "colorSelect_dark_" + value;
+    if (!(await chrome.storage.sync.get([lsName_light]))[lsName_light]) {
+        await chrome.storage.sync.set({ [lsName_light]: colorDefault_light[index] });
+    }
+    if (!(await chrome.storage.sync.get([lsName_dark]))[lsName_dark]) {
+        await chrome.storage.sync.set({ [lsName_dark]: colorDefault_dark[index] });
+    }
+});
