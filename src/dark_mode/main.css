@@ -364,7 +364,7 @@ body.darkmode {
 
 .message-app .message.send,
 .message-app .message.received{
-    background-color: rgb(29, 40, 49);
+    background-color: #1d2831;
     color: #dee2e6;
     border: 1px solid white;
 }
@@ -372,11 +372,17 @@ body.darkmode {
     border-bottom: 1px solid #041220 !important;
 }
 .bg-white {
-    background-color: rgb(29, 40, 49) !important;
+    background-color: #1d2831 !important;
 }
 
+/*#region-main div.description {
+    background-color: #1d2831 !important;
+}*/
 
-
+div.description .availabilityinfo,
+div.description .description-inner {
+    background-color: transparent !important;
+}
 
 
 }
