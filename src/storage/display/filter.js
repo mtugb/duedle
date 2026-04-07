@@ -46,7 +46,7 @@ chrome.storage.local.get("scrapeCooldown", (item) => {
     const next = new Date(prev.getTime() + (1000 * 60 * 60 * 3));
     const now = new Date();
     const remain = Math.ceil((next - now) / (1000 * 60 * 60 * 24));
-    if (remain >= 0) {
+    if (remain > 0) {
         scrapebutton.textContent = "クールダウン: " + formatRemainingTime(next);
         scrapebutton.disabled = true;
     }
