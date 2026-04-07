@@ -1,14 +1,9 @@
-// 一定時間ごとに実行
-chrome.alarms.create("scrape", {
-  periodInMinutes: 360
-});
+
 
 // アラーム発火時
-chrome.alarms.onAlarm.addListener((alarm) => {
-  if (alarm.name === "scrape") {
-    console.log("Scraping Alarm Executed");
-    runScraping();
-  }
+chrome.runtime.onMessage.addListener(async (msg, sender) => {
+  console.log("Scraping Alarm Executed");
+  runScraping();
 });
 
 async function runScraping() {
@@ -158,7 +153,6 @@ async function upsertQuiz(newItem) {
   await chrome.storage.local.set({ quiz_list: data });
 }
 
-
 chrome.runtime.onInstalled.addListener(() => {
   chrome.tabs.query({}, (tabs) => {
     tabs.forEach((tab) => {
@@ -182,7 +176,7 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
     const assign_data = assign_result.assign_list || [];
 
     for (let item of assign_data) {
-      if(!item.due) {
+      if (!item.due) {
         continue;
       }
       // 例：締切24時間以内 & 未通知
@@ -221,7 +215,7 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
     const quiz_data = quiz_result.quiz_list || [];
 
     for (let item of quiz_data) {
-      if(!item.due) {
+      if (!item.due) {
         continue;
       }
       // 例：締切24時間以内 & 未通知

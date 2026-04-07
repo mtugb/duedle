@@ -27,11 +27,36 @@ filter.appendChild(debug);
 debug.textContent = localStorage.getItem("selectedType");
 */
 
+//display runscraping button   cooldown: 3h
+const scrapebutton = document.createElement("button");
+scrapebutton.classList.add("btn", "btn-primary");
+scrapebutton.id = "scrapebutton";
+scrapebutton.textContent = "課題情報を更新する";
+scrapebutton.addEventListener("click", async () => {
+    scrapebutton.disabled = true;
+    const now = new Date();
+    await chrome.storage.local.set({ scrapeCooldown: now.toISOString() });
+    await chrome.runtime.sendMessage({
+        type: "SCRAPE_COURSE"
+    });
+    scrapebutton.textContent = "クールダウン: 残り3時間";
+});
+chrome.storage.local.get("scrapeCooldown", (item) => {
+    const prev = new Date(item.scrapeCooldown);
+    const next = new Date(prev.getTime() + (1000 * 60 * 60 * 3));
+    const now = new Date();
+    const remain = Math.ceil((next - now) / (1000 * 60 * 60 * 24));
+    if (remain >= 0) {
+        scrapebutton.textContent = "クールダウン: " + formatRemainingTime(next);
+        scrapebutton.disabled = true;
+    }
+});
+
 //display show button
 const displaybutton = document.createElement("button");
 displaybutton.classList.add("btn", "btn-secondary");
 displaybutton.id = "displaybutton";
-displaybutton.textContent = "リスト表示を切り替える"
+displaybutton.textContent = "リスト表示を切り替える";
 displaybutton.addEventListener("click", () => {
     if (!display.hasAttribute("hidden")) {
         display.setAttribute("hidden", "");
@@ -122,7 +147,7 @@ const showOptions = showValues.map((value, index) => {
     return option;
 });
 showOptions.forEach(option => showSelect.appendChild(option));
-
+fieldset.appendChild(scrapebutton);
 fieldset.appendChild(displaybutton);
 const noexistmsg = "表示するものがありません";
 
