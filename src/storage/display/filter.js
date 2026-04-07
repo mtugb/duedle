@@ -45,7 +45,6 @@ chrome.storage.local.get("scrapeCooldown", (item) => {
     const prev = new Date(item.scrapeCooldown);
     const next = new Date(prev.getTime() + (1000 * 60 * 60 * 3));
     const now = new Date();
-    console.log(next, now);
     const remain = Math.ceil((next - now) / (1000 * 60 * 60 * 24));
     if (remain >= 0) {
         scrapebutton.textContent = "クールダウン: " + formatRemainingTime(next);
