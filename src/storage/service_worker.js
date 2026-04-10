@@ -27,6 +27,7 @@ const url = "https://cms7.ict.nitech.ac.jp/moodle40a/my/";
             url: notificationId
           });
         });
+        console.log("Scrape Completed");
 }
 
 async function ensureOffscreen() {
