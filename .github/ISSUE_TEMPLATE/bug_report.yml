@@ -1,0 +1,42 @@
+name: バグ報告
+description: 改良に役立てる為に報告
+body:
+  - type: markdown
+    attributes:
+      value: '## 動作環境'
+  - type: input
+    id: os
+    attributes:
+      label: OS
+      placeholder: Ubuntu, CSE
+  - type: input
+    id: browser
+    attributes:
+      label: ブラウザの種類
+      placeholder: Google Chrome（CSEのためバージョンが最新ではない）
+  - type: markdown
+    attributes:
+      value: '## 発生した問題について'
+  - type: input
+    id: prevalence
+    attributes:
+      label: 問題が生じるタイミング
+      placeholder: 導入時
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: 発生している問題
+      description: 発生している問題を詳細に記載してください
+      placeholder: |
+        - manifest.jsonの読み込みでエラーが生じる．
+        - ダークモードにうまく切り替わらない．
+        - offscreenが認識されない？
+  - type: input
+    id: logs
+    attributes:
+      label: 出力ログ
+      description: コンソールに出力されているエラーがあれば，ログを貼り付けてください
+      placeholder: |
+        "$schema": "https://json.schemastore.org/chrome-manifest.json" ... Unrecognized manifest key '$schema'
+        Permission 'offscreen' is unknown or URL pattern is malformed.
+      render: console
