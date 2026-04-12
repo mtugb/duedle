@@ -31,7 +31,7 @@ body:
         - manifest.jsonの読み込みでエラーが生じる．
         - ダークモードにうまく切り替わらない．
         - offscreenが認識されない？
-  - type: input
+  - type: textarea
     id: logs
     attributes:
       label: 出力ログ
