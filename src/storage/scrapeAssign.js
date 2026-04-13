@@ -109,8 +109,8 @@ function scrapeAssign() {
         const newAssignList = assign_list.map(assign => {
             if (assign.assignId === assignId) {
                 found = true;
-                data.show = assign.show;
-                data.notified = assign.notified;
+                data.show = assign.show !== undefined ? assign.show : true;
+                data.notified = assign.notified !== undefined ? assign.notified.notified : false;
                 return { ...assign, ...data };
             }
             return assign;
