@@ -127,7 +127,7 @@ function scrapeAssign(document) {
         file: file,
         filenum: filenum,
         status: a_status,
-        show: true, //default
+        show: assignName==="トピックアウトライン"? false : true, //default
         notified: false //default
     }
     return data;
@@ -283,7 +283,7 @@ function scrapeQuiz(document) {
         count: count,
         maxcount: maxcount,
         status: a_status,
-        show: true,
+        show: quizName==="トピックアウトライン"? false : true,
         notified: false
     }
 
