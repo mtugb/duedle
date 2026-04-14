@@ -75,11 +75,11 @@ function scrapeAssign() {
     let a_status;
     if (filenum === 0) {
         a_status = "incomplete"; // ファイルが見つからない場合は未完了とみなす
-        if (calldue() && Math.ceil((calldue() - Date.now())) < 3) {
+        if (calldue() && Math.ceil((calldue() - Date.now())/ (1000*60*60*24)) < 3) {
             a_status = "warning";
         }
         //締め切りを過ぎている場合はexpiredにする
-        if (calldue() && Math.ceil((calldue() - Date.now())) < 0) {
+        if (calldue() && Math.ceil((calldue() - Date.now())/ (1000*60*60*24)) < 0) {
             a_status = "expired";
         }
     } else {

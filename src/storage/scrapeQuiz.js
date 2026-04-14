@@ -129,11 +129,11 @@ function scrapeQuiz() {
     //warningやexpiredにおきかえ
 
     if (a_status === "incomplete") {
-        if (calldue() && Math.ceil((calldue() - Date.now())) < 3) {
+        if (calldue() && Math.ceil((calldue() - Date.now()) / (1000*60*60*24)) < 3) {
             a_status = "warning";
         }
         //締め切りを過ぎている場合はexpiredにする
-        if (calldue() && Math.ceil((calldue() - Date.now())) < 0) {
+        if (calldue() && Math.ceil((calldue() - Date.now())/ (1000*60*60*24)) < 0) {
             a_status = "expired";
         }
     }
