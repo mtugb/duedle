@@ -38,7 +38,8 @@
       "css": [
         "./theme/dark.css",
         "./theme/light.css",
-        "./common/ui/switch.css"
+        "./common/ui/switch.css",
+        "./common/common.css"
       ]
     },
     {
