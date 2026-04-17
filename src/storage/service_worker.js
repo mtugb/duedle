@@ -13,8 +13,21 @@ async function runScraping() {
   for (const courseId of courseIds) {
     await processCourse(courseId);
   }
+const url = "https://cms7.ict.nitech.ac.jp/moodle40a/my/";
+        // 🔔 通知
+        chrome.notifications.create(url, {
+          type: "basic",
+          iconUrl: "icon.jpg",
+          title: "スクレイピング完了",
+          message: `課題の情報収集が完了しました`
+        });
 
-  console.log("Scraping complete");
+        chrome.notifications.onClicked.addListener((notificationId) => {
+          chrome.tabs.create({
+            url: notificationId
+          });
+        });
+        console.log("Scrape Completed");
 }
 
 async function ensureOffscreen() {
@@ -85,8 +98,8 @@ async function processItem(item) {
       const assign_list = result.assign_list || [];
       assign_list.map(assign => {
         if (assign.assignId === item.id) {
-          data.show = assign.show ? assign.show : true;
-          data.notified = assign.notified ? assign.notified : false;
+          data.show = assign.show !== undefined ? assign.show : true;
+          data.notified = assign.notified !== undefined ? assign.notified : false;
           return { ...assign, ...data };
         }
         return assign;
@@ -100,8 +113,8 @@ async function processItem(item) {
       const quiz_list = result.quiz_list || [];
       quiz_list.map(quiz => {
         if (quiz.quizId === item.id) {
-          data.show = quiz.show ? quiz.show : true;
-          data.notified = quiz.notified ? quiz.notified : false;
+          data.show = quiz.show !== undefined ? quiz.show : true;
+          data.notified = quiz.notified !== undefined ? quiz.notified : false;
           return { ...quiz, ...data };
         }
         return quiz;
