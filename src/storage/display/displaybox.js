@@ -104,7 +104,7 @@ const changeAct = (item) => {
             i.querySelector(".date").textContent = formatRemainingTime(due);
         }
         const i_title = i.querySelector("a.text-truncate");
-        i_title.setAttribute("title",i_title.textContent);
+        if(i_title) i_title.setAttribute("title",i_title.textContent);
 
     });
 };
@@ -120,7 +120,6 @@ const checkUnvisited = () => {
     });
     const unvisitedboxes_ = Array.from(document.querySelectorAll(`.event:not(.complete,.incomplete,.unknown,.expired,.stuck,.qualify,.warning)`));
     unvisitedboxes_.map((i) => {
-        console.log(i);
         i.classList.add("unvisited");
         const i_datetxt = i.querySelector(".date").textContent;
         const due = transDue(i_datetxt);
@@ -187,7 +186,7 @@ const transDue = (txt) => {
 };
 
 (async () => {
-    const alldata = await getAllData();
+    const alldata = await StorageUtil.getAllData();
     display.textContent = "表示するものがありません";
     displaybox(alldata);
 })();

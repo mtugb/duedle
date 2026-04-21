@@ -35,13 +35,13 @@ displaybox_assign_list = async (data) => {
         menu.href = "#";
         if (data.show) {
             menu.addEventListener("click", async (e) => {
-                await editData('assign_list', "assignId", data.assignId, "show", false);
+                await StorageUtil.editData('assign_list', "assignId", data.assignId, "show", false);
                 e.target.closest(".assign").remove();
             });
             menu.textContent = "一覧から削除する";
         } else {
             menu.addEventListener("click", async (e) => {
-                await editData('assign_list', "assignId", data.assignId, "show", true);
+                await StorageUtil.editData('assign_list', "assignId", data.assignId, "show", true);
                 e.target.closest(".assign").remove();
             });
             menu.textContent = "一覧に戻す";

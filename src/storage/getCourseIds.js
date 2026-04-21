@@ -1,7 +1,7 @@
 //data-course-idが後で生成されるので、mutation
 let timeout;
 const seen = new Set();
-function scanCourses() {
+async function scanCourses() {
     const coursefilter = document.querySelector("span[data-active-item-text]").textContent.trim();
     if(coursefilter.includes("削除済み")){
         return;
@@ -21,7 +21,7 @@ function scanCourses() {
         }
     });
     //idをchrome.storage.syncに保存　以前あっても現在なければ格納しないので単純に上書き
-    chrome.storage.local.set({ courseIds: Array.from(seen) });
+    await chrome.storage.local.set({ courseIds: Array.from(seen) });
     //chrome.runtime.sendMessage({ type: "SAVE_IDS", ids: Array.from(seen) });
 }
 

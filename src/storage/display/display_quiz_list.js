@@ -35,13 +35,13 @@ displaybox_quiz_list = async (data) => {
         menu.href = "#";
         if (data.show) {
             menu.addEventListener("click", async (e) => {
-                await editData('quiz_list', "quizId", data.quizId, "show", false);
+                await StorageUtil.editData('quiz_list', "quizId", data.quizId, "show", false);
                 e.target.closest(".quiz").remove();
             });
             menu.textContent = "一覧から削除する";
         } else {
             menu.addEventListener("click", async (e) => {
-                await editData('quiz_list', "quizId", data.quizId, "show", true);
+                await StorageUtil.editData('quiz_list', "quizId", data.quizId, "show", true);
                 e.target.closest(".quiz").remove();
             });
             menu.textContent = "一覧に戻す";

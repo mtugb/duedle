@@ -1,0 +1,3 @@
+class AssignBox extends TaskBox {
+    
+}

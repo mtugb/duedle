@@ -1,0 +1,3 @@
+class QuizBox extends TaskBox {
+    
+}

@@ -12,9 +12,17 @@
   "content_scripts": [
     {
       "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/*"],
-      "exclude_matches": [
-        "https://cms7.ict.nitech.ac.jp/moodle40a/blocks/syllabus/*"
-      ],
+      "js": [
+        "./storage/class/StorageUtil.js",
+        "./storage/class/task/TaskBox.js",
+        "./storage/class/task/AssignBox.js",
+        "./storage/class/task/QuizBox.js",
+        "./storage/class/filter/FilterSelect.js"
+      ]
+    },
+      {
+      "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/*"],
+      "exclude_matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/blocks/syllabus/*"],
       "js": [
         "./common/utils.js",
         "./common/hide_username.js",
@@ -22,9 +30,7 @@
         "./common/delete_underLink.js",
         "./common/navigation.js",
         "./theme/main.js",
-        "./common/history_view.js",
-        "./document_start/pre.js",
-        "./storage/transfer.js"
+        "./document_start/pre.js"
       ],
       "css": [
         "./theme/dark.css",
@@ -32,6 +38,14 @@
         "./common/ui/switch.css",
         "./common/common.css"
       ]
+    },
+    {
+      "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/*"],
+      "exclude_matches": [
+        "https://cms7.ict.nitech.ac.jp/moodle40a/blocks/syllabus/*",
+        "https://cms7.ict.nitech.ac.jp/moodle40a/login/auth_oidc.php"
+      ],
+      "js": ["./common/history_view.js"]
     },
     {
       "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/*"],

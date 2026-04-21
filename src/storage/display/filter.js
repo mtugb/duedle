@@ -7,14 +7,6 @@ const extInner =
     `<button class="btn btn-secondary" id="displaybutton">課題表示を切り替える</button>
     <div id="filter" class="filter-group my-2 p-2 border-radius border">
         <fieldset id="fieldfilter">
-            <label for="typeSelect" class="filterlabel mr-md-2 mb-md-0">種類</label>
-            <select id="typeSelect" class="form-select form-select-sm w-auto custom-select mb-1 mb-md-0 mr-md-2"></select>
-            <label for="statusSelect" class="filterlabel mr-md-2 mb-md-0">状態</label>
-            <select id="statusSelect" class="form-select form-select-sm w-auto custom-select mb-1 mb-md-0 mr-md-2"></select>
-            <label for="dueSelect" class="filterlabel mr-md-2 mb-md-0">期限</label>
-            <select id="dueSelect" class="form-select form-select-sm w-auto custom-select mb-1 mb-md-0 mr-md-2"></select>
-            <label for="showSelect" class="filterlabel mr-md-2 mb-md-0">表示</label>
-            <select id="showSelect" class="form-select form-select-sm w-auto custom-select mb-1 mb-md-0 mr-md-2"></select>
             <button class="btn btn-primary" id="scrapebutton">課題情報を更新する</button>
         </fieldset>
         <fieldset id="fieldcolor">
@@ -23,91 +15,64 @@ const extInner =
     <div id="display">
     </div>`;
 ext_dashboard.innerHTML = extInner;
-header.append(ext_dashboard);
+header.after(ext_dashboard);
+
 const filter = document.querySelector("#filter")
 const display = document.querySelector("#display");
 const fieldset = document.querySelector("#fieldfilter");
 const fieldcolor = document.querySelector("#fieldcolor");
+const scrapebutton = document.querySelector("#scrapebutton");
 const noexistmsg = "表示するものがありません";
 
 //filters
 //type filter
 const typeValues = ["all", "assign_list", "quiz_list"];
 const typeOptionsText = ["すべて", "提出課題", "小テスト"];
-const typeSelect = document.querySelector("#typeSelect");
-const typeLabel = document.querySelector("label[for='typeSelect']");
-const typeOptions = typeValues.map((value, index) => {
-    const option = document.createElement("option");
-    option.value = value;
-    option.textContent = typeOptionsText[index];
-    return option;
-});
-typeOptions.forEach(option => typeSelect.appendChild(option));
-
+const typeFilter = new FilterSelect("typeSelect", "種類", typeValues, typeOptionsText, "selectedType");
+(async () => {
+    const typeFilterel = await typeFilter.getElement();
+    typeFilterel.map((el) => {
+        fieldset.appendChild(el);
+    });
+})();
 
 //status filter
-const statuses = ["すべて", "完了", "完了以外", "合格(小テストのみ)", "未提出", "行き詰まり(小テストのみ)", "期限切れ", "点数不明(小テストのみ)"];
 const statusValues = ["all", "complete", "ex-complete", "qualify", "incomplete", "stuck", "expired", "unknown"];
-const statusSelect = document.querySelector("#statusSelect");
-const statusLabel = document.querySelector("label[for='statusSelect']");
-const statusOptions = statusValues.map((value, index) => {
-    const option = document.createElement("option");
-    option.value = value;
-    option.textContent = statuses[index];
-    return option;
-});
-statusOptions.forEach(option => statusSelect.appendChild(option));
+const statusOptionsText = ["すべて", "完了", "完了以外", "合格(小テストのみ)", "未提出", "行き詰まり(小テストのみ)", "期限切れ", "点数不明(小テストのみ)"];
+const statusFilter = new FilterSelect("statusSelect", "状態", statusValues, statusOptionsText, "selectedStatus");
+(async () => {
+    const statusFilterel = await statusFilter.getElement();
+    statusFilterel.map((el) => {
+        fieldset.appendChild(el);
+    });
+})();
 
 //due filter
 const dueValues = ["all", "progressing", "week", "today", "dueweek", "overdue"];
 const dueOptionsText = ["すべて", "進行中", "今週", "24時間以内", "1週間前までに終了", "終了"];
-const dueSelect = document.querySelector("#dueSelect");
-const dueLabel = document.querySelector("label[for='dueSelect']");
-const dueOptions = dueValues.map((value, index) => {
-    const option = document.createElement("option");
-    option.value = value;
-    option.textContent = dueOptionsText[index];
-    return option;
-});
-dueOptions.forEach(option => dueSelect.appendChild(option));
+const dueFilter = new FilterSelect("dueSelect", "期限", dueValues, dueOptionsText, "selectedDue");
+(async () => {
+    const dueFilterel = await dueFilter.getElement();
+    dueFilterel.map((el) => {
+        fieldset.appendChild(el);
+    });
+})();
 
 //show filter
 const showValues = ["all", "normal", "deleted"];
 const showOptionsText = ["すべて", "通常", "表示削除済み"];
-const showSelect = document.querySelector("#showSelect");
-const showLabel = document.querySelector("label[for='showSelect']");
-const showOptions = showValues.map((value, index) => {
-    const option = document.createElement("option");
-    option.value = value;
-    option.textContent = showOptionsText[index];
-    return option;
-});
-showOptions.forEach(option => showSelect.appendChild(option));
-
-//filter effect
-typeSelect.addEventListener("change", async () => {
-    chrome.storage.sync.set({ "selectedType": typeSelect.value }); // 選択した値をローカルストレージに保存
-    rerender();
-});
-statusSelect.addEventListener("change", async () => {
-    chrome.storage.sync.set({ "selectedStatus": statusSelect.value }); // 選択した値をローカルストレージに保存
-    rerender();
-});
-dueSelect.addEventListener("change", async () => {
-    chrome.storage.sync.set({ "selectedDue": dueSelect.value }); // 選択した値をローカルストレージに保存
-    rerender();
-});
-showSelect.addEventListener("change", async () => {
-    chrome.storage.sync.set({ "selectedShow": showSelect.value }); // 選択した値をローカルストレージに保存
-    rerender();
-});
-
+const showFilter = new FilterSelect("showSelect", "表示", showValues, showOptionsText, "selectedShow");
+(async () => {
+    const showFilterel = await showFilter.getElement();
+    showFilterel.map((el) => {
+        fieldset.appendChild(el);
+    });
+})();
 
 
 
 //buttonEvent
 //display runscraping button   cooldown: 3h
-const scrapebutton = document.querySelector("#scrapebutton");
 scrapebutton.addEventListener("click", async () => {
     scrapebutton.disabled = true;
     const now = new Date();
@@ -183,28 +148,6 @@ colorTypesValue.map((value, index) => {
 
 
 
-
-
-// ページ読み込み時にローカルストレージから選択状態を復元
-window.addEventListener("load", async () => {
-    const savedType = (await chrome.storage.sync.get(["selectedType"])).selectedType;
-    const savedStatus = (await chrome.storage.sync.get(["selectedStatus"])).selectedStatus;
-    const savedDue = (await chrome.storage.sync.get(["selectedDue"])).selectedDue;
-    const savedShow = (await chrome.storage.sync.get(["selectedShow"])).selectedShow;
-    if (savedType) {
-        typeSelect.value = savedType;
-    }
-    if (savedStatus) {
-        statusSelect.value = savedStatus;
-    }
-    if (savedDue) {
-        dueSelect.value = savedDue;
-    }
-    if (savedShow) {
-        showSelect.value = savedShow;
-    }
-});
-
 //display appendまで待機
 (async () => {
     const savedDisplayShow = (await chrome.storage.sync.get(["displayShow"])).displayShow;
@@ -215,7 +158,7 @@ window.addEventListener("load", async () => {
 
 async function rerender() {
     document.querySelector("#display").innerHTML = ""; // 表示をクリア
-    const alldata = await getAllData();
+    const alldata = await StorageUtil.getAllData();
     display.textContent = noexistmsg;
     displaybox(alldata); // データを再表示
     colorReload();
