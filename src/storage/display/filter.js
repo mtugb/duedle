@@ -1,37 +1,113 @@
-//main
 const header = document.querySelector("header");
 const ext_dashboard = document.createElement("div");
 ext_dashboard.setAttribute("id", "ext_dashboard");
 ext_dashboard.classList.add("card-body");
-//inside div
-const filter = document.createElement("div");
-filter.setAttribute("id", "filter");
-ext_dashboard.appendChild(filter);
-const display = document.createElement("div");
-display.setAttribute("id", "display");
-ext_dashboard.appendChild(display);
+//inside div - innerHTML
+const extInner =
+    `<button class="btn btn-secondary" id="displaybutton">課題表示を切り替える</button>
+    <div id="filter" class="filter-group my-2 p-2 border-radius border">
+        <fieldset id="fieldfilter">
+            <label for="typeSelect" class="filterlabel mr-md-2 mb-md-0">種類</label>
+            <select id="typeSelect" class="form-select form-select-sm w-auto custom-select mb-1 mb-md-0 mr-md-2"></select>
+            <label for="statusSelect" class="filterlabel mr-md-2 mb-md-0">状態</label>
+            <select id="statusSelect" class="form-select form-select-sm w-auto custom-select mb-1 mb-md-0 mr-md-2"></select>
+            <label for="dueSelect" class="filterlabel mr-md-2 mb-md-0">期限</label>
+            <select id="dueSelect" class="form-select form-select-sm w-auto custom-select mb-1 mb-md-0 mr-md-2"></select>
+            <label for="showSelect" class="filterlabel mr-md-2 mb-md-0">表示</label>
+            <select id="showSelect" class="form-select form-select-sm w-auto custom-select mb-1 mb-md-0 mr-md-2"></select>
+            <button class="btn btn-primary" id="scrapebutton">課題情報を更新する</button>
+        </fieldset>
+        <fieldset id="fieldcolor">
+        </fieldset>
+    </div>
+    <div id="display">
+    </div>`;
+ext_dashboard.innerHTML = extInner;
+header.append(ext_dashboard);
+const filter = document.querySelector("#filter")
+const display = document.querySelector("#display");
+const fieldset = document.querySelector("#fieldfilter");
+const fieldcolor = document.querySelector("#fieldcolor");
+const noexistmsg = "表示するものがありません";
 
-filter.textContent = "課題リスト フィルタ";
-header.after(ext_dashboard);
+//filters
+//type filter
+const typeValues = ["all", "assign_list", "quiz_list"];
+const typeOptionsText = ["すべて", "提出課題", "小テスト"];
+const typeSelect = document.querySelector("#typeSelect");
+const typeLabel = document.querySelector("label[for='typeSelect']");
+const typeOptions = typeValues.map((value, index) => {
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = typeOptionsText[index];
+    return option;
+});
+typeOptions.forEach(option => typeSelect.appendChild(option));
 
-//inside filter div
-filter.classList.add("filter-group", "my-2", "p-2", "border-radius", "border");
-const fieldset = document.createElement("fieldset");
-filter.appendChild(fieldset);
-const fieldcolor = document.createElement("fieldset");
-fieldcolor.classList.add("fieldcolor");
-filter.appendChild(fieldcolor);
-/*
-const debug = document.createElement("div");
-filter.appendChild(debug);
-debug.textContent = localStorage.getItem("selectedType");
-*/
 
+//status filter
+const statuses = ["すべて", "完了", "完了以外", "合格(小テストのみ)", "未提出", "行き詰まり(小テストのみ)", "期限切れ", "点数不明(小テストのみ)"];
+const statusValues = ["all", "complete", "ex-complete", "qualify", "incomplete", "stuck", "expired", "unknown"];
+const statusSelect = document.querySelector("#statusSelect");
+const statusLabel = document.querySelector("label[for='statusSelect']");
+const statusOptions = statusValues.map((value, index) => {
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = statuses[index];
+    return option;
+});
+statusOptions.forEach(option => statusSelect.appendChild(option));
+
+//due filter
+const dueValues = ["all", "progressing", "week", "today", "dueweek", "overdue"];
+const dueOptionsText = ["すべて", "進行中", "今週", "24時間以内", "1週間前までに終了", "終了"];
+const dueSelect = document.querySelector("#dueSelect");
+const dueLabel = document.querySelector("label[for='dueSelect']");
+const dueOptions = dueValues.map((value, index) => {
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = dueOptionsText[index];
+    return option;
+});
+dueOptions.forEach(option => dueSelect.appendChild(option));
+
+//show filter
+const showValues = ["all", "normal", "deleted"];
+const showOptionsText = ["すべて", "通常", "表示削除済み"];
+const showSelect = document.querySelector("#showSelect");
+const showLabel = document.querySelector("label[for='showSelect']");
+const showOptions = showValues.map((value, index) => {
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = showOptionsText[index];
+    return option;
+});
+showOptions.forEach(option => showSelect.appendChild(option));
+
+//filter effect
+typeSelect.addEventListener("change", async () => {
+    chrome.storage.sync.set({ "selectedType": typeSelect.value }); // 選択した値をローカルストレージに保存
+    rerender();
+});
+statusSelect.addEventListener("change", async () => {
+    chrome.storage.sync.set({ "selectedStatus": statusSelect.value }); // 選択した値をローカルストレージに保存
+    rerender();
+});
+dueSelect.addEventListener("change", async () => {
+    chrome.storage.sync.set({ "selectedDue": dueSelect.value }); // 選択した値をローカルストレージに保存
+    rerender();
+});
+showSelect.addEventListener("change", async () => {
+    chrome.storage.sync.set({ "selectedShow": showSelect.value }); // 選択した値をローカルストレージに保存
+    rerender();
+});
+
+
+
+
+//buttonEvent
 //display runscraping button   cooldown: 3h
-const scrapebutton = document.createElement("button");
-scrapebutton.classList.add("btn", "btn-primary");
-scrapebutton.id = "scrapebutton";
-scrapebutton.textContent = "課題情報を更新する";
+const scrapebutton = document.querySelector("#scrapebutton");
 scrapebutton.addEventListener("click", async () => {
     scrapebutton.disabled = true;
     const now = new Date();
@@ -53,137 +129,20 @@ chrome.storage.local.get("scrapeCooldown", (item) => {
 });
 
 //display show button
-const displaybutton = document.createElement("button");
-displaybutton.classList.add("btn", "btn-secondary");
-displaybutton.id = "displaybutton";
-displaybutton.textContent = "リスト表示を切り替える";
+const displaybutton = document.querySelector("#displaybutton");
 displaybutton.addEventListener("click", () => {
     if (!display.hasAttribute("hidden")) {
         display.setAttribute("hidden", "");
+        filter.setAttribute("hidden", "");
     } else {
         display.removeAttribute("hidden");
+        filter.removeAttribute("hidden");
     }
     chrome.storage.sync.set({ displayShow: !display.hasAttribute("hidden") });
 });
 
 
-//type filter
-const typeValues = ["all", "assign_list", "quiz_list"];
-const typeOptionsText = ["すべて", "提出課題", "小テスト"];
-const typeSelect = document.createElement("select");
-typeSelect.id = "typeSelect";
-typeSelect.classList.add("form-select", "form-select-sm", "w-auto", "custom-select", "mb-1", "mb-md-0", "mr-md-2");
-const typeLabel = document.createElement("label");
-typeLabel.textContent = "種類";
-typeLabel.setAttribute("for", "typeSelect");
-typeLabel.classList.add("filterlabel", "mr-md-2", "mb-md-0");
-fieldset.appendChild(typeLabel);
-fieldset.appendChild(typeSelect);
-const typeOptions = typeValues.map((value, index) => {
-    const option = document.createElement("option");
-    option.value = value;
-    option.textContent = typeOptionsText[index];
-    return option;
-});
-typeOptions.forEach(option => typeSelect.appendChild(option));
 
-
-//status filter
-const status = ["すべて", "完了", "完了以外", "合格(小テストのみ)", "未提出", "行き詰まり(小テストのみ)", "期限切れ", "点数不明(小テストのみ)"];
-const statusValues = ["all", "complete", "ex-complete", "qualify", "incomplete", "stuck", "expired", "unknown"];
-const statusSelect = document.createElement("select");
-statusSelect.id = "statusSelect";
-statusSelect.classList.add("form-select", "form-select-sm", "w-auto", "custom-select", "mb-1", "mb-md-0", "mr-md-2");
-const statusLabel = document.createElement("label");
-statusLabel.textContent = "状態";
-statusLabel.setAttribute("for", "statusSelect");
-statusLabel.classList.add("filterlabel", "mr-md-2", "mb-md-0");
-fieldset.appendChild(statusLabel);
-fieldset.appendChild(statusSelect);
-const statusOptions = statusValues.map((value, index) => {
-    const option = document.createElement("option");
-    option.value = value;
-    option.textContent = status[index];
-    return option;
-});
-statusOptions.forEach(option => statusSelect.appendChild(option));
-
-//due filter
-const dueValues = ["all", "progressing", "week", "today", "dueweek", "overdue"];
-const dueOptionsText = ["すべて", "進行中", "今週", "24時間以内", "1週間前までに終了", "終了"];
-const dueSelect = document.createElement("select");
-dueSelect.id = "dueSelect";
-dueSelect.classList.add("form-select", "form-select-sm", "w-auto", "custom-select", "mb-1", "mb-md-0", "mr-md-2");
-const dueLabel = document.createElement("label");
-dueLabel.textContent = "期限";
-dueLabel.setAttribute("for", "dueSelect");
-dueLabel.classList.add("filterlabel", "mr-md-2", "mb-md-0");
-fieldset.appendChild(dueLabel);
-fieldset.appendChild(dueSelect);
-const dueOptions = dueValues.map((value, index) => {
-    const option = document.createElement("option");
-    option.value = value;
-    option.textContent = dueOptionsText[index];
-    return option;
-});
-dueOptions.forEach(option => dueSelect.appendChild(option));
-
-//show filter
-const showValues = ["all", "normal", "deleted"];
-const showOptionsText = ["すべて", "通常", "表示削除済み"];
-const showSelect = document.createElement("select");
-showSelect.id = "showSelect";
-showSelect.classList.add("form-select", "form-select-sm", "w-auto", "custom-select", "mb-1", "mb-md-0", "mr-md-2");
-const showLabel = document.createElement("label");
-showLabel.textContent = "表示状態";
-showLabel.setAttribute("for", "showSelect");
-showLabel.classList.add("filterlabel", "mr-md-2", "mb-md-0");
-fieldset.appendChild(showLabel);
-fieldset.appendChild(showSelect);
-const showOptions = showValues.map((value, index) => {
-    const option = document.createElement("option");
-    option.value = value;
-    option.textContent = showOptionsText[index];
-    return option;
-});
-showOptions.forEach(option => showSelect.appendChild(option));
-fieldset.appendChild(scrapebutton);
-fieldset.appendChild(displaybutton);
-const noexistmsg = "表示するものがありません";
-
-//filter effect
-typeSelect.addEventListener("change", async () => {
-    chrome.storage.sync.set({ "selectedType": typeSelect.value }); // 選択した値をローカルストレージに保存
-    document.querySelector("#display").innerHTML = ""; // 表示をクリア
-    const alldata = await getAllData();
-    display.textContent = noexistmsg;
-    displaybox(alldata); // データを再表示
-    colorReload();
-});
-statusSelect.addEventListener("change", async () => {
-    chrome.storage.sync.set({ "selectedStatus": statusSelect.value }); // 選択した値をローカルストレージに保存
-    document.querySelector("#display").innerHTML = ""; // 表示をクリア
-    const alldata = await getAllData();
-    display.textContent = noexistmsg;
-    displaybox(alldata); // データを再表示
-    colorReload();
-});
-dueSelect.addEventListener("change", async () => {
-    chrome.storage.sync.set({ "selectedDue": dueSelect.value }); // 選択した値をローカルストレージに保存
-    document.querySelector("#display").innerHTML = ""; // 表示をクリア
-    const alldata = await getAllData();
-    display.textContent = noexistmsg;
-    displaybox(alldata); // データを再表示
-    colorReload();
-});
-showSelect.addEventListener("change", async () => {
-    chrome.storage.sync.set({ "selectedShow": showSelect.value }); // 選択した値をローカルストレージに保存
-    document.querySelector("#display").innerHTML = ""; // 表示をクリア
-    const alldata = await getAllData();
-    display.textContent = noexistmsg;
-    displaybox(alldata); // データを再表示
-    colorReload();
-});
 
 //setting color
 const colorTypesValue = ["complete", "qualify", "incomplete", "stuck", "warning", "expired", "unknown", "unvisited"];
@@ -244,8 +203,8 @@ window.addEventListener("load", async () => {
     if (savedShow) {
         showSelect.value = savedShow;
     }
-
 });
+
 //display appendまで待機
 (async () => {
     const savedDisplayShow = (await chrome.storage.sync.get(["displayShow"])).displayShow;
@@ -254,19 +213,12 @@ window.addEventListener("load", async () => {
     }
 })();
 
-
-async function getAllData() {
-    const result = await chrome.storage.local.get(["assign_list", "quiz_list"]);
-    const assignList = result.assign_list || [];
-    const quizList = result.quiz_list || [];
-    const data = [...assignList, ...quizList];
-    return sortByDeadline(data);
-}
-
-function sortByDeadline(data) {
-    return data.sort((a, b) => {
-        return new Date(a.due) - new Date(b.due); // 締切日時の昇順でソート
-    });
+async function rerender() {
+    document.querySelector("#display").innerHTML = ""; // 表示をクリア
+    const alldata = await getAllData();
+    display.textContent = noexistmsg;
+    displaybox(alldata); // データを再表示
+    colorReload();
 }
 
 
@@ -292,17 +244,6 @@ const applyColor = (type, toColor) => {
     }
 };
 
-//データ編集
-async function editData(table, idproperty, id, property, value) {
-    const result = await chrome.storage.local.get(table);
-    const data = result[table] || [];
-    const index = data.findIndex(item => item[idproperty] == id);
-    if (index !== -1 && data[index][property] !== undefined) {
-        data[index][property] = value;
-    }
-
-    await chrome.storage.local.set({ [table]: data });
-}
 
 //初期状態のlocalstorage
 chrome.storage.sync.get(["selectedType"], (result) => {

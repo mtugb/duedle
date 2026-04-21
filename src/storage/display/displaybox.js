@@ -1,4 +1,3 @@
-
 const displaybox = async (data) => {
     if (data) {
         await Promise.all(data.map(async item => {
@@ -7,15 +6,17 @@ const displaybox = async (data) => {
             const savedStatus = (await chrome.storage.sync.get(["selectedStatus"])).selectedStatus;
             const savedDue = (await chrome.storage.sync.get(["selectedDue"])).selectedDue;
             const savedShow = (await chrome.storage.sync.get(["selectedShow"])).selectedShow;
-            const courseName = document.querySelector("h1").textContent.trim();
+            if (location.href.includes("https://cms7.ict.nitech.ac.jp/moodle40a/course/view.php?id=")){
+                const courseName = document.querySelector("h1").textContent.trim();
+                if (courseName !== item.courseName) {
+                    return;
+                }
+                changeActColor(item);
+            }
+            
             if (item.start) { item.start = new Date(item.start); }
             if (item.due) { item.due = new Date(item.due); }
-            //ほかのコースはスキップ
-            if (courseName !== item.courseName) {
-                return;
-            }
             changeAct(item);
-            changeActColor(item);
 
             //表示状態確認
             if (savedShow === "normal" && !item.show) {
