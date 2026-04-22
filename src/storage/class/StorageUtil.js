@@ -22,7 +22,8 @@ class StorageUtil {
         await chrome.storage.local.set({ [table]: data });
     }
 
-    static async scrape(){
-        
+    //複数をまとめて
+    static async editDatas() {
+
     }
 }

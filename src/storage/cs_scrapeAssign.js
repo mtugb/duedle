@@ -1,1 +1,1 @@
-scrapeAssign();
+ScrapeAssign.getData();

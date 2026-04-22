@@ -17,7 +17,11 @@
         "./storage/class/task/TaskBox.js",
         "./storage/class/task/AssignBox.js",
         "./storage/class/task/QuizBox.js",
-        "./storage/class/filter/FilterSelect.js"
+        "./storage/class/filter/FilterSelect.js",
+        "./storage/class/scrape/Scrape.js",
+        "./storage/class/scrape/ScrapeAssign.js",
+        "./storage/class/scrape/ScrapeQuiz.js",
+        "./storage/class/scrape/ScrapeQuizReview.js"
       ]
     },
       {

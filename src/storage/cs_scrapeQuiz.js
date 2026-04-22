@@ -1,1 +1,1 @@
-scrapeQuiz();
+ScrapeQuiz.getData();

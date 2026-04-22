@@ -83,7 +83,6 @@ function scrapeQuiz() {
         } catch (error) {
             maxp = null;
         }
-
     }
     //required,maxp
     const requiredraw = [...document.querySelectorAll("p.text-left")]
