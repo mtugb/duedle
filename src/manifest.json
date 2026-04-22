@@ -22,7 +22,10 @@
     },
       {
       "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/*"],
-      "exclude_matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/blocks/syllabus/*"],
+      "exclude_matches": [
+        "https://cms7.ict.nitech.ac.jp/moodle40a/blocks/syllabus/*",
+          "https://cms7.ict.nitech.ac.jp/moodle40a/login/index.php"
+        ],
       "js": [
         "./common/utils.js",
         "./common/hide_username.js",
@@ -43,7 +46,8 @@
       "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/*"],
       "exclude_matches": [
         "https://cms7.ict.nitech.ac.jp/moodle40a/blocks/syllabus/*",
-        "https://cms7.ict.nitech.ac.jp/moodle40a/login/auth_oidc.php"
+        "https://cms7.ict.nitech.ac.jp/moodle40a/login/auth_oidc.php",
+        "https://cms7.ict.nitech.ac.jp/moodle40a/login/index.php"
       ],
       "js": ["./common/history_view.js"]
     },
@@ -100,7 +104,6 @@
       ],
       "js": [
         "./storage/display/filter.js",
-        "./storage/display/display_quiz_list.js",
         "./storage/display/displaybox.js"
       ],
       "css": ["./storage/display/style.css"]

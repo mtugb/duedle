@@ -5,16 +5,16 @@ ext_dashboard.classList.add("card-body");
 //inside div - innerHTML
 const extInner =
     `<button class="btn btn-secondary" id="displaybutton">課題表示を切り替える</button>
+    <button class="btn btn-primary" id="scrapebutton">課題情報を更新する</button>
     <div id="filter" class="filter-group my-2 p-2 border-radius border">
         <fieldset id="fieldfilter">
-            <button class="btn btn-primary" id="scrapebutton">課題情報を更新する</button>
         </fieldset>
         <fieldset id="fieldcolor">
         </fieldset>
     </div>
     <div id="display">
     </div>`;
-ext_dashboard.insertAdjacentHTML("beforeend",extInner);
+ext_dashboard.insertAdjacentHTML("beforeend", extInner);
 header.after(ext_dashboard);
 
 const filter = document.querySelector("#filter")

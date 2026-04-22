@@ -27,7 +27,7 @@ async function scanCourses() {
 
 const observer = new MutationObserver(() => {
     clearTimeout(timeout);
-    timeout = setTimeout(scanCourses, 100);
+    timeout = setTimeout(scanCourses, 1000);
 });
 
 //実行

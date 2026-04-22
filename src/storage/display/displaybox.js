@@ -1,4 +1,5 @@
 const displaybox = async (data) => {
+    const display = document.querySelector("#display");
     if (data) {
         await Promise.all(data.map(async item => {
             //condition
@@ -11,7 +12,7 @@ const displaybox = async (data) => {
                 if (courseName !== item.courseName) {
                     return;
                 }
-                changeActColor(item);
+                changeActivityColor(item);
             }
 
             if (item.start) { item.start = new Date(item.start); }
@@ -59,14 +60,16 @@ const displaybox = async (data) => {
                 display.textContent = "";
             }
 
+            if (item.start) { item.start = new Date(item.start); }
+            if (item.due) { item.due = new Date(item.due); }
             if (item.group === "assign_list") {
-                if (item.start) { item.start = new Date(item.start); }
-                if (item.due) { item.due = new Date(item.due); }
                 const assignbox = new AssignBox(item);
                 const assign = await assignbox.getElement();
                 display.appendChild(assign);
             } else if (item.group === "quiz_list") {
-                displaybox_quiz_list(item);
+                const quizbox = new QuizBox(item);
+                const quiz = await quizbox.getElement();
+                display.appendChild(quiz);
             }
         }));
     }
@@ -74,7 +77,7 @@ const displaybox = async (data) => {
     colorReload();
 };
 
-const changeActColor = (item) => {
+const changeActivityColor = (item) => {
     if (item.group === "assign_list") {
         const actbox = document.querySelectorAll(`[data-activityname="${item.assignName.replace("&", "&amp;")}"]`);
         if (actbox[0]) {

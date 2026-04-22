@@ -21,4 +21,8 @@ class StorageUtil {
 
         await chrome.storage.local.set({ [table]: data });
     }
+
+    static async scrape(){
+        
+    }
 }

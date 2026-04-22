@@ -174,6 +174,10 @@ function scrapeQuiz() {
                 if (quiz.maxp !== null){
                     data.maxp = quiz.maxp;
                 }
+                //完了は上書きしない
+                if (data.status === "unknown" && quiz.status === "complete"){
+                    data.status = quiz.status;
+                }
                 
                 return { ...quiz, ...data };
             }
