@@ -6,14 +6,14 @@ const displaybox = async (data) => {
             const savedStatus = (await chrome.storage.sync.get(["selectedStatus"])).selectedStatus;
             const savedDue = (await chrome.storage.sync.get(["selectedDue"])).selectedDue;
             const savedShow = (await chrome.storage.sync.get(["selectedShow"])).selectedShow;
-            if (location.href.includes("https://cms7.ict.nitech.ac.jp/moodle40a/course/view.php?id=")){
+            if (location.href.includes("https://cms7.ict.nitech.ac.jp/moodle40a/course/view.php?id=")) {
                 const courseName = document.querySelector("h1").textContent.trim();
                 if (courseName !== item.courseName) {
                     return;
                 }
                 changeActColor(item);
             }
-            
+
             if (item.start) { item.start = new Date(item.start); }
             if (item.due) { item.due = new Date(item.due); }
             changeAct(item);
@@ -60,7 +60,11 @@ const displaybox = async (data) => {
             }
 
             if (item.group === "assign_list") {
-                displaybox_assign_list(item);
+                if (item.start) { item.start = new Date(item.start); }
+                if (item.due) { item.due = new Date(item.due); }
+                const assignbox = new AssignBox(item);
+                const assign = await assignbox.getElement();
+                display.appendChild(assign);
             } else if (item.group === "quiz_list") {
                 displaybox_quiz_list(item);
             }
@@ -104,7 +108,7 @@ const changeAct = (item) => {
             i.querySelector(".date").textContent = formatRemainingTime(due);
         }
         const i_title = i.querySelector("a.text-truncate");
-        if(i_title) i_title.setAttribute("title",i_title.textContent);
+        if (i_title) i_title.setAttribute("title", i_title.textContent);
 
     });
 };
@@ -127,7 +131,7 @@ const checkUnvisited = () => {
             i.querySelector(".date").textContent = formatRemainingTime(due);
         }
         const i_title = i.querySelector("a.text-truncate");
-        i_title.setAttribute("title",i_title.textContent);
+        i_title.setAttribute("title", i_title.textContent);
     });
 
     const unvisitedboxesh6 = Array.from(document.querySelectorAll(`h6.d-flex.mb-1`));

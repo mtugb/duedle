@@ -35,10 +35,14 @@ class FilterSelect {
             return option;
         });
         options.forEach(option => elementselect.appendChild(option));
-        
+
         return [elementlabel, elementselect];
     }
     applyDefault(value) {
-
+        chrome.storage.sync.get([this.propertyName], (result) => {
+            if (result[this.propertyName] === undefined) {
+                chrome.storage.sync.set({ [this.propertyName]: value });
+            }
+        });
     }
 }

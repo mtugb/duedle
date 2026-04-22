@@ -14,7 +14,7 @@ const extInner =
     </div>
     <div id="display">
     </div>`;
-ext_dashboard.innerHTML = extInner;
+ext_dashboard.insertAdjacentHTML("beforeend",extInner);
 header.after(ext_dashboard);
 
 const filter = document.querySelector("#filter")
@@ -29,6 +29,7 @@ const noexistmsg = "表示するものがありません";
 const typeValues = ["all", "assign_list", "quiz_list"];
 const typeOptionsText = ["すべて", "提出課題", "小テスト"];
 const typeFilter = new FilterSelect("typeSelect", "種類", typeValues, typeOptionsText, "selectedType");
+typeFilter.applyDefault("all");
 (async () => {
     const typeFilterel = await typeFilter.getElement();
     typeFilterel.map((el) => {
@@ -40,6 +41,7 @@ const typeFilter = new FilterSelect("typeSelect", "種類", typeValues, typeOpti
 const statusValues = ["all", "complete", "ex-complete", "qualify", "incomplete", "stuck", "expired", "unknown"];
 const statusOptionsText = ["すべて", "完了", "完了以外", "合格(小テストのみ)", "未提出", "行き詰まり(小テストのみ)", "期限切れ", "点数不明(小テストのみ)"];
 const statusFilter = new FilterSelect("statusSelect", "状態", statusValues, statusOptionsText, "selectedStatus");
+statusFilter.applyDefault("all");
 (async () => {
     const statusFilterel = await statusFilter.getElement();
     statusFilterel.map((el) => {
@@ -51,6 +53,7 @@ const statusFilter = new FilterSelect("statusSelect", "状態", statusValues, st
 const dueValues = ["all", "progressing", "week", "today", "dueweek", "overdue"];
 const dueOptionsText = ["すべて", "進行中", "今週", "24時間以内", "1週間前までに終了", "終了"];
 const dueFilter = new FilterSelect("dueSelect", "期限", dueValues, dueOptionsText, "selectedDue");
+dueFilter.applyDefault("all");
 (async () => {
     const dueFilterel = await dueFilter.getElement();
     dueFilterel.map((el) => {
@@ -62,6 +65,7 @@ const dueFilter = new FilterSelect("dueSelect", "期限", dueValues, dueOptionsT
 const showValues = ["all", "normal", "deleted"];
 const showOptionsText = ["すべて", "通常", "表示削除済み"];
 const showFilter = new FilterSelect("showSelect", "表示", showValues, showOptionsText, "selectedShow");
+showFilter.applyDefault("normal");
 (async () => {
     const showFilterel = await showFilter.getElement();
     showFilterel.map((el) => {
@@ -189,26 +193,6 @@ const applyColor = (type, toColor) => {
 
 
 //初期状態のlocalstorage
-chrome.storage.sync.get(["selectedType"], (result) => {
-    if (result.selectedType === undefined) {
-        chrome.storage.sync.set({ selectedType: "all" });
-    }
-});
-chrome.storage.sync.get(["selectedStatus"], (result) => {
-    if (result.selectedStatus === undefined) {
-        chrome.storage.sync.set({ selectedStatus: "all" });
-    }
-});
-chrome.storage.sync.get(["selectedDue"], (result) => {
-    if (result.selectedDue === undefined) {
-        chrome.storage.sync.set({ selectedDue: "all" });
-    }
-});
-chrome.storage.sync.get(["selectedShow"], (result) => {
-    if (result.selectedShow === undefined) {
-        chrome.storage.sync.set({ selectedShow: "normal" });
-    }
-});
 chrome.storage.sync.get(["displayShow"], (result) => {
     if (result.displayShow === undefined) {
         chrome.storage.sync.set({ displayShow: true });

@@ -100,7 +100,6 @@
       ],
       "js": [
         "./storage/display/filter.js",
-        "./storage/display/display_assign_list.js",
         "./storage/display/display_quiz_list.js",
         "./storage/display/displaybox.js"
       ],
