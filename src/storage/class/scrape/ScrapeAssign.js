@@ -34,11 +34,11 @@ class ScrapeAssign extends Scrape {
         let a_status;
         if (filenum === 0) {
             a_status = "incomplete"; // ファイルが見つからない場合は未完了とみなす
-            if (calldue() && Math.ceil((calldue() - Date.now()) / (1000 * 60 * 60 * 24)) < 3) {
+            if (this.calldue() && Math.ceil((this.calldue() - Date.now()) / (1000 * 60 * 60 * 24)) < 3) {
                 a_status = "warning";
             }
             //締め切りを過ぎている場合はexpiredにする
-            if (calldue() && Math.ceil((calldue() - Date.now()) / (1000 * 60 * 60 * 24)) < 0) {
+            if (this.calldue() && Math.ceil((this.calldue() - Date.now()) / (1000 * 60 * 60 * 24)) < 0) {
                 a_status = "expired";
             }
         } else {
@@ -51,9 +51,9 @@ class ScrapeAssign extends Scrape {
             assignId: assignId,
             courseName: courseName,
             assignName: assignName,
-            start: callstart()?.toISOString() ?? null,
+            start: this.callstart()?.toISOString() ?? null,
             submit: submit,
-            due: calldue()?.toISOString() ?? null,
+            due: this.calldue()?.toISOString() ?? null,
             file: file,
             filenum: filenum,
             status: a_status,

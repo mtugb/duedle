@@ -152,8 +152,8 @@ const colorReload = () => {
 };
 
 const transDue = (txt) => {
-    if (txt.includes("今日")) {
-        const time = txt.match(/今日,\s*(\d{2}):(\d{2})/);
+    if (txt.includes("本日")) {
+        const time = txt.match(/本日,\s*(\d{2}):(\d{2})/);
         const [, hour, minute] = time;
         const now = new Date();
         return new Date(

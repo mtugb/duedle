@@ -50,11 +50,11 @@ class ScrapeQuizReview extends Scrape {
         //warningやexpiredにおきかえ
 
         if (a_status === "incomplete") {
-            if (calldue() && Math.ceil((calldue() - Date.now())) < 3) {
+            if (this.calldue() && Math.ceil((this.calldue() - Date.now())) < 3) {
                 a_status = "warning";
             }
             //締め切りを過ぎている場合はexpiredにする
-            if (calldue() && Math.ceil((calldue() - Date.now())) < 0) {
+            if (this.calldue() && Math.ceil((this.calldue() - Date.now())) < 0) {
                 a_status = "expired";
             }
         }

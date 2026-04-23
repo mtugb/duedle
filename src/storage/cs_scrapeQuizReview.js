@@ -1,5 +1,6 @@
 //quizId, courseName, quizName, start, submit, due, point, required, maxp, count, maxcount, status
 
+
 const urlParams = new URLSearchParams(window.location.search);
 const quizId = Number(urlParams.get("cmid"));
 if (!quizId) {

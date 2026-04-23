@@ -1,6 +1,6 @@
 class Scrape {
     //return start
-    callstart() {
+    static callstart() {
         try {
             const temp = document.querySelector(".description-inner div:nth-child(2)").textContent.trim();
             const start = document.querySelector(".description-inner div").textContent.trim();
@@ -20,7 +20,7 @@ class Scrape {
         }
     }
     //return due
-    calldue() {
+    static calldue() {
         try {
             const dueraw = document.querySelector(".description-inner div:nth-child(2)").textContent.trim();
             return extractDate(dueraw);

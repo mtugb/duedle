@@ -1,10 +1,10 @@
-const data = ScrapeAssign.getData();
+const data = ScrapeAssign.getData(document);
 //write
 chrome.storage.local.get(["assign_list"], (result) => {
     const assign_list = result.assign_list || [];
     let found = false;
     const newAssignList = assign_list.map(assign => {
-        if (assign.assignId === assignId) {
+        if (assign.assignId === data.assignId) {
             found = true;
             data.show = assign.show !== undefined ? assign.show : true;
             data.notified = assign.notified !== undefined ? assign.notified.notified : false;

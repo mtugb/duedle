@@ -90,11 +90,11 @@ class ScrapeQuiz extends Scrape {
         //warningやexpiredにおきかえ
 
         if (a_status === "incomplete") {
-            if (calldue() && Math.ceil((calldue() - Date.now()) / (1000 * 60 * 60 * 24)) < 3) {
+            if (this.calldue() && Math.ceil((this.calldue() - Date.now()) / (1000 * 60 * 60 * 24)) < 3) {
                 a_status = "warning";
             }
             //締め切りを過ぎている場合はexpiredにする
-            if (calldue() && Math.ceil((calldue() - Date.now()) / (1000 * 60 * 60 * 24)) < 0) {
+            if (this.calldue() && Math.ceil((this.calldue() - Date.now()) / (1000 * 60 * 60 * 24)) < 0) {
                 a_status = "expired";
             }
         }
@@ -105,9 +105,9 @@ class ScrapeQuiz extends Scrape {
             quizId: quizId,
             courseName: courseName,
             quizName: quizName,
-            start: callstart()?.toISOString() ?? null,
-            submit: callsubmit()?.toISOString() ?? null,
-            due: calldue()?.toISOString() ?? null,
+            start: this.callstart()?.toISOString() ?? null,
+            submit: this.callsubmit()?.toISOString() ?? null,
+            due: this.calldue()?.toISOString() ?? null,
             point: point,
             required: required,
             maxp: maxp,

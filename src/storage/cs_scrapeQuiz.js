@@ -1,11 +1,11 @@
-const data = ScrapeQuiz.getData();
+const data = ScrapeQuiz.getData(document);
 //write
 chrome.storage.local.get(["quiz_list"], (result) => {
     const quiz_list = result.quiz_list || [];
     let found = false;
 
     const newQuizList = quiz_list.map(quiz => {
-        if (quiz.quizId === quizId) {
+        if (quiz.quizId === data.quizId) {
             found = true;
             data.show = quiz.show;
             data.notified = quiz.notified;
