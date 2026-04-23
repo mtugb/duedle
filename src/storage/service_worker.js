@@ -91,7 +91,6 @@ async function processItem(item) {
   const data = {
     ...detail
   };
-  console.log(data);
   if (item.type === "assign") {
     data.assignId = item.id;
     chrome.storage.local.get(["assign_list"], (result) => {
