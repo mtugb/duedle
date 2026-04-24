@@ -16,6 +16,7 @@ chrome.storage.local.get(["quiz_list"], (result) => {
         if (quiz.quizId === quizId) {
             found = true;
             const quizNew = ScrapeQuizReview.getData(quiz);
+            console.log(quizNew);
             return { ...quiz, ...quizNew };
         }
         return quiz;

@@ -18,15 +18,21 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     if (msg.type === "parse-assign") {
         const doc = new DOMParser().parseFromString(msg.html, "text/html");
         const res = ScrapeAssign.getData(doc);
-        sendResponse(res);
-
-        return true;
+        if (res !== null) {
+            sendResponse(res);
+            return true;
+        }
+        sendResponse(null);
+        return false;
     }
     if (msg.type === "parse-quiz") {
         const doc = new DOMParser().parseFromString(msg.html, "text/html");
         const res = ScrapeQuiz.getData(doc);
-        sendResponse(res);
-
-        return true;
+        if (res !== null) {
+            sendResponse(res);
+            return true;
+        }
+        sendResponse(null);
+        return false;
     }
 });

@@ -22,8 +22,37 @@ class StorageUtil {
         await chrome.storage.local.set({ [table]: data });
     }
 
-    //複数をまとめて
-    static async editDatas() {
+    //データ保存
+    static async saveData(table, idproperty, data) {
+        chrome.storage.local.get([table], (result) => {
+            const res = result[table] || [];
+            let found = false;
+            const newlist = res.map(item => {
+                if (item[idproperty] === data[idproperty]) {
+                    found = true;
+                    data.show = item.show !== undefined ? item.show : true;
+                    data.notified = item.notified !== undefined ? item.notified : false;
+                    if (item.maxp !== null && item.maxp !== undefined) {
+                        data.maxp = item.maxp;
+                    }
+                    if (item.point !== null && item.point !== undefined && !data.point) {
+                        data.point = item.point;
+                    }
+                    //完了は上書きしない
+                    if (data.status === "unknown" && item.status === "complete") {
+                        data.status = item.status;
+                    }
+                    console.log(data);
+                    return { ...item, ...data };
+                }
+                return item;
+            });
 
+            if (!found) {
+                newlist.push({ ...data });
+            }
+
+            chrome.storage.local.set({ [table]: newlist });
+        });
     }
 }

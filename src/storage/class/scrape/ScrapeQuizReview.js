@@ -65,7 +65,6 @@ class ScrapeQuizReview extends Scrape {
             courseName: courseName,
             quizName: quizName,
             start: oldData.start,
-            submit: oldData.submit,
             due: oldData.due,
             point: point,
             required: oldData.required,

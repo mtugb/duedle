@@ -1,13 +1,16 @@
 class Scrape {
     //return start
     static callstart() {
+        return this.callstart(document);
+    }
+    static callstart(doc) {
         try {
-            const temp = document.querySelector(".description-inner div:nth-child(2)").textContent.trim();
-            const start = document.querySelector(".description-inner div").textContent.trim();
+            const temp = doc.querySelector(".description-inner div:nth-child(2)").textContent.trim();
+            const start = doc.querySelector(".description-inner div").textContent.trim();
             return extractDate(start);
         } catch (error) {
             try {
-                const start = document.querySelector(".description-inner div").textContent.trim();
+                const start = doc.querySelector(".description-inner div").textContent.trim();
                 if (start.includes("始")) {
                     return extractDate(start);
                 } else {
@@ -21,12 +24,15 @@ class Scrape {
     }
     //return due
     static calldue() {
+        return this.calldue(document);
+    }
+    static calldue(doc) {
         try {
-            const dueraw = document.querySelector(".description-inner div:nth-child(2)").textContent.trim();
+            const dueraw = doc.querySelector(".description-inner div:nth-child(2)").textContent.trim();
             return extractDate(dueraw);
         } catch (error) {
             try {
-                const dueraw = document.querySelector(".description-inner div").textContent.trim();
+                const dueraw = doc.querySelector(".description-inner div").textContent.trim();
                 if (!dueraw.includes("始")) {
                     return extractDate(dueraw);
                 } else {

@@ -90,16 +90,15 @@
         "https://cms7.ict.nitech.ac.jp/moodle40a/mod/assign/view.php?id=*"
       ],
       "js": [
-        "./storage/scrapeAssign.js",
-        "./storage/cs_scrapeAssign.js",
-        "./qol/assign_files.js"
+        "./qol/assign_files.js",
+        "./storage/cs_scrapeAssign.js"
       ]
     },
     {
       "matches": [
         "https://cms7.ict.nitech.ac.jp/moodle40a/mod/quiz/view.php?id=*"
       ],
-      "js": ["./storage/scrapeQuiz.js", "./storage/cs_scrapeQuiz.js"]
+      "js": ["./storage/cs_scrapeQuiz.js"]
     },
     {
       "matches": [

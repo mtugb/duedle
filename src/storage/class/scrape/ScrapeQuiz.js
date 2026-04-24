@@ -1,37 +1,26 @@
 class ScrapeQuiz extends Scrape {
-    static getData(){
+    static getData() {
         return this.getData(document);
     }
-    static getData(document) {
+    static getData(doc) {
         //quizId, courseName, quizName, start, submit, due, point, required, maxp, count, maxcount, status
         //quizId
         const urlParams = new URLSearchParams(window.location.search);
         const quizId = Number(urlParams.get("id"));
-        if (!quizId) {
-            console.error("Quiz ID not found in URL");
-            quizId = null; // quizIdが見つからない場合はnullを設定
-        }
 
         //courseName
-        const courseName = document.querySelector("h1").textContent.trim();
+        const courseName = doc.querySelector("h1").textContent.trim();
 
         //quizName
-        const quizName = document.querySelector("h2").textContent.trim();
-
-        //submit
-        function callsubmit() {
-            try {
-                const submitraw = document.querySelector(".statedetails:last-of-type").textContent.trim();
-                return extractDate(submitraw);
-            } catch (error) {
-                return null; // 開始日時が見つからない場合はnullを返す
-            }
+        const quizName = doc.querySelector("h2").textContent.trim();
+        if(quizName==="トピックアウトライン"){
+            return null;
         }
 
         //point
         let point, maxp;
         try {
-            const pointraw = document.querySelector("#feedback h3").textContent.trim();
+            const pointraw = doc.querySelector("#feedback h3").textContent.trim();
             const match = pointraw.match(/(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)/);
 
             if (match) {
@@ -47,17 +36,17 @@ class ScrapeQuiz extends Scrape {
             }
         }
         //required,maxp
-        const requiredraw = [...document.querySelectorAll("p.text-left")]
+        const requiredraw = [...doc.querySelectorAll("p.text-left")]
             .find(e => e.textContent.includes("合格点"));
         const requiredMatch = requiredraw ? requiredraw.textContent.trim().match(/合格点:\s*([\d.]+)\s*\/\s*([\d.]+)/) : null;
         const required = requiredMatch ? parseFloat(requiredMatch[1]) : null;
         if (maxp === null) maxp = requiredMatch ? parseFloat(requiredMatch[2]) : null;
 
         //count
-        const count = (document.getElementsByTagName("tr").length - 1) === -1 ? 0 : document.getElementsByTagName("tr").length - 1; // ヘッダー行を除くために-1
+        const count = (doc.getElementsByTagName("tr").length - 1) === -1 ? 0 : doc.getElementsByTagName("tr").length - 1; // ヘッダー行を除くために-1
 
         //maxcount
-        const maxcountraw = [...document.querySelectorAll("p.text-left")]
+        const maxcountraw = [...doc.querySelectorAll("p.text-left")]
             .find(e => e.textContent.includes("受験可能回数"));
         const maxcount = maxcountraw ? Number(maxcountraw.textContent.trim().match(/受験可能回数:\s*(\d+)/)[1]) : null;
 
@@ -90,11 +79,11 @@ class ScrapeQuiz extends Scrape {
         //warningやexpiredにおきかえ
 
         if (a_status === "incomplete") {
-            if (this.calldue() && Math.ceil((this.calldue() - Date.now()) / (1000 * 60 * 60 * 24)) < 3) {
+            if (this.calldue(doc) && Math.ceil((this.calldue(doc) - Date.now()) / (1000 * 60 * 60 * 24)) < 3) {
                 a_status = "warning";
             }
             //締め切りを過ぎている場合はexpiredにする
-            if (this.calldue() && Math.ceil((this.calldue() - Date.now()) / (1000 * 60 * 60 * 24)) < 0) {
+            if (this.calldue(doc) && Math.ceil((this.calldue(doc) - Date.now()) / (1000 * 60 * 60 * 24)) < 0) {
                 a_status = "expired";
             }
         }
@@ -105,19 +94,17 @@ class ScrapeQuiz extends Scrape {
             quizId: quizId,
             courseName: courseName,
             quizName: quizName,
-            start: this.callstart()?.toISOString() ?? null,
-            submit: this.callsubmit()?.toISOString() ?? null,
-            due: this.calldue()?.toISOString() ?? null,
+            start: this.callstart(doc)?.toISOString() ?? null,
+            due: this.calldue(doc)?.toISOString() ?? null,
             point: point,
             required: required,
             maxp: maxp,
             count: count,
             maxcount: maxcount,
             status: a_status,
-            show: quizName==="トピックアウトライン"? false : true, //default
+            show: true, //default
             notified: false
         }
-
         return data;
 
 
