@@ -19,6 +19,7 @@ nav.forEach((el) => {
 });
 
 //さらにとサイトホーム, まわりのアイコンやプルダウンタブの削除
+
 document.querySelectorAll(".item-content-wrap").forEach(el => {
     if (el.textContent.includes("さらに") || el.textContent.includes("サイトホーム") || el.textContent.includes("マイコース")) {
         el.remove();
