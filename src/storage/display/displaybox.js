@@ -79,13 +79,13 @@ const displaybox = async (data) => {
 
 const changeActivityColor = (item) => {
     if (item.group === "assign_list") {
-        const actbox = document.querySelectorAll(`[data-activityname="${item.assignName.replace("&", "&amp;")}"]`);
+        const actbox = document.querySelectorAll(`.assign [data-activityname="${item.assignName.replace("&", "&amp;")}"]`);
         if (actbox[0]) {
             actbox[0].classList.add(item.status);
         }
 
     } else if (item.group === "quiz_list") {
-        const actbox = document.querySelectorAll(`[data-activityname="${item.quizName.replace("&", "&amp;")}"]`);
+        const actbox = document.querySelectorAll(`.quiz [data-activityname="${item.quizName.replace("&", "&amp;")}"]`);
         if (actbox[0]) {
             actbox[0].classList.add(item.status);
         }

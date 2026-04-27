@@ -2,10 +2,13 @@ const header = document.querySelector("header");
 const ext_dashboard = document.createElement("div");
 ext_dashboard.setAttribute("id", "ext_dashboard");
 ext_dashboard.classList.add("card-body");
+
+
 //inside div - innerHTML
 const extInner =
-    `<button class="btn btn-secondary" id="displaybutton">課題表示を切り替える</button>
-    <button class="btn btn-primary" id="scrapebutton">課題情報を更新する</button>
+    `<button class="btn btn-primary" id="scrapebutton">課題情報を更新する</button>
+    <button class="btn btn-secondary" id="displaybutton">課題メニュー表示を切り替える</button>
+    <button class="btn btn-secondary" id="deletebutton"></button>
     <div id="filter" class="filter-group my-2 p-2 border-radius border">
         <fieldset id="fieldfilter">
         </fieldset>
@@ -110,6 +113,39 @@ displaybutton.addEventListener("click", () => {
     chrome.storage.sync.set({ displayShow: !display.hasAttribute("hidden") });
 });
 
+//deletebutton
+let deletebutton_count = 5;
+const deletebutton = document.querySelector("#deletebutton");
+deletebutton.textContent = `表示中の課題を一括表示切り替え(${deletebutton_count})`;
+deletebutton.addEventListener("click", async () => {
+    if (deletebutton_count !== 0) {
+        deletebutton_count--;
+    } else {
+        const tasklink = Array.from(document.querySelectorAll("#display a"));
+        for (const item of tasklink) {
+            const link = item.getAttribute("href");
+            const id = parseInt(link.match(/\d+$/)?.[0], 10);
+            const ss = await chrome.storage.sync.get("selectedShow");
+            const showsetting = ss.selectedShow;
+            if (link.includes("assign")) {
+                if (showsetting === "normal") {
+                    await StorageUtil.editData('assign_list', "assignId", id, "show", false);
+                } else if (showsetting === "deleted") {
+                    await StorageUtil.editData('assign_list', "assignId", id, "show", true);
+                }
+            } else if (link.includes("quiz")) {
+                if (showsetting === "normal") {
+                    await StorageUtil.editData('quiz_list', "quizId", id, "show", false);
+                } else if (showsetting === "deleted") {
+                    await StorageUtil.editData('quiz_list', "quizId", id, "show", true);
+                }
+            }
+        }
+        rerender();
+        deletebutton_count = 5;
+    }
+    deletebutton.textContent = `表示中の課題を一括表示切り替え(${deletebutton_count})`;
+});
 
 
 
