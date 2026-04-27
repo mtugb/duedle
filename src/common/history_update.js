@@ -9,7 +9,7 @@ const MAX_HISTORY_LENGTH = 10;
     return;
   }
   //重複削除
-  history = history.filter((e) => e.url.trim() !== url.trim());
+  history = history.filter((e) => e.title.trim() !== title.trim());
   history.push({
     title,
     url,
