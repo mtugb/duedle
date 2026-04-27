@@ -1,6 +1,6 @@
 const attachedFiles = Array.from(document.querySelectorAll("a"));
 attachedFiles.map((item) => {
-    if (!item.href.includes("submission_files")&&item.href.includes("?forcedownload=1")) {
+    if (!item.href.includes("submission_files")&&item.href.includes("?forcedownload=1")&&item.href.includes(".pdf")) {
         const url = item.getAttribute("href");
         item.setAttribute("href", url.replace("?forcedownload=1", ""));
     }

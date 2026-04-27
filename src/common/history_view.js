@@ -1,5 +1,4 @@
 (async () => {
-  console.log("view");
   let cl = document.querySelector(".columnleft");
   if (!(cl instanceof HTMLElement)) {
     console.error("not a htmlelement");
@@ -7,7 +6,7 @@
   }
 
   let history = (await chrome.storage.local.get("history")).history || [];
-  console.log({ history });
+  //console.log({ history });
 
   //html
   let myboxHtml = `

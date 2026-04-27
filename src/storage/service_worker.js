@@ -1,4 +1,5 @@
-
+importScripts("./class/StorageUtil.js");
+importScripts("../common/utils.js");
 
 // アラーム発火時
 chrome.runtime.onMessage.addListener(async (msg, sender) => {
@@ -13,21 +14,21 @@ async function runScraping() {
   for (const courseId of courseIds) {
     await processCourse(courseId);
   }
-const url = "https://cms7.ict.nitech.ac.jp/moodle40a/my/";
-        // 🔔 通知
-        chrome.notifications.create(url, {
-          type: "basic",
-          iconUrl: "icon.jpg",
-          title: "スクレイピング完了",
-          message: `課題の情報収集が完了しました`
-        });
+  const url = "https://cms7.ict.nitech.ac.jp/moodle40a/my/";
+  // 🔔 通知
+  chrome.notifications.create(url, {
+    type: "basic",
+    iconUrl: "icon.jpg",
+    title: "スクレイピング完了",
+    message: `課題の情報収集が完了しました`
+  });
 
-        chrome.notifications.onClicked.addListener((notificationId) => {
-          chrome.tabs.create({
-            url: notificationId
-          });
-        });
-        console.log("Scrape Completed");
+  chrome.notifications.onClicked.addListener((notificationId) => {
+    chrome.tabs.create({
+      url: notificationId
+    });
+  });
+  console.log("Scrape Completed");
 }
 
 async function ensureOffscreen() {
@@ -91,80 +92,20 @@ async function processItem(item) {
   const data = {
     ...detail
   };
-  console.log(data);
-  if (item.type === "assign") {
-    data.assignId = item.id;
-    chrome.storage.local.get(["assign_list"], (result) => {
-      const assign_list = result.assign_list || [];
-      assign_list.map(assign => {
-        if (assign.assignId === item.id) {
-          data.show = assign.show !== undefined ? assign.show : true;
-          data.notified = assign.notified !== undefined ? assign.notified : false;
-          return { ...assign, ...data };
-        }
-        return assign;
-      });
-    });
-    await upsertAssign(data);
-
-  } else {
-    data.quizId = item.id;
-    chrome.storage.local.get(["quiz_list"], (result) => {
-      const quiz_list = result.quiz_list || [];
-      quiz_list.map(quiz => {
-        if (quiz.quizId === item.id) {
-          data.show = quiz.show !== undefined ? quiz.show : true;
-          data.notified = quiz.notified !== undefined ? quiz.notified : false;
-          return { ...quiz, ...data };
-        }
-        return quiz;
-      });
-    });
-    await upsertQuiz(data);
+  if (data.courseName) {
+    if (item.type === "assign") {
+      data.assignId = item.id;
+      StorageUtil.saveData("assign_list", "assignId", data);
+    } else {
+      data.quizId = item.id;
+      StorageUtil.saveData("quiz_list", "quizId", data);
+    }
   }
+
 }
 
 
 
-async function upsertAssign(newItem) {
-  const { assign_list } = await chrome.storage.local.get("assign_list");
-  const data = assign_list || [];
-
-  const index = data.findIndex(item => Number(item.assignId) === Number(newItem.assignId));
-
-  if (index !== -1) {
-    // 更新（マージ）
-    data[index] = {
-      ...data[index],
-      ...newItem
-    };
-  } else {
-    // 新規追加
-    data.push(newItem);
-  }
-
-  await chrome.storage.local.set({ assign_list: data });
-}
-
-async function upsertQuiz(newItem) {
-  const { quiz_list } = await chrome.storage.local.get("quiz_list");
-  const data = quiz_list || [];
-
-  const index = data.findIndex(item => Number(item.quizId) === Number(newItem.quizId));
-
-  if (index !== -1) {
-    // 更新（マージ）
-    data[index] = {
-      ...data[index],
-      ...newItem
-    };
-  } else {
-    // 新規追加
-    data.push(newItem);
-  }
-
-  await chrome.storage.local.set({ quiz_list: data });
-}
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.tabs.query({}, (tabs) => {
@@ -199,18 +140,7 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
       if (diff <= 24 && diff > 0 && !item.notified && item.status !== "complete") {
         const url = "https://cms7.ict.nitech.ac.jp/moodle40a/mod/assign/view.php?id=" + item.assignId;
         // 🔔 通知
-        chrome.notifications.create(url, {
-          type: "basic",
-          iconUrl: "icon.jpg",
-          title: "締切間近",
-          message: `${item.courseName} コースの ${item.assignName} の締切が近いです`
-        });
-
-        chrome.notifications.onClicked.addListener((notificationId) => {
-          chrome.tabs.create({
-            url: notificationId
-          });
-        });
+        newNotification(url, item.courseName, item.assignName);
 
         // ✅ 通知済みに更新
         item.notified = true;
@@ -238,17 +168,7 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
       if (diff <= 24 && diff > 0 && !item.notified && item.status !== "complete") {
         const url = "https://cms7.ict.nitech.ac.jp/moodle40a/mod/quiz/view.php?id=" + item.quizId;
         // 🔔 通知
-        chrome.notifications.create(url, {
-          type: "basic",
-          iconUrl: "icon.jpg",
-          title: "締切間近",
-          message: `${item.courseName} コースの ${item.quizName} の締切が近いです`
-        });
-        chrome.notifications.onClicked.addListener((notificationId) => {
-          chrome.tabs.create({
-            url: notificationId
-          });
-        });
+        newNotification(url, item.courseName, item.quizName);
 
         // ✅ 通知済みに更新
         item.notified = true;
@@ -263,3 +183,17 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
   }
 
 });
+function newNotification(url, courseName, taskName) {
+  chrome.notifications.create(url, {
+    type: "basic",
+    iconUrl: "icon.jpg",
+    title: "締切間近",
+    message: `${courseName} コースの ${taskName} の締切が近いです`
+  });
+
+  chrome.notifications.onClicked.addListener((notificationId) => {
+    chrome.tabs.create({
+      url: notificationId
+    });
+  });
+}

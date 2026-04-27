@@ -1,5 +1,5 @@
-
 const displaybox = async (data) => {
+    const display = document.querySelector("#display");
     if (data) {
         await Promise.all(data.map(async item => {
             //condition
@@ -7,15 +7,17 @@ const displaybox = async (data) => {
             const savedStatus = (await chrome.storage.sync.get(["selectedStatus"])).selectedStatus;
             const savedDue = (await chrome.storage.sync.get(["selectedDue"])).selectedDue;
             const savedShow = (await chrome.storage.sync.get(["selectedShow"])).selectedShow;
-            const courseName = document.querySelector("h1").textContent.trim();
+            if (location.href.includes("https://cms7.ict.nitech.ac.jp/moodle40a/course/view.php?id=")) {
+                const courseName = document.querySelector("h1").textContent.trim();
+                if (courseName !== item.courseName) {
+                    return;
+                }
+                changeActivityColor(item);
+            }
+
             if (item.start) { item.start = new Date(item.start); }
             if (item.due) { item.due = new Date(item.due); }
-            //ほかのコースはスキップ
-            if (courseName !== item.courseName) {
-                return;
-            }
             changeAct(item);
-            changeActColor(item);
 
             //表示状態確認
             if (savedShow === "normal" && !item.show) {
@@ -58,10 +60,16 @@ const displaybox = async (data) => {
                 display.textContent = "";
             }
 
+            if (item.start) { item.start = new Date(item.start); }
+            if (item.due) { item.due = new Date(item.due); }
             if (item.group === "assign_list") {
-                displaybox_assign_list(item);
+                const assignbox = new AssignBox(item);
+                const assign = await assignbox.getElement();
+                display.appendChild(assign);
             } else if (item.group === "quiz_list") {
-                displaybox_quiz_list(item);
+                const quizbox = new QuizBox(item);
+                const quiz = await quizbox.getElement();
+                display.appendChild(quiz);
             }
         }));
     }
@@ -69,15 +77,15 @@ const displaybox = async (data) => {
     colorReload();
 };
 
-const changeActColor = (item) => {
+const changeActivityColor = (item) => {
     if (item.group === "assign_list") {
-        const actbox = document.querySelectorAll(`[data-activityname="${item.assignName.replace("&", "&amp;")}"]`);
+        const actbox = document.querySelectorAll(`.assign [data-activityname="${item.assignName.replace("&", "&amp;")}"]`);
         if (actbox[0]) {
             actbox[0].classList.add(item.status);
         }
 
     } else if (item.group === "quiz_list") {
-        const actbox = document.querySelectorAll(`[data-activityname="${item.quizName.replace("&", "&amp;")}"]`);
+        const actbox = document.querySelectorAll(`.quiz [data-activityname="${item.quizName.replace("&", "&amp;")}"]`);
         if (actbox[0]) {
             actbox[0].classList.add(item.status);
         }
@@ -103,7 +111,7 @@ const changeAct = (item) => {
             i.querySelector(".date").textContent = formatRemainingTime(due);
         }
         const i_title = i.querySelector("a.text-truncate");
-        i_title.setAttribute("title",i_title.textContent);
+        if (i_title) i_title.setAttribute("title", i_title.textContent);
 
     });
 };
@@ -119,7 +127,6 @@ const checkUnvisited = () => {
     });
     const unvisitedboxes_ = Array.from(document.querySelectorAll(`.event:not(.complete,.incomplete,.unknown,.expired,.stuck,.qualify,.warning)`));
     unvisitedboxes_.map((i) => {
-        console.log(i);
         i.classList.add("unvisited");
         const i_datetxt = i.querySelector(".date").textContent;
         const due = transDue(i_datetxt);
@@ -127,7 +134,7 @@ const checkUnvisited = () => {
             i.querySelector(".date").textContent = formatRemainingTime(due);
         }
         const i_title = i.querySelector("a.text-truncate");
-        i_title.setAttribute("title",i_title.textContent);
+        i_title.setAttribute("title", i_title.textContent);
     });
 
     const unvisitedboxesh6 = Array.from(document.querySelectorAll(`h6.d-flex.mb-1`));
@@ -145,8 +152,8 @@ const colorReload = () => {
 };
 
 const transDue = (txt) => {
-    if (txt.includes("今日")) {
-        const time = txt.match(/今日,\s*(\d{2}):(\d{2})/);
+    if (txt.includes("本日")) {
+        const time = txt.match(/本日,\s*(\d{2}):(\d{2})/);
         const [, hour, minute] = time;
         const now = new Date();
         return new Date(
@@ -186,7 +193,7 @@ const transDue = (txt) => {
 };
 
 (async () => {
-    const alldata = await getAllData();
+    const alldata = await StorageUtil.getAllData();
     display.textContent = "表示するものがありません";
     displaybox(alldata);
 })();
