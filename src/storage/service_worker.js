@@ -1,10 +1,22 @@
 importScripts("./class/StorageUtil.js");
+importScripts("./class/scrape/Scrape.js");
+importScripts("./class/scrape/ScrapeAssign.js");
+importScripts("./class/scrape/ScrapeQuiz.js");
 importScripts("../common/utils.js");
 
 // アラーム発火時
 chrome.runtime.onMessage.addListener(async (msg, sender) => {
-  console.log("Scraping Alarm Executed");
-  runScraping();
+  switch (msg.type) {
+    case "SCRAPE_COURSE":
+      console.log("Scraping Alarm Executed");
+      runScraping();
+      break;
+    case "TAB_COURSE":
+      console.log("tab scrape executed");
+      runTabScraping();
+      break;
+  }
+
 });
 
 async function runScraping() {
@@ -104,6 +116,92 @@ async function processItem(item) {
 
 }
 
+
+
+
+async function runTabScraping() {
+  // Moodleページを開く
+  chrome.storage.local.get(["courseIds"], async (result) => {
+    for (const courseId of result.courseIds) {
+      await processTabCourse(courseId);
+    }
+  });
+}
+
+async function processTabCourse(courseId) {
+  const tab = await chrome.tabs.create({
+    url: `https://cms7.ict.nitech.ac.jp/moodle40a/course/view.php?id=${courseId}`,
+    active: false
+  });
+  console.log("opening courseId:" + courseId);
+  // 読み込み待ち
+  await waitTab(tab.id);
+
+  // スクリプト注入
+  const results = await chrome.scripting.executeScript({
+    target: { tabId: tab.id },
+    func: () => {
+      return [
+        ...document.querySelectorAll("li.assign, li.quiz")
+      ].map(el => ({
+        id: el.getAttribute("data-id"),
+        type: el.classList.contains("assign") ? "assign" : "quiz"
+      }));
+    }
+  });
+  const items = results[0].result;
+
+  // タブ閉じる
+  chrome.tabs.remove(tab.id);
+
+  // 次のページ処理
+  for (const item of items) {
+    await processTabItem(item);
+  }
+}
+
+async function processTabItem(item) {
+  const url =
+    item.type === "assign"
+      ? `https://cms7.ict.nitech.ac.jp/moodle40a/mod/assign/view.php?id=${item.id}`
+      : `https://cms7.ict.nitech.ac.jp/moodle40a/mod/quiz/view.php?id=${item.id}`;
+
+  const tab = await chrome.tabs.create({ url, active: false });
+
+  await waitTab(tab.id);
+
+  const result = await chrome.scripting.executeScript({
+    target: { tabId: tab.id },
+    func: () => {
+      if (item.type === "assign") {
+        const data = ScrapeAssign.getData(document);
+        //write
+        if (data !== null) {
+          StorageUtil.saveData("assign_list", "assignId", data);
+        }
+      } else {
+        const data = ScrapeQuiz.getData(document);
+        //write
+        if (data !== null) {
+          StorageUtil.saveData("quiz_list", "quizId", data);
+        }
+      }
+    }
+  });
+
+  chrome.tabs.remove(tab.id);
+}
+
+function waitTab(tabId) {
+  return new Promise(resolve => {
+    chrome.tabs.onUpdated.addListener(function listener(id, info) {
+      if (id === tabId && info.status === "complete") {
+        chrome.tabs.onUpdated.removeListener(listener);
+        resolve();
+      }
+    });
+  });
+}
 
 
 

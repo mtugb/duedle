@@ -4,7 +4,7 @@
   "version": "1.2.0",
   "manifest_version": 3,
   "description": "Moodleの拡張機能です。名工大のMoodleを最強にします",
-  "permissions": ["storage", "alarms", "tabs", "offscreen", "notifications"],
+  "permissions": ["storage", "alarms", "tabs", "offscreen", "scripting", "notifications"],
   "host_permissions": ["https://cms7.ict.nitech.ac.jp/moodle40a/*"],
   "background": {
     "service_worker": "./storage/service_worker.js"

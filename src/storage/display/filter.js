@@ -6,7 +6,8 @@ ext_dashboard.classList.add("card-body");
 
 //inside div - innerHTML
 const extInner =
-    `<button class="btn btn-primary" id="scrapebutton">課題情報を更新する</button>
+    `
+    <button class="btn btn-primary" id="scrapebutton">課題情報を更新する</button>
     <button class="btn btn-secondary" id="displaybutton">課題メニュー表示を切り替える</button>
     <button class="btn btn-secondary" id="deletebutton"></button>
     <div id="filter" class="filter-group my-2 p-2 border-radius border">
@@ -26,6 +27,18 @@ const fieldset = document.querySelector("#fieldfilter");
 const fieldcolor = document.querySelector("#fieldcolor");
 const scrapebutton = document.querySelector("#scrapebutton");
 const noexistmsg = "表示するものがありません";
+
+//scrape mode
+const scrapeModeValues = ["scrape", "tab"];
+const scrapeModeText = ["バックグラウンド収集", "タブで収集"];
+const scrapeFilter = new FilterSelect("scrapeModeSelect", "収集モード", scrapeModeValues, scrapeModeText, "scrapeMode");
+scrapeFilter.applyDefault("scrape");
+(async () => {
+    const scrapeFilterel = await scrapeFilter.getElement();
+    scrapeFilterel.map((el) => {
+        fieldset.appendChild(el);
+    });
+})();
 
 //filters
 //type filter
@@ -84,10 +97,20 @@ scrapebutton.addEventListener("click", async () => {
     scrapebutton.disabled = true;
     const now = new Date();
     await chrome.storage.local.set({ scrapeCooldown: now.toISOString() });
-    await chrome.runtime.sendMessage({
-        type: "SCRAPE_COURSE"
+    chrome.storage.sync.get("scrapeMode", async (item) => {
+        if (item.scrapeMode === "scrape") {
+            await chrome.runtime.sendMessage({
+                type: "SCRAPE_COURSE"
+            });
+        } else if (item.scrapeMode === "tab"){
+            await chrome.runtime.sendMessage({
+                type: "TAB_COURSE"
+            });
+        }
+
+        scrapebutton.textContent = "クールダウン: 残り3時間";
     });
-    scrapebutton.textContent = "クールダウン: 残り3時間";
+
 });
 chrome.storage.local.get("scrapeCooldown", (item) => {
     const prev = new Date(item.scrapeCooldown);
