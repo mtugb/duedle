@@ -9,7 +9,7 @@ if (!quizId) {
 }
 
 //getData
-chrome.storage.local.get(["quiz_list"], (result) => {
+ext.storage.local.get(["quiz_list"], (result) => {
     const quiz_list = result.quiz_list || [];
     let found = false;
     const newQuizList = quiz_list.map(quiz => {
@@ -26,5 +26,5 @@ chrome.storage.local.get(["quiz_list"], (result) => {
         console.error("課題ページの情報を取得していないため、成績を保存できませんでした");
     }
 
-    chrome.storage.local.set({ quiz_list: newQuizList });
+    ext.storage.local.set({ quiz_list: newQuizList });
 });

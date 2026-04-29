@@ -3,10 +3,10 @@ const displaybox = async (data) => {
     if (data) {
         await Promise.all(data.map(async item => {
             //condition
-            const savedType = (await chrome.storage.sync.get(["selectedType"])).selectedType;
-            const savedStatus = (await chrome.storage.sync.get(["selectedStatus"])).selectedStatus;
-            const savedDue = (await chrome.storage.sync.get(["selectedDue"])).selectedDue;
-            const savedShow = (await chrome.storage.sync.get(["selectedShow"])).selectedShow;
+            const savedType = (await ext.storage.sync.get(["selectedType"])).selectedType;
+            const savedStatus = (await ext.storage.sync.get(["selectedStatus"])).selectedStatus;
+            const savedDue = (await ext.storage.sync.get(["selectedDue"])).selectedDue;
+            const savedShow = (await ext.storage.sync.get(["selectedShow"])).selectedShow;
             if (location.href.includes("https://cms7.ict.nitech.ac.jp/moodle40a/course/view.php?id=")) {
                 const courseName = document.querySelector("h1").textContent.trim();
                 if (courseName !== item.courseName) {
@@ -146,7 +146,7 @@ const checkUnvisited = () => {
 const colorReload = () => {
     colorTypesValue.map(async (value, index) => {
         const query = document.querySelector("#colorSelect_" + value);
-        query.value = document.querySelector(".darkmode") ? (await chrome.storage.sync.get(["colorSelect_dark_" + value]))["colorSelect_dark_" + value] : (await chrome.storage.sync.get(["colorSelect_light_" + value]))["colorSelect_light_" + value];
+        query.value = document.querySelector(".darkmode") ? (await ext.storage.sync.get(["colorSelect_dark_" + value]))["colorSelect_dark_" + value] : (await ext.storage.sync.get(["colorSelect_light_" + value]))["colorSelect_light_" + value];
         applyColor(value, query.value);
     });
 };

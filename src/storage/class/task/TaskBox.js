@@ -33,7 +33,7 @@ class TaskBox { //親クラス
         `;
         element.insertAdjacentHTML("beforeend", inner);
         //edit style
-        if ((await chrome.storage.sync.get(["selectedShow"])).selectedShow === "all") {
+        if ((await ext.storage.sync.get(["selectedShow"])).selectedShow === "all") {
             const ddm = element.querySelector(".dropdown-menu");
             ddm.setAttribute("hidden", "");
         }

@@ -1,7 +1,7 @@
 const syncDarkmode = async () => {
   //0:sync
   //1:darkmode, 2:light, 3:honobono
-  let thememode = (await chrome.storage.local.get("thememode")).thememode ?? 0;
+  let thememode = (await ext.storage.local.get("thememode")).thememode ?? 0;
   let shouldBeDarkmode =
     (thememode == 0 && isBrowserDarkMode()) || thememode == 1;
   if (shouldBeDarkmode) {
@@ -31,11 +31,11 @@ const syncDarkmode = async () => {
   try { colorReload(); } catch (_) {
     //ignore
   }
-  // chrome.storage.local.set({ history });
+  // ext.storage.local.set({ history });
 };
 syncDarkmode();
 (async () => {
-  let theme_conf = (await chrome.storage.local.get("thememode")).thememode ?? 0;
+  let theme_conf = (await ext.storage.local.get("thememode")).thememode ?? 0;
   console.log({ theme_conf });
   //html
   let thememode_selection_html = `
@@ -52,11 +52,11 @@ syncDarkmode();
   document
     .getElementById("thememode_selection")
     .addEventListener("change", (e) => {
-      chrome.storage.local.set({ thememode: Number(e.target.value) });
+      ext.storage.local.set({ thememode: Number(e.target.value) });
       syncDarkmode();
     });
 
-  // chrome.storage.local.set({ history });
+  // ext.storage.local.set({ history });
 })();
 
 function isBrowserDarkMode() {

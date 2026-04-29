@@ -1,0 +1,1 @@
+const ext = globalThis.browser ?? chrome;

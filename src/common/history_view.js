@@ -5,7 +5,7 @@
     return;
   }
 
-  let history = (await chrome.storage.local.get("history")).history || [];
+  let history = (await ext.storage.local.get("history")).history || [];
   //console.log({ history });
 
   //html
