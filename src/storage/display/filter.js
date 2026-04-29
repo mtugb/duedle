@@ -139,7 +139,7 @@ displaybutton.addEventListener("click", () => {
 //deletebutton
 let deletebutton_count = 5;
 const deletebutton = document.querySelector("#deletebutton");
-deletebutton.textContent = `表示中の課題を一括表示切り替え(${deletebutton_count})`;
+deletebutton.textContent = `一括表示切り替え(${deletebutton_count}クリック)`;
 deletebutton.addEventListener("click", async () => {
     if (deletebutton_count !== 1) {
         deletebutton_count--;
