@@ -18,16 +18,6 @@ ext.runtime.onMessage.addListener(async (msg, sender) => {
       runTabScraping();
       break;
   }
-
-});
-
-async function runScraping() {
-  await ensureOffscreen();
-  const { courseIds } = await ext.storage.local.get("courseIds");
-
-  for (const courseId of courseIds) {
-    await processCourse(courseId);
-  }
   const url = "https://cms7.ict.nitech.ac.jp/moodle40a/my/";
   // 🔔 通知
   ext.notifications.create(url, {
@@ -42,7 +32,17 @@ async function runScraping() {
       url: notificationId
     });
   });
-  console.log("Scrape Completed");
+  console.log("Scraping Completed");
+
+});
+
+async function runScraping() {
+  await ensureOffscreen();
+  const { courseIds } = await ext.storage.local.get("courseIds");
+
+  for (const courseId of courseIds) {
+    await processCourse(courseId);
+  }
 }
 
 async function ensureOffscreen() {
@@ -123,46 +123,88 @@ async function processItem(item) {
 
 async function runTabScraping() {
   // Moodleページを開く
-  ext.storage.local.get(["courseIds"], async (result) => {
-    for (const courseId of result.courseIds) {
-      await processTabCourse(courseId);
-    }
-  });
-}
-
-async function processTabCourse(courseId) {
   const tab = await ext.tabs.create({
-    url: `https://cms7.ict.nitech.ac.jp/moodle40a/course/view.php?id=${courseId}`,
+    url: "about:blank",
     active: false
   });
-  console.log("opening courseId:" + courseId);
-  // 読み込み待ち
-  await waitTab(tab.id);
 
-  // スクリプト注入
- // 注入ではなくメッセージ
-  const items = await sendTabMessage(
-    tab.id,
-    { type:"SCRAPE_COURSE" }
-  );
+  ext.storage.local.get(["courseIds"], async (result) => {
+    for (const courseId of result.courseIds) {
+      await navigateTab(
+        tab.id,
+        `https://cms7.ict.nitech.ac.jp/moodle40a/course/view.php?id=${courseId}`
+      );
+      const items =
+        await sendTabMessage(
+          tab.id,
+          { type: "SCRAPE_COURSE" }
+        );
+      for (const item of items) {
+        await processTabItem(item, tab.id);
+      }
+    }
+  });
+  await ext.tabs.remove(tab.id);
+}
 
-  // タブ閉じる
-  ext.tabs.remove(tab.id);
+async function navigateTab(tabId, url) {
+  await ext.tabs.update(tabId, {
+    url
+  });
 
-  // 次のページ処理
-  for (const item of items) {
-    await processTabItem(item);
-  }
+  await waitTab(tabId);
+}
+
+function waitTab(tabId, timeout = 15000) {
+  return new Promise((resolve, reject) => {
+    let done = false;
+
+    const timer = setTimeout(() => {
+      cleanup();
+      reject(
+        new Error("Tab load timeout")
+      );
+    }, timeout);
+
+    function cleanup() {
+      if (done) return;
+      done = true;
+
+      clearTimeout(timer);
+
+      ext.tabs.onUpdated.removeListener(
+        listener
+      );
+    }
+
+    async function listener(id, info) {
+
+      if (
+        id === tabId &&
+        info.status === "complete"
+      ) {
+
+        cleanup();
+
+        // Moodleで追加描画待ち
+        setTimeout(resolve, 500);
+      }
+    }
+
+    ext.tabs.onUpdated.addListener(
+      listener
+    );
+  });
 }
 
 function sendTabMessage(tabId, msg) {
-  return new Promise((resolve,reject)=>{
+  return new Promise((resolve, reject) => {
     ext.tabs.sendMessage(
       tabId,
       msg,
       response => {
-        if (chrome.runtime.lastError) {
-          reject(chrome.runtime.lastError);
+        if (ext.runtime.lastError) {
+          reject(ext.runtime.lastError);
           return;
         }
 
@@ -174,29 +216,19 @@ function sendTabMessage(tabId, msg) {
 
 
 
-async function processTabItem(item) {
+async function processTabItem(item, tabId) {
   const url =
     item.type === "assign"
       ? `https://cms7.ict.nitech.ac.jp/moodle40a/mod/assign/view.php?id=${item.id}`
       : `https://cms7.ict.nitech.ac.jp/moodle40a/mod/quiz/view.php?id=${item.id}`;
 
-  const tab = await ext.tabs.create({ url, active: false });
-
-  await waitTab(tab.id);
-  //csが自動で収集してくれる
-  ext.tabs.remove(tab.id);
+  await navigateTab(tabId, url);
 }
 
-function waitTab(tabId) {
-  return new Promise(resolve => {
-    ext.tabs.onUpdated.addListener(function listener(id, info) {
-      if (id === tabId && info.status === "complete") {
-        ext.tabs.onUpdated.removeListener(listener);
-        resolve();
-      }
-    });
-  });
-}
+
+
+
+
 
 
 
