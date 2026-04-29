@@ -141,7 +141,7 @@ let deletebutton_count = 5;
 const deletebutton = document.querySelector("#deletebutton");
 deletebutton.textContent = `表示中の課題を一括表示切り替え(${deletebutton_count})`;
 deletebutton.addEventListener("click", async () => {
-    if (deletebutton_count !== 0) {
+    if (deletebutton_count !== 1) {
         deletebutton_count--;
     } else {
         const tasklink = Array.from(document.querySelectorAll("#display a"));
