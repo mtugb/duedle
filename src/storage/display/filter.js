@@ -30,7 +30,7 @@ const noexistmsg = "表示するものがありません";
 
 //scrape mode
 const scrapeModeValues = ["scrape", "tab"];
-const scrapeModeText = ["offscreen収集(PCのみ)", "タブで収集"];
+const scrapeModeText = ["offscreen収集", "タブで収集(CSE用)"];
 const scrapeFilter = new FilterSelect("scrapeModeSelect", "収集モード", scrapeModeValues, scrapeModeText, "scrapeMode");
 scrapeFilter.applyDefault("scrape");
 (async () => {
