@@ -144,7 +144,6 @@ async function runTabScraping() {
       }
     }
   });
-  await ext.tabs.remove(tab.id);
 }
 
 async function navigateTab(tabId, url) {
