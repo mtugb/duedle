@@ -1,5 +1,5 @@
-
-chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+const ext = globalThis.browser ?? chrome;
+ext.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     if (msg.type === "parse-course") {
         const doc = new DOMParser().parseFromString(msg.html, "text/html");
 

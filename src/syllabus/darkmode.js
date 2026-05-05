@@ -16,7 +16,7 @@ const darkmode_setup = () => {
 (async () => {
   //0:sync
   //1:on, 2:off
-  let thememode = (await chrome.storage.local.get("thememode")).thememode ?? 0;
+  let thememode = (await ext.storage.local.get("thememode")).thememode ?? 0;
   let shouldBeDarkmode =
     (thememode == 0 && isBrowserDarkMode()) || thememode == 1;
   if (shouldBeDarkmode) {
@@ -37,5 +37,5 @@ const darkmode_setup = () => {
       //エラー無視
     }
   }
-  // chrome.storage.local.set({ history });
+  // ext.storage.local.set({ history });
 })();

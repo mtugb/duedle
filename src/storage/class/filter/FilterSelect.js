@@ -17,13 +17,13 @@ class FilterSelect {
         elementselect.classList.add("form-select", "form-select-sm", "w-auto", "custom-select", "mb-1", "mb-md-0", "mr-md-2");
 
         window.addEventListener("load", async () => {
-            const saved = (await chrome.storage.sync.get([this.propertyName]))[this.propertyName];
+            const saved = (await ext.storage.sync.get([this.propertyName]))[this.propertyName];
             if (saved) {
                 elementselect.value = saved;
             }
         });
         elementselect.addEventListener("change", async () => {
-            await chrome.storage.sync.set({ [this.propertyName]: elementselect.value }); // 選択した値をローカルストレージに保存
+            await ext.storage.sync.set({ [this.propertyName]: elementselect.value }); // 選択した値をローカルストレージに保存
             rerender();
         });
 
@@ -39,9 +39,9 @@ class FilterSelect {
         return [elementlabel, elementselect];
     }
     applyDefault(value) {
-        chrome.storage.sync.get([this.propertyName], (result) => {
+        ext.storage.sync.get([this.propertyName], (result) => {
             if (result[this.propertyName] === undefined) {
-                chrome.storage.sync.set({ [this.propertyName]: value });
+                ext.storage.sync.set({ [this.propertyName]: value });
             }
         });
     }

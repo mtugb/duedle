@@ -8,30 +8,26 @@ async function scanCourses() {
     }
 
     const courses = document.querySelectorAll("li.course-listitem[data-course-id]");
-    if(courses.length<1){
+    if(!courses.length){
         return;
     }
 
-    courses.forEach(course => {
-        const id = Number(course.getAttribute("data-course-id"));
+    const ids = [...courses].map(
+        c => Number(c.dataset.courseId)
+    );
 
-        // 重複防止
-        if (!seen.has(id)) {
-            seen.add(id);
-        }
+    await ext.storage.local.set({
+        courseIds: ids
     });
-    //idをchrome.storage.syncに保存　以前あっても現在なければ格納しないので単純に上書き
-    await chrome.storage.local.set({ courseIds: Array.from(seen) });
-    //chrome.runtime.sendMessage({ type: "SAVE_IDS", ids: Array.from(seen) });
 }
 
 const observer = new MutationObserver(() => {
     clearTimeout(timeout);
-    timeout = setTimeout(scanCourses, 1000);
+    timeout = setTimeout(scanCourses, 300);
 });
 
 //実行
-scanCourses();
+window.addEventListener("load", scanCourses);
 // 監視開始
 observer.observe(document.body, {
     childList: true,

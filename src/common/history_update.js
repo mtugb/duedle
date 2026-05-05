@@ -1,7 +1,7 @@
 console.log("update");
 const MAX_HISTORY_LENGTH = 10;
 (async () => {
-  let history = (await chrome.storage.local.get("history")).history || [];
+  let history = (await ext.storage.local.get("history")).history || [];
   let title = document.title;
   let url = location.href;
   if (!title || !url) {
@@ -17,5 +17,5 @@ const MAX_HISTORY_LENGTH = 10;
   if (history.length > MAX_HISTORY_LENGTH) {
     history.shift();
   }
-  chrome.storage.local.set({ history });
+  ext.storage.local.set({ history });
 })();

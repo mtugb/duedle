@@ -6,7 +6,8 @@ ext_dashboard.classList.add("card-body");
 
 //inside div - innerHTML
 const extInner =
-    `<button class="btn btn-primary" id="scrapebutton">課題情報を更新する</button>
+    `
+    <button class="btn btn-primary" id="scrapebutton">課題情報を更新する</button>
     <button class="btn btn-secondary" id="displaybutton">課題メニュー表示を切り替える</button>
     <button class="btn btn-secondary" id="deletebutton"></button>
     <div id="filter" class="filter-group my-2 p-2 border-radius border">
@@ -26,6 +27,18 @@ const fieldset = document.querySelector("#fieldfilter");
 const fieldcolor = document.querySelector("#fieldcolor");
 const scrapebutton = document.querySelector("#scrapebutton");
 const noexistmsg = "表示するものがありません";
+
+//scrape mode
+const scrapeModeValues = ["scrape", "tab"];
+const scrapeModeText = ["通常", "CSE用"];
+const scrapeFilter = new FilterSelect("scrapeModeSelect", "収集モード", scrapeModeValues, scrapeModeText, "scrapeMode");
+scrapeFilter.applyDefault("scrape");
+(async () => {
+    const scrapeFilterel = await scrapeFilter.getElement();
+    scrapeFilterel.map((el) => {
+        fieldset.appendChild(el);
+    });
+})();
 
 //filters
 //type filter
@@ -83,13 +96,23 @@ showFilter.applyDefault("normal");
 scrapebutton.addEventListener("click", async () => {
     scrapebutton.disabled = true;
     const now = new Date();
-    await chrome.storage.local.set({ scrapeCooldown: now.toISOString() });
-    await chrome.runtime.sendMessage({
-        type: "SCRAPE_COURSE"
+    await ext.storage.local.set({ scrapeCooldown: now.toISOString() });
+    ext.storage.sync.get("scrapeMode", async (item) => {
+        if (item.scrapeMode === "scrape") {
+            await ext.runtime.sendMessage({
+                type: "SCRAPE_COURSE"
+            });
+        } else if (item.scrapeMode === "tab"){
+            await ext.runtime.sendMessage({
+                type: "TAB_COURSE"
+            });
+        }
+
+        scrapebutton.textContent = "クールダウン: 残り3時間";
     });
-    scrapebutton.textContent = "クールダウン: 残り3時間";
+
 });
-chrome.storage.local.get("scrapeCooldown", (item) => {
+ext.storage.local.get("scrapeCooldown", (item) => {
     const prev = new Date(item.scrapeCooldown);
     const next = new Date(prev.getTime() + (1000 * 60 * 60 * 3));
     const now = new Date();
@@ -110,22 +133,22 @@ displaybutton.addEventListener("click", () => {
         display.removeAttribute("hidden");
         filter.removeAttribute("hidden");
     }
-    chrome.storage.sync.set({ displayShow: !display.hasAttribute("hidden") });
+    ext.storage.sync.set({ displayShow: !display.hasAttribute("hidden") });
 });
 
 //deletebutton
 let deletebutton_count = 5;
 const deletebutton = document.querySelector("#deletebutton");
-deletebutton.textContent = `表示中の課題を一括表示切り替え(${deletebutton_count})`;
+deletebutton.textContent = `一括表示切り替え(${deletebutton_count}クリック)`;
 deletebutton.addEventListener("click", async () => {
-    if (deletebutton_count !== 0) {
+    if (deletebutton_count !== 1) {
         deletebutton_count--;
     } else {
         const tasklink = Array.from(document.querySelectorAll("#display a"));
         for (const item of tasklink) {
             const link = item.getAttribute("href");
             const id = parseInt(link.match(/\d+$/)?.[0], 10);
-            const ss = await chrome.storage.sync.get("selectedShow");
+            const ss = await ext.storage.sync.get("selectedShow");
             const showsetting = ss.selectedShow;
             if (link.includes("assign")) {
                 if (showsetting === "normal") {
@@ -144,7 +167,7 @@ deletebutton.addEventListener("click", async () => {
         rerender();
         deletebutton_count = 5;
     }
-    deletebutton.textContent = `表示中の課題を一括表示切り替え(${deletebutton_count})`;
+deletebutton.textContent = `一括表示切り替え(${deletebutton_count}クリック)`;
 });
 
 
@@ -178,9 +201,9 @@ colorTypesValue.map((value, index) => {
 
     input.addEventListener("change", async () => {
         if (document.querySelector(".darkmode")) {
-            await chrome.storage.sync.set({ ["colorSelect_dark_" + value]: input.value }); // 選択した値をローカルストレージに保存
+            await ext.storage.sync.set({ ["colorSelect_dark_" + value]: input.value }); // 選択した値をローカルストレージに保存
         } else {
-            await chrome.storage.sync.set({ ["colorSelect_light_" + value]: input.value });
+            await ext.storage.sync.set({ ["colorSelect_light_" + value]: input.value });
         }
         applyColor(value, input.value);
     });
@@ -190,7 +213,7 @@ colorTypesValue.map((value, index) => {
 
 //display appendまで待機
 (async () => {
-    const savedDisplayShow = (await chrome.storage.sync.get(["displayShow"])).displayShow;
+    const savedDisplayShow = (await ext.storage.sync.get(["displayShow"])).displayShow;
     if (savedDisplayShow === undefined) {
         display.setAttribute("hidden", "");
     }
@@ -229,9 +252,9 @@ const applyColor = (type, toColor) => {
 
 
 //初期状態のlocalstorage
-chrome.storage.sync.get(["displayShow"], (result) => {
+ext.storage.sync.get(["displayShow"], (result) => {
     if (result.displayShow === undefined) {
-        chrome.storage.sync.set({ displayShow: true });
+        ext.storage.sync.set({ displayShow: true });
     }
 });
 
@@ -240,10 +263,10 @@ const colorDefault_dark = ["#063906", "#12515e", "#57422a", "#000000", "#7c3316"
 colorTypesValue.map(async (value, index) => {
     const lsName_light = "colorSelect_light_" + value;
     const lsName_dark = "colorSelect_dark_" + value;
-    if (!(await chrome.storage.sync.get([lsName_light]))[lsName_light]) {
-        await chrome.storage.sync.set({ [lsName_light]: colorDefault_light[index] });
+    if (!(await ext.storage.sync.get([lsName_light]))[lsName_light]) {
+        await ext.storage.sync.set({ [lsName_light]: colorDefault_light[index] });
     }
-    if (!(await chrome.storage.sync.get([lsName_dark]))[lsName_dark]) {
-        await chrome.storage.sync.set({ [lsName_dark]: colorDefault_dark[index] });
+    if (!(await ext.storage.sync.get([lsName_dark]))[lsName_dark]) {
+        await ext.storage.sync.set({ [lsName_dark]: colorDefault_dark[index] });
     }
 });
