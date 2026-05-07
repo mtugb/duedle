@@ -11,7 +11,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/*"],
+      "matches": ["https://cms7.ict.nitech.ac.jp/moodle40a/*","chrome-extension://*"],
       "js": [
         "./common/common.js",
         "./storage/class/StorageUtil.js",
@@ -140,6 +140,17 @@
         "./storage/getCourseIdfromUrl.js"
       ],
       "css": ["./notionnav/style.css"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "pages/guide.html",
+        "pages/setting.html"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
     }
   ]
 }

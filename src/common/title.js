@@ -38,6 +38,26 @@ function showClock() {
 }
 setInterval('showClock()', 1000);
 
+//navbarに追加
+const extensionMenu = document.createElement("div");
+sel.before(extensionMenu);
+extensionMenu.classList.add("extension-menu","my-1","navbar-nav");
+const menuStruct = `
+    <div class="menu-guide">
+        <a class="nav-link icon-no-margin" href=${ext.runtime.getURL("pages/guide.html")} target="_blank">
+        <img src="https://cms7.ict.nitech.ac.jp/moodle40a/theme/image.php/classic/mod_forum/1681978623/monologo" alt="拡張機能ガイド">
+        </a>
+    </div>
+    <div class="menu-setting">
+        <a class="nav-link icon-no-margin" href=${ext.runtime.getURL("pages/setting.html")} target="_blank">
+        <i class="icon fa fa-cog fa-fw" title="拡張機能の設定">
+        </i>
+        </a>
+    </div>
+`;
+extensionMenu.insertAdjacentHTML("beforeEnd",menuStruct);
+console.log(ext.runtime.getURL("pages/guide.html"));
+
 
 
 //マイコースとコースの非表示

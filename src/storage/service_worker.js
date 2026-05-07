@@ -18,22 +18,6 @@ ext.runtime.onMessage.addListener(async (msg, sender) => {
       runTabScraping();
       break;
   }
-  const url = "https://cms7.ict.nitech.ac.jp/moodle40a/my/";
-  // 🔔 通知
-  ext.notifications.create(url, {
-    type: "basic",
-    iconUrl: "icon.jpg",
-    title: "スクレイピング完了",
-    message: `課題の情報収集が完了しました`
-  });
-
-  ext.notifications.onClicked.addListener((notificationId) => {
-    ext.tabs.create({
-      url: notificationId
-    });
-  });
-  console.log("Scraping Completed");
-
 });
 
 async function runScraping() {
