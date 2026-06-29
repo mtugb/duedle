@@ -23,8 +23,8 @@ ext.runtime.onMessage.addListener(async (msg, sender) => {
   ext.notifications.create(url, {
     type: "basic",
     iconUrl: "icon.jpg",
-    title: "スクレイピング完了",
-    message: `課題の情報収集が完了しました`
+    title: "スクレイピング中",
+    message: `反映まで数分かかります`
   });
 
   ext.notifications.onClicked.addListener((notificationId) => {
@@ -32,7 +32,6 @@ ext.runtime.onMessage.addListener(async (msg, sender) => {
       url: notificationId
     });
   });
-  console.log("Scraping Completed");
 
 });
 
